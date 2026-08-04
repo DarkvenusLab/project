@@ -37,6 +37,19 @@
           └── StrategyTester.gif
   ```
 
+#### ⚠️【重要】HTMレポート保存時の「文字化け防止」手順
+MT4が出力する `.htm` ファイルは日本語文字コード（Shift-JIS）になっており、そのままGitHub Pagesに置くと**文字化け**します。レポートを配置する際は、以下の**いずれか**を実施してください。
+
+1. **文字コード指定タグの追加（簡単）**:
+   MT4から保存した `StrategyTester.htm` をメモ帳等で開き、`<head>` タグのすぐ下に以下の1行を追記して保存します。
+   ```html
+   <meta charset="UTF-8">
+   ```
+2. **UTF-8で保存し直す**:
+   VS Code等のエディタで `StrategyTester.htm` を開き、エンコードを **`UTF-8`** に変更して保存し直します。
+
+* ⚠️ **パスの注意点**: Windowsでは大文字・小文字が区別されませんが、GitHub（Webサーバー）では厳格に区別されます。`StrategyTester.htm`（`.htm` なのか `.html` なのか含め）のファイル名・拡張子は `setfiles.json` の `"reportUrl"` と**完全一致**させてください。
+
 ---
 
 ## 📝 2. `data/setfiles.json` へのデータ追記手順

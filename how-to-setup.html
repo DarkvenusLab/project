@@ -4,11 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>【図解】DarkVenusの設置・設定・バックテスト方法</title>
-  <meta name="description"
-    content="無料EA「DarkVenus」の本体ダウンロード方法（MQL5ユーザー登録の注意点）から、.setファイルのバックテスト手順、MT4チャートへの設置・読み込みまで画像・図解付きでわかりやすく解説！">
-
-  <!-- Google Fonts & FontAwesome -->
+  <title>導入手順・バックテスト・.setファイル読み込み方法 | Dark Venus ラボ</title>
+  <meta name="description" content="無料EA「Dark Venus」のダウンロード・導入手順から、.setファイルのバックテスト検証方法、MT4/MT5チャートへの設定ファイル読み込み手順を図解でわかりやすく解説。">
+  <meta property="og:title" content="導入手順・バックテスト・.setファイル読み込み方法 | Dark Venus ラボ">
+  <meta property="og:description" content="Dark Venusの本体入手、バックテスト手順、.setファイルの読み込みまで図解付きで徹底解説。">
+  <meta property="og:type" content="article">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -70,15 +70,15 @@
   <header class="site-header">
     <div class="container header-container">
       <a href="index.html" class="logo">
-        <span class="logo-badge">非公式・勝手に集積所</span>
-        <span class="logo-text">DarkVenus<span class="highlight">.set 置き場</span></span>
+        <span class="logo-badge">検証アーカイブ</span>
+        <span class="logo-text">Dark Venus<span class="highlight"> ラボ</span></span>
       </a>
       <nav class="main-nav">
         <ul>
-          <li><a href="index.html"><i class="fa-solid fa-house"></i> トップ（.set置き場）</a></li>
-          <li><a href="about-darkvenus.html"><i class="fa-solid fa-circle-info"></i> DarkVenusとは？</a></li>
-          <li><a href="how-to-setup.html" class="active"><i class="fa-solid fa-book-open"></i> 設定・導入方法</a></li>
-          <li><a href="manual.html"><i class="fa-solid fa-file-contract"></i> 公式マニュアル完全全訳</a></li>
+          <li><a href="index.html"><i class="fa-solid fa-house"></i> ホーム</a></li>
+          <li><a href="setfiles.html"><i class="fa-solid fa-folder-open"></i> 検証済み.set一覧</a></li>
+          <li><a href="manual.html"><i class="fa-solid fa-file-contract"></i> 公式マニュアル和訳</a></li>
+          <li><a href="how-to-setup.html" class="active"><i class="fa-solid fa-circle-info"></i> 導入手順</a></li>
         </ul>
       </nav>
     </div>
@@ -88,11 +88,11 @@
   <section class="hero-section" style="padding: 40px 0 30px;">
     <div class="container">
       <div class="speech-bubble">
-        <span class="emoji">🛠️</span> 「MQL5登録からバックテスト、チャート設置まで図解解説！」
+        <span class="emoji">🛠️</span> 「バックテスト、チャート設置まで図解解説！」
       </div>
       <h1 class="hero-title">
         Dark Venus 設置・バックテスト・設定方法<br>
-        <span class="marker">.setファイルの読み込み手順【完全版】</span>
+        <span class="marker">.setファイルの読み込み手順</span>
       </h1>
       <p class="hero-desc">
         Dark Venus本体の無料入手、拾った.setファイルのバックテスト方法、実際のMT4チャートへの読み込みまで流れに沿ってさらっと解説します！
@@ -237,8 +237,18 @@
 
   <!-- Footer -->
   <footer class="site-footer">
-    <div class="container">
-      <p class="copyright">&copy; 2026 DarkVenus.set 勝手に置き場 All Rights Reserved.</p>
+    <div class="container" style="text-align: center;">
+      <p style="margin-bottom: 8px; font-weight: 700; color: #FFF; font-size: 1.1rem;">Dark Venus ラボ</p>
+      <p class="disclaimer" style="max-width: 800px; margin: 12px auto; font-size: 0.8rem; color: #A0AEC0; line-height: 1.6;">
+        【免責事項】当サイトで配布している.setファイルおよびバックテストデータは、検証目的で公開している各種設定データです。動作や将来の収益性を保証するものではありません。実際の運用の結果生じた損害について、当サイトは一切の責任を負いません。すべて自己責任にてご利用ください。
+      </p>
+      <p style="margin: 12px 0; font-size: 0.85rem;">
+        <a href="privacy.html" style="color: #A0AEC0; margin-right: 16px;">プライバシーポリシー</a>
+        <a href="contact.html" style="color: #A0AEC0;">お問い合わせ</a>
+      </p>
+      <p class="copyright" style="font-size: 0.8rem; color: #718096; margin-top: 12px;">
+        &copy; 2026 Dark Venus ラボ All Rights Reserved.
+      </p>
     </div>
   </footer>
 

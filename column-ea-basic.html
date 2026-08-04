@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>そもそも自動売買（EA）とは？初心者向け基礎知識 | Dark Venus ラボ</title>
+  <meta name="description" content="FX自動売買（EA: Expert Advisor）の基本的な仕組み、メリット・デメリット、手動トレードとの違いについてわかりやすく解説します。">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Zen+Maru+Gothic:wght@500;700;900&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+  <!-- Header Nav -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="index.html" class="logo">
+        <span class="badge">検証アーカイブ</span>
+        Dark Venus <span class="accent">ラボ</span>
+      </a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html"><i class="fa-solid fa-house"></i> ホーム</a></li>
+          <li><a href="setfiles.html"><i class="fa-solid fa-folder-open"></i> 検証済み.set一覧</a></li>
+          <li><a href="manual.html"><i class="fa-solid fa-file-contract"></i> 公式マニュアル和訳</a></li>
+          <li><a href="how-to-setup.html"><i class="fa-solid fa-circle-info"></i> 導入手順</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container my-4" style="max-width: 860px; margin-left: auto; margin-right: auto;">
+    <!-- Breadcrumb -->
+    <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">
+      <a href="index.html" style="color: var(--text-muted); text-decoration: none;">ホーム</a> &gt;
+      <a href="index.html#columns" style="color: var(--text-muted); text-decoration: none;">コラム一覧</a> &gt;
+      <span style="color: var(--text-main); font-weight: 700;">そもそも自動売買（EA）とは？</span>
+    </div>
+
+    <article
+      style="background: #FFF; border: 3px solid var(--text-main); border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow-pop);">
+      <div style="text-align: center; margin-bottom: 28px;">
+        <span
+          style="background: #E2E8F0; color: #475569; padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 0.85rem;">
+          <i class="fa-solid fa-graduation-cap"></i> 初心者向けコラム
+        </span>
+        <h1
+          style="font-size: 1.8rem; font-weight: 900; margin-top: 12px; margin-bottom: 12px; color: var(--text-main); line-height: 1.4;">
+          そもそも自動売買（EA）とは？初心者向け基礎知識と<br>
+          メリット・注意点
+        </h1>
+      </div>
+
+      <div style="line-height: 1.8; color: #334155; font-size: 1rem;">
+        <h2
+          style="font-size: 1.3rem; border-left: 5px solid var(--primary); padding-left: 12px; margin-top: 28px; margin-bottom: 16px; color: var(--text-main);">
+          1. EA（Expert Advisor）とは？
+        </h2>
+        <p>
+          EAとは「Expert Advisor（エキスパート・アドバイザー）」の略で、MetaTrader（MT4/MT5）という取引プラットフォーム上で動作する**自動売買プログラム**のことです。
+        </p>
+        <p>
+          あらかじめプログラミングされたロジック（テクニカル指標の条件、エントリー・決済ルール、損切り基準など）に従って、人間がパソコン画面に張り付くことなく、プログラムが自動で発注・決済を行います。
+        </p>
+
+        <h2
+          style="font-size: 1.3rem; border-left: 5px solid var(--primary); padding-left: 28px; margin-top: 32px; margin-bottom: 16px; color: var(--text-main); position: relative;">
+          2. 自動売買（EA）の3つの大きなメリット
+        </h2>
+        <div
+          style="background: #F8FAFC; border: 2px solid #E2E8F0; border-radius: 10px; padding: 20px; margin-bottom: 20px;">
+          <ul style="margin: 0; padding-left: 20px;">
+            <li style="margin-bottom: 10px;">
+              <strong>感情に左右されないルールどおりの取引</strong><br>「損切りするのが怖い」「もっと利益が伸びるかも」といった人間の感情（プロスペクト理論）を完全に排除できます。</li>
+            <li style="margin-bottom: 10px;">
+              <strong>24時間いつでもチャンスを逃さない</strong><br>仕事中や就寝中など、画面を見られない時間帯でも条件が揃えば瞬時にエントリー・決済を行います。</li>
+            <li style="margin-bottom: 0;">
+              <strong>過去のデータ（バックテスト）で検証可能</strong><br>数年分の過去チャートを使って、その手法が実際に利益を出せるロジックかを数値で事前にテストできます。</li>
+          </ul>
+        </div>
+
+        <h2
+          style="font-size: 1.3rem; border-left: 5px solid var(--primary); padding-left: 12px; margin-top: 32px; margin-bottom: 16px; color: var(--text-main);">
+          3. 知っておくべき注意点とリスク
+        </h2>
+        <p>
+          「自動売買＝放置で勝手にお金が増える魔法のツール」ではありません。EAの運用にあたっては以下の点に十分注意する必要があります。
+        </p>
+        <ul>
+          <li style="margin-bottom: 8px;">
+            <strong>「聖杯（絶対に負けないEA）」は存在しない</strong>：相場環境は常に変化するため、どんなに優れたEAでも負ける時期（ドローダウン）が存在します。</li>
+          <li style="margin-bottom: 8px;"><strong>資金管理が最も重要</strong>：特に「Dark
+            Venus」のようなナンピン・グリッド型EAは、適切なロット設定や破綻リスクの把握が必須です。</li>
+          <li style="margin-bottom: 8px;">
+            <strong>安定した通信環境（VPS）が必要</strong>：自宅のPCを起動したままにすると停電やネット切断のリスクがあるため、クラウドサーバー（VPS）の利用が推奨されます。</li>
+        </ul>
+
+        <div
+          style="background: #EFF6FF; border: 2px dashed #3B82F6; border-radius: 10px; padding: 20px; margin-top: 32px; text-align: center;">
+          <h3 style="margin-top: 0; color: #1E40AF; font-size: 1.1rem;">まとめ：EAは優れた「パートナー」</h3>
+          <p style="margin-bottom: 0; font-size: 0.95rem;">
+            EAは優秀な道具ですが、使いこなすのはトレーダー自身です。まずは過去のバックテストデータを確認し、リスクをしっかり把握した上で運用を始めましょう。
+          </p>
+        </div>
+      </div>
+
+      <!-- Ad Banner Placeholder (Before Back Button) -->
+      <div style="margin-top: 32px; background: #F8FAFC; border: 1px dashed #CBD5E1; border-radius: 8px; padding: 16px; text-align: center;">
+        <span style="font-size: 0.75rem; color: #94A3B8; display: block; margin-bottom: 4px;">スポンサーリンク</span>
+        <div style="color: #64748B; font-size: 0.9rem;">
+          <i class="fa-solid fa-rectangle-ad"></i> ここにGoogle AdSense広告が表示されます
+        </div>
+      </div>
+
+      <!-- Navigation Link -->
+      <div style="margin-top: 36px; text-align: center; border-top: 2px solid #E2E8F0; padding-top: 24px;">
+        <a href="index.html" class="btn btn-outline" style="text-decoration: none;">
+          <i class="fa-solid fa-arrow-left"></i> ホームへ戻る
+        </a>
+      </div>
+    </article>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container" style="text-align: center;">
+      <p style="margin-bottom: 8px; font-weight: 700; color: #FFF; font-size: 1.1rem;">Dark Venus ラボ</p>
+      <p class="disclaimer"
+        style="max-width: 800px; margin: 12px auto; font-size: 0.8rem; color: #A0AEC0; line-height: 1.6;">
+        【免責事項】当サイトで配布している.setファイルおよびバックテストデータは、検証目的で公開している各種設定データです。動作や将来の収益性を保証するものではありません。実際の運用の結果生じた損害について、当サイトは一切の責任を負いません。すべて自己責任にてご利用ください。
+      </p>
+      <p style="margin: 12px 0; font-size: 0.85rem;">
+        <a href="privacy.html" style="color: #A0AEC0; margin-right: 16px;">プライバシーポリシー</a>
+        <a href="contact.html" style="color: #A0AEC0;">お問い合わせ</a>
+      </p>
+      <p class="copyright" style="font-size: 0.8rem; color: #718096; margin-top: 12px;">
+        &copy; 2026 Dark Venus ラボ All Rights Reserved.
+      </p>
+    </div>
+  </footer>
+</body>
+
+</html>

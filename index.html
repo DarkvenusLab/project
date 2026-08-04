@@ -4,8 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DarkVenus設定ファイル勝手にまとめ置き場【拾い物.set】</title>
-  <meta name="description" content="ネットで拾ったDarkVenusの設定ファイル(.set)を勝手にアーカイブして置いておくだけのページ。自己責任で勝手にダウンロードして使ってください。">
+  <title>検証済み設定ファイル (.set) アーカイブ | Dark Venus ラボ</title>
+  <meta name="description" content="Dark Venus EAの検証済み設定ファイル(.set)アーカイブ。単年損益・最大含み損・バックテストレポートを機械的に完全公開。">
+  <meta property="og:title" content="検証済み設定ファイル (.set) アーカイブ | Dark Venus ラボ">
+  <meta property="og:description" content="Dark Venus EAの検証済み.setファイルアーカイブ。単年損益や最大含み損、HTMレポートを完全開示。">
+  <meta property="og:type" content="website">
 
   <!-- Google Fonts: Zen Maru Gothic & Outfit -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,12 +29,12 @@
   <header class="site-header">
     <div class="container header-container">
       <a href="index.html" class="logo">
-        <span class="logo-badge">非公式・勝手に集積所</span>
-        <span class="logo-text">DarkVenus<span class="highlight">.set 置き場</span></span>
+        <span class="logo-badge">検証アーカイブ</span>
+        <span class="logo-text">Dark Venus<span class="highlight"> ラボ</span></span>
       </a>
       <nav class="main-nav">
         <ul>
-          <li><a href="#about"><i class="fa-solid fa-ghost"></i> これ何？</a></li>
+          <li><a href="index.html" class="active"><i class="fa-solid fa-house"></i> ホーム</a></li>
           <li><a href="setfiles.html"><i class="fa-solid fa-folder-open"></i> 検証済み.set一覧</a></li>
           <li><a href="manual.html"><i class="fa-solid fa-file-contract"></i> 公式マニュアル和訳</a></li>
           <li><a href="how-to-setup.html"><i class="fa-solid fa-circle-info"></i> 導入手順</a></li>
@@ -52,7 +55,7 @@
           <span class="marker">勝手に集めた.set 置き場</span>
         </h1>
         <p class="hero-desc">
-          海外掲示板やSNSで拾ったDarkVenusの設定ファイルを自分用に整理した保管庫です。<br>
+          海外掲示板やSNSで拾ったDarkVenusの設定ファイルのバックテスト置き場です。<br>
           勝手に置いてるだけなので、必要な人は勝手に持っていってください〜<br>（※動作保証も責任も一切ナシ！）
         </p>
         <div class="hero-buttons">
@@ -60,19 +63,24 @@
             拾い物.setファイル一覧を見る</a>
         </div>
       </div>
-      <div class="hero-card">
-        <div class="lab-badge"><i class="fa-solid fa-triangle-exclamation"></i> ゆるい注意書き</div>
-        <div class="hero-stat-box">
-          <span class="stat-label">※本音のつぶやき</span>
-          <p style="font-size: 0.95rem; font-weight: 700; color: #4A5568; margin-top: 8px; line-height: 1.5;">
-            自分がリアル口座でガチ運用してる設定は非公開です（笑）。<br>
-            ここに置いてるのはあくまで「ネットで拾った平均的なやつ」「まぁまぁ見かける設定」です！
-          </p>
+      <div class="hero-card" style="padding: 24px 20px;">
+        <div class="lab-badge" style="left: 20px; right: auto;"><i class="fa-solid fa-comment-dots"></i> 管理人コメント</div>
+        <div class="hero-stat-box" style="padding: 16px; margin-top: 8px;">
+          <div style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px;">
+            <img src="images/administrator.png" alt="管理人"
+              style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary); flex-shrink: 0; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+            <p
+              style="font-size: 0.92rem; font-weight: 700; color: #4A5568; margin: 0; line-height: 1.6; text-align: left;">
+              海外掲示板やSNSで話題のEA「Dark Venus」にプチハマり中の個人トレーダー。<br>
+              暇なときに自作環境で破綻リスクを検証してデータを置いているだけのサイトです。<br>
+              気が向いた時にゆるく更新中。
+            </p>
+          </div>
         </div>
-        <div class="hero-card-tags">
-          <span class="tag">拾い物集約</span>
-          <span class="tag">勝手にDLどうぞ</span>
-          <span class="tag">破綻いっぱい</span>
+        <div class="hero-card-tags" style="margin-top: 12px; justify-content: center;">
+          <span class="tag">#DarkVenus</span>
+          <span class="tag">#暇つぶし検証</span>
+          <span class="tag">#ゆるく更新中</span>
         </div>
       </div>
     </div>
@@ -130,115 +138,125 @@
     </div>
   </section>
 
-  <!-- Presets Download Section -->
-  <section id="presets" class="section presets-section">
+  <!-- Columns Section (初心者向けコラム) -->
+  <section id="columns" class="section"
+    style="background: #F8FAFC; border-top: 2px solid #E2E8F0; border-bottom: 2px solid #E2E8F0; padding: 48px 0;">
     <div class="container">
-      <div class="section-header">
-        <span class="sub-title">ARCHIVED SETTINGS</span>
-        <h2>ネットで拾った .set ファイル一覧</h2>
-        <p>使ってみたいやつがあれば勝手にダウンロードして持っていってください。</p>
+      <div class="section-header text-center" style="text-align: center; margin-bottom: 32px;">
+        <span class="sub-title"
+          style="color: var(--primary); font-weight: 800; font-size: 0.85rem; letter-spacing: 1px;">FX & EA
+          KNOWLEDGE</span>
+        <h2 style="font-size: 1.8rem; font-weight: 900; margin-top: 4px;">初心者向け EA・FXコラム</h2>
+        <p style="color: var(--text-muted); font-size: 0.95rem;">EA運用を始める前に知っておきたい基礎知識と環境構築のポイント</p>
       </div>
 
-      <div class="presets-grid">
-
-        <!-- Preset Card 1 -->
-        <div class="preset-card">
-          <div class="card-header">
-            <span class="pair-badge">EURUSD</span>
-            <span class="tf-badge">M5（5分足）</span>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
+        <!-- Column 1 -->
+        <a href="column-ea-basic.html" style="text-decoration: none; color: inherit;">
+          <div
+            style="background: #FFF; border: 2px solid var(--text-main); border-radius: var(--radius-md); padding: 24px; box-shadow: 4px 4px 0 var(--text-main); height: 100%; transition: transform 0.2s;"
+            onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='none'">
+            <div style="font-size: 2rem; color: var(--primary); margin-bottom: 12px;"><i
+                class="fa-solid fa-graduation-cap"></i></div>
+            <span
+              style="font-size: 0.75rem; font-weight: 800; background: #E2E8F0; color: #475569; padding: 2px 8px; border-radius: 4px;">基礎知識</span>
+            <h3 style="font-size: 1.1rem; font-weight: 800; margin: 8px 0; color: var(--text-main);">そもそも自動売買（EA）とは？
+            </h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin: 0;">
+              EAの基本的な仕組み、メリット・注意点、手動トレードとの違いについて解説します。</p>
           </div>
-          <h3>DV_EURUSD_NetPickup_v1.set</h3>
-          <p class="card-desc">海外掲示板でよく見かける標準的なEURUSD設定。PFも爆発的ではないですが、そこそこ普通に動くやつです。</p>
+        </a>
 
-          <div class="card-specs">
-            <div class="spec-item">
-              <span class="spec-label">入手元</span>
-              <span class="spec-val">海外Forum拾い物</span>
-            </div>
-            <div class="spec-item">
-              <span class="spec-label">PF（プロフィットファクター）</span>
-              <span class="spec-val">1.25 前後（普通）</span>
-            </div>
-            <div class="spec-item">
-              <span class="spec-label">一言コメント</span>
-              <span class="spec-val">よくあるナンピン設定</span>
-            </div>
+        <!-- Column 2 -->
+        <a href="column-ecn-account.html" style="text-decoration: none; color: inherit;">
+          <div
+            style="background: #FFF; border: 2px solid var(--text-main); border-radius: var(--radius-md); padding: 24px; box-shadow: 4px 4px 0 var(--text-main); height: 100%; transition: transform 0.2s;"
+            onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='none'">
+            <div style="font-size: 2rem; color: #D97706; margin-bottom: 12px;"><i class="fa-solid fa-bolt"></i></div>
+            <span
+              style="font-size: 0.75rem; font-weight: 800; background: #FEF3C7; color: #92400E; padding: 2px 8px; border-radius: 4px;">口座選び</span>
+            <h3 style="font-size: 1.1rem; font-weight: 800; margin: 8px 0; color: var(--text-main);">なぜECN口座が推奨されるのか？
+            </h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin: 0;">
+              スプレッドや取引手数料がナンピンEAの収支に与える影響とSTP口座との違い。</p>
           </div>
+        </a>
 
-          <div class="card-actions">
-            <a href="#" class="btn btn-download btn-block"
-              onclick="alert('サンプルダウンロード: .setファイルをダウンロードします'); return false;">
-              <i class="fa-solid fa-download"></i> .setファイルを勝手にDL
-            </a>
-            <button class="btn btn-outline btn-block mt-2" onclick="toggleDetails('detail-1')">
-              <i class="fa-solid fa-code"></i> 中身のパラメータを見る
-            </button>
+        <!-- Column 3 -->
+        <a href="column-vps.html" style="text-decoration: none; color: inherit;">
+          <div
+            style="background: #FFF; border: 2px solid var(--text-main); border-radius: var(--radius-md); padding: 24px; box-shadow: 4px 4px 0 var(--text-main); height: 100%; transition: transform 0.2s;"
+            onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='none'">
+            <div style="font-size: 2rem; color: #4F46E5; margin-bottom: 12px;"><i class="fa-solid fa-server"></i></div>
+            <span
+              style="font-size: 0.75rem; font-weight: 800; background: #E0E7FF; color: #3730A3; padding: 2px 8px; border-radius: 4px;">インフラ設定</span>
+            <h3 style="font-size: 1.1rem; font-weight: 800; margin: 8px 0; color: var(--text-main);">VPS（仮想専用サーバー）が必須な理由
+            </h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin: 0;">
+              24時間安全にEAを稼働させるために、なぜ自宅PCではなくVPSが必要なのか。</p>
           </div>
+        </a>
 
-          <!-- Hidden Details -->
-          <div id="detail-1" class="preset-details hidden">
-            <h4>💡 パラメータメモ（拾った時のメモ）</h4>
-            <ul>
-              <li><strong>Max Orders:</strong> 10</li>
-              <li><strong>PipStep:</strong> 20</li>
-              <li><strong>Target Profit:</strong> 10 pips</li>
-            </ul>
-            <div class="bt-summary-box">
-              <p><strong>【バックテストの所感】</strong></p>
-              <p>特に特筆すべき神成績でもないですが、レンジ相場なら無難に増える感じの一般的な数値です。</p>
-            </div>
+        <!-- Column 4 -->
+        <a href="column-overseas-fx.html" style="text-decoration: none; color: inherit;">
+          <div
+            style="background: #FFF; border: 2px solid var(--text-main); border-radius: var(--radius-md); padding: 24px; box-shadow: 4px 4px 0 var(--text-main); height: 100%; transition: transform 0.2s;"
+            onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='none'">
+            <div style="font-size: 2rem; color: #10B981; margin-bottom: 12px;"><i class="fa-solid fa-globe"></i></div>
+            <span
+              style="font-size: 0.75rem; font-weight: 800; background: #ECFDF5; color: #047857; padding: 2px 8px; border-radius: 4px;">ブローカー選択</span>
+            <h3 style="font-size: 1.1rem; font-weight: 800; margin: 8px 0; color: var(--text-main);">
+              ナンピンEAで海外FXが選ばれる<br>理由</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin: 0;">
+              ハイレバによる必要証拠金圧縮・ゼロカットのメリットと知るべき税金・注意点。</p>
           </div>
-        </div>
+        </a>
 
-        <!-- Preset Card 2 -->
-        <div class="preset-card">
-          <div class="card-header">
-            <span class="pair-badge GBPUSD">GBPUSD</span>
-            <span class="tf-badge">M15（15分足）</span>
+        <!-- Column 5 -->
+        <a href="column-paid-ea.html" style="text-decoration: none; color: inherit;">
+          <div
+            style="background: #FFF; border: 2px solid var(--text-main); border-radius: var(--radius-md); padding: 24px; box-shadow: 4px 4px 0 var(--text-main); height: 100%; transition: transform 0.2s;"
+            onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='none'">
+            <div style="font-size: 2rem; color: #EF4444; margin-bottom: 12px;"><i class="fa-solid fa-coins"></i></div>
+            <span
+              style="font-size: 0.75rem; font-weight: 800; background: #FEE2E2; color: #991B1B; padding: 2px 8px; border-radius: 4px;">EA考察</span>
+            <h3 style="font-size: 1.1rem; font-weight: 800; margin: 8px 0; color: var(--text-main);">有料の市販EAは本当に勝てるのか？
+            </h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin: 0;">
+              高額EAの過剰最適化（カーブフィッティング）の罠と無料EA（Dark Venus）の違い。</p>
           </div>
-          <h3>DV_GBPUSD_SNS_Shared.set</h3>
-          <p class="card-desc">SNSで流れてたポンドドル用設定。ボラティリティが大きい通貨ペアなのでドローダウンはそれなりにあります。</p>
+        </a>
 
-          <div class="card-specs">
-            <div class="spec-item">
-              <span class="spec-label">入手元</span>
-              <span class="spec-val">SNS共有の拾い物</span>
-            </div>
-            <div class="spec-item">
-              <span class="spec-label">PF（プロフィットファクター）</span>
-              <span class="spec-val">1.18 前後（荒め）</span>
-            </div>
-            <div class="spec-item">
-              <span class="spec-label">一言コメント</span>
-              <span class="spec-val">波が激しいです</span>
-            </div>
+        <!-- Column 6 -->
+        <a href="column-backtest-importance.html" style="text-decoration: none; color: inherit;">
+          <div
+            style="background: #FFF; border: 2px solid var(--text-main); border-radius: var(--radius-md); padding: 24px; box-shadow: 4px 4px 0 var(--text-main); height: 100%; transition: transform 0.2s;"
+            onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='none'">
+            <div style="font-size: 2rem; color: #8B5CF6; margin-bottom: 12px;"><i class="fa-solid fa-chart-line"></i></div>
+            <span
+              style="font-size: 0.75rem; font-weight: 800; background: #F3E8FF; color: #6B21A8; padding: 2px 8px; border-radius: 4px;">検証・分析</span>
+            <h3 style="font-size: 1.1rem; font-weight: 800; margin: 8px 0; color: var(--text-main);">なぜバックテスト検証が必要なのか？
+            </h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin: 0;">
+              ドローダウン・PF・単年データ確認の重要性と失敗を防ぐ3つのチェックポイント。</p>
           </div>
+        </a>
+      </div>
+    </div>
+  </section>
 
-          <div class="card-actions">
-            <a href="#" class="btn btn-download btn-block"
-              onclick="alert('サンプルダウンロード: .setファイルをダウンロードします'); return false;">
-              <i class="fa-solid fa-download"></i> .setファイルを勝手にDL
-            </a>
-            <button class="btn btn-outline btn-block mt-2" onclick="toggleDetails('detail-2')">
-              <i class="fa-solid fa-code"></i> 中身のパラメータを見る
-            </button>
-          </div>
-
-          <!-- Hidden Details -->
-          <div id="detail-2" class="preset-details hidden">
-            <h4>💡 パラメータメモ（拾った時のメモ）</h4>
-            <ul>
-              <li><strong>Max Orders:</strong> 12</li>
-              <li><strong>PipStep:</strong> 25</li>
-              <li><strong>Target Profit:</strong> 15 pips</li>
-            </ul>
-            <div class="bt-summary-box">
-              <p><strong>【バックテストの所感】</strong></p>
-              <p>利益が出るときは早いですがドローダウンも深め。デモ口座でのテスト推奨です。</p>
-            </div>
-          </div>
-        </div>
-
+  <!-- Presets Banner Section -->
+  <section id="presets" class="section presets-section">
+    <div class="container text-center" style="max-width: 800px; margin: 0 auto; text-align: center;">
+      <div class="section-header center">
+        <span class="sub-title">VERIFIED SETTINGS ARCHIVE</span>
+        <h2>検証済み .set ライブラリ</h2>
+        <p style="margin-bottom: 24px;">
+          単年ごとの損益・PF・最大ドローダウン・生のMT4バックテストレポート（HTM）を完全公開しているメインライブラリです。
+        </p>
+        <a href="setfiles.html" class="btn btn-primary btn-bounce" style="padding: 16px 36px; font-size: 1.1rem;">
+          <i class="fa-solid fa-folder-open"></i> 検証済み .set ファイル一覧を見る
+        </a>
       </div>
     </div>
   </section>
@@ -298,18 +316,19 @@
 
   <!-- Disclaimer Footer -->
   <footer class="site-footer">
-    <div class="container">
-      <div class="footer-content">
-        <div class="footer-logo">
-          DarkVenus.set 勝手に置き場
-        </div>
-        <p class="disclaimer">
-          【免責事項】当サイトで配布している.setファイルは、インターネット上の各種掲示板やSNS等で収集した拾い物データです。管理人が動作や収益性を保証するものではありません。ダウンロードおよび実際の運用の結果生じた損害について、当サイトは一切の責任を負いません。すべて自己責任にてご利用ください。
-        </p>
-        <p class="copyright">
-          &copy; 2026 DarkVenus.set 勝手に置き場 All Rights Reserved.
-        </p>
-      </div>
+    <div class="container" style="text-align: center;">
+      <p style="margin-bottom: 8px; font-weight: 700; color: #FFF; font-size: 1.1rem;">Dark Venus ラボ</p>
+      <p class="disclaimer"
+        style="max-width: 800px; margin: 12px auto; font-size: 0.8rem; color: #A0AEC0; line-height: 1.6;">
+        【免責事項】当サイトで配布している.setファイルおよびバックテストデータは、検証目的で公開している各種設定データです。動作や将来の収益性を保証するものではありません。実際の運用の結果生じた損害について、当サイトは一切の責任を負いません。すべて自己責任にてご利用ください。
+      </p>
+      <p style="margin: 12px 0; font-size: 0.85rem;">
+        <a href="privacy.html" style="color: #A0AEC0; margin-right: 16px;">プライバシーポリシー</a>
+        <a href="contact.html" style="color: #A0AEC0;">お問い合わせ</a>
+      </p>
+      <p class="copyright" style="font-size: 0.8rem; color: #718096; margin-top: 12px;">
+        &copy; 2026 Dark Venus ラボ All Rights Reserved.
+      </p>
     </div>
   </footer>
 

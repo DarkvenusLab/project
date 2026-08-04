@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>なぜEA運用でECN口座（低スプレッド）が推奨されるのか？ | Dark Venus ラボ</title>
+  <meta name="description" content="FX自動売買（EA）でECN口座が選ばれる理由、STP口座との違い、スプレッドや取引手数料が収支に与える影響について分かりやすく解説します。">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Header Nav -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="index.html" class="logo">
+        <span class="badge">検証アーカイブ</span>
+        Dark Venus <span class="accent">ラボ</span>
+      </a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html"><i class="fa-solid fa-house"></i> ホーム</a></li>
+          <li><a href="setfiles.html"><i class="fa-solid fa-folder-open"></i> 検証済み.set一覧</a></li>
+          <li><a href="manual.html"><i class="fa-solid fa-file-contract"></i> 公式マニュアル和訳</a></li>
+          <li><a href="how-to-setup.html"><i class="fa-solid fa-circle-info"></i> 導入手順</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container my-4" style="max-width: 860px; margin-left: auto; margin-right: auto;">
+    <!-- Breadcrumb -->
+    <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">
+      <a href="index.html" style="color: var(--text-muted); text-decoration: none;">ホーム</a> &gt; 
+      <a href="index.html#columns" style="color: var(--text-muted); text-decoration: none;">コラム一覧</a> &gt; 
+      <span style="color: var(--text-main); font-weight: 700;">なぜECN口座が推奨されるのか？</span>
+    </div>
+
+    <article style="background: #FFF; border: 3px solid var(--text-main); border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow-pop);">
+      <div style="text-align: center; margin-bottom: 28px;">
+        <span style="background: #FEF3C7; color: #92400E; padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 0.85rem;">
+          <i class="fa-solid fa-bolt"></i> 口座選びコラム
+        </span>
+        <h1 style="font-size: 1.7rem; font-weight: 900; margin-top: 12px; margin-bottom: 12px; color: var(--text-main); line-height: 1.4;">
+          なぜEA運用でECN口座（低スプレッド）が推奨されるのか？<br>STP口座との違いとコストの真実
+        </h1>
+      </div>
+
+      <div style="line-height: 1.8; color: #334155; font-size: 1rem;">
+        <h2 style="font-size: 1.3rem; border-left: 5px solid var(--primary); padding-left: 12px; margin-top: 28px; margin-bottom: 16px; color: var(--text-main);">
+          1. ECN口座とSTP（スタンダード）口座の違い
+        </h2>
+        <p>
+          海外FX業者で口座を開設する際、「Standard（STP）口座」と「ECN（Zero / Raw）口座」の2種類から選ぶケースが一般的です。
+        </p>
+        <ul>
+          <li style="margin-bottom: 8px;"><strong>STP（Standard）口座</strong>：取引手数料は無料だが、スプレッド（買値と売値の差額）が広めに設定されている口座。</li>
+          <li style="margin-bottom: 8px;"><strong>ECN（Raw / Zero）口座</strong>：スプレッドが極限まで狭い（0.0pips〜）代わりに、1ロット取引ごとに外付けの取引手数料が発生する口座。</li>
+        </ul>
+
+        <h2 style="font-size: 1.3rem; border-left: 5px solid var(--primary); padding-left: 12px; margin-top: 32px; margin-bottom: 16px; color: var(--text-main);">
+          2. ナンピン・グリッドEA（Dark Venus等）でECN口座が勝つ理由
+        </h2>
+        <p>
+          Dark VenusのようなナンピンEAは、相場の揺れに合わせて**複数回のポジションを連続して追加**します。
+        </p>
+        <p>
+          取引回数が多くなるため、**「わずか1pipsのスプレッドの差」が年間で数十万円〜数百万円の成績差**として直接跳ね返ってきます。
+        </p>
+        
+        <div style="background: #F0FDF4; border: 2px solid #86EFAC; border-radius: 10px; padding: 20px; margin: 20px 0;">
+          <h3 style="margin-top: 0; color: #166534; font-size: 1.05rem;">💡 実質コストの比較例（EURUSD 1ロット取引時）</h3>
+          <ul style="margin-bottom: 0; padding-left: 20px;">
+            <li><strong>スタンダード口座</strong>：スプレッド 1.5 pips ＝ <strong>コスト 約15ドル</strong></li>
+            <li><strong>ECN口座</strong>：スプレッド 0.1 pips ＋ 手数料 6ドル ＝ <strong>コスト 約7ドル</strong>（半分以下！）</li>
+          </ul>
+        </div>
+
+        <h2 style="font-size: 1.3rem; border-left: 5px solid var(--primary); padding-left: 12px; margin-top: 32px; margin-bottom: 16px; color: var(--text-main);">
+          3. 約定力（スリッページ）の面でもECNが圧倒的に有利
+        </h2>
+        <p>
+          ECN（Electronic Communication Network）は電子取引ネットワークへ直接注文を流すため、カバー先銀行の流動性をダイレクトに利用できます。
+        </p>
+        <p>
+          そのため注文拒否（リクオート）がほとんどなく、狙った価格で瞬時に約定しやすくなります。相場が急変した際の滑り（スリッページ）を抑えられる点も大きなメリットです。
+        </p>
+
+        <div style="background: #FFFBEB; border: 2px dashed #F59E0B; border-radius: 10px; padding: 20px; margin-top: 32px; text-align: center;">
+          <h3 style="margin-top: 0; color: #B45309; font-size: 1.1rem;">結論：本格的なEA運用ならECN一択！</h3>
+          <p style="margin-bottom: 0; font-size: 0.95rem;">
+            バックテストレポート通りの理想的なパフォーマンスを引き出すためには、スプレッドが狭く約定力に優れたECN口座での稼働を強く推奨します。
+          </p>
+        </div>
+      </div>
+
+      <!-- Ad Banner Placeholder (Before Back Button) -->
+      <div style="margin-top: 32px; background: #F8FAFC; border: 1px dashed #CBD5E1; border-radius: 8px; padding: 16px; text-align: center;">
+        <span style="font-size: 0.75rem; color: #94A3B8; display: block; margin-bottom: 4px;">スポンサーリンク</span>
+        <div style="color: #64748B; font-size: 0.9rem;">
+          <i class="fa-solid fa-rectangle-ad"></i> ここにGoogle AdSense広告が表示されます
+        </div>
+      </div>
+
+      <!-- Navigation Link -->
+      <div style="margin-top: 36px; text-align: center; border-top: 2px solid #E2E8F0; padding-top: 24px;">
+        <a href="index.html" class="btn btn-outline" style="text-decoration: none;">
+          <i class="fa-solid fa-arrow-left"></i> ホームへ戻る
+        </a>
+      </div>
+    </article>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container" style="text-align: center;">
+      <p style="margin-bottom: 8px; font-weight: 700; color: #FFF; font-size: 1.1rem;">Dark Venus ラボ</p>
+      <p class="disclaimer" style="max-width: 800px; margin: 12px auto; font-size: 0.8rem; color: #A0AEC0; line-height: 1.6;">
+        【免責事項】当サイトで配布している.setファイルおよびバックテストデータは、検証目的で公開している各種設定データです。動作や将来の収益性を保証するものではありません。実際の運用の結果生じた損害について、当サイトは一切の責任を負いません。すべて自己責任にてご利用ください。
+      </p>
+      <p style="margin: 12px 0; font-size: 0.85rem;">
+        <a href="privacy.html" style="color: #A0AEC0; margin-right: 16px;">プライバシーポリシー</a>
+        <a href="contact.html" style="color: #A0AEC0;">お問い合わせ</a>
+      </p>
+      <p class="copyright" style="font-size: 0.8rem; color: #718096; margin-top: 12px;">
+        &copy; 2026 Dark Venus ラボ All Rights Reserved.
+      </p>
+    </div>
+  </footer>
+</body>
+
+</html>

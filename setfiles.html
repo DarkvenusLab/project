@@ -4,10 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>検証済み設定ファイル一覧 (.set) | DarkVenus ラボ</title>
-  <meta name="description" content="Dark Venus EAの検証済み設定ファイル(.set)一覧。通年バックテストの単年損益・最大含み損・スペック詳細を機械的に完全公開。">
-
-  <!-- Google Fonts: Zen Maru Gothic & Outfit -->
+  <title>検証済み.setファイル一覧・バックテスト成績 | Dark Venus ラボ</title>
+  <meta name="description" content="無料EA「Dark Venus」の通年バックテスト検証済み.setファイル一覧。単年損益・最大含み損・プロフィットファクター・詳細HTMレポートを完全開示・無料配布中。">
+  <meta property="og:title" content="検証済み.setファイル一覧・バックテスト成績 | Dark Venus ラボ">
+  <meta property="og:description" content="Dark Venus EAの検証済み設定ファイル(.set)一覧。通年損益・最大含み損・HTMレポートを完全公開。">
+  <meta property="og:type" content="website">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -329,7 +330,7 @@
     <div class="container header-container">
       <a href="index.html" class="logo">
         <span class="logo-badge">検証アーカイブ</span>
-        <span class="logo-text">DarkVenus<span class="highlight">.set ラボ</span></span>
+        <span class="logo-text">Dark Venus<span class="highlight"> ラボ</span></span>
       </a>
       <nav class="main-nav">
         <ul>
@@ -350,11 +351,12 @@
         <span class="emoji">🧪</span> バックテストで検証済みの設定ファイルを公開中！
       </div>
       <h1 class="hero-title" style="margin-top: 0; margin-bottom: 16px;">
-        DarkVenus 検証済み.set ライブラリ
+        Dark Venus 検証済み.set ライブラリ
       </h1>
       <p class="hero-desc" style="max-width: 760px; margin: 0 auto; line-height: 1.8;">
         単年ごとの損益・最大含み損・PFを客観的に検証した設定ファイル集です。<br>
         生還データだけでなく、マイナス年や破綻設定も隠さずリアルに開示しています。<br>
+        <strong>※新しい設定のバックテスト検証が完了し次第、随時ライブラリへ追加・更新中！</strong><br>
         スペックやリスク管理手法を確認のうえ、ご自身の責任でテスト・運用にご活用ください。
       </p>
     </div>
@@ -366,9 +368,11 @@
 
       <!-- Attention Note -->
       <div class="about-card mb-4" style="background: #EBF8FF; border-color: #3182CE; margin-bottom: 30px;">
-        <h3 style="color: #2B6CB0;"><i class="fa-solid fa-circle-info"></i> 検証データ閲覧のアドバイス</h3>
+        <h3 style="color: #2B6CB0;"><i class="fa-solid fa-circle-info"></i> 検証データの閲覧について</h3>
         <p style="font-size: 0.9rem; line-height: 1.7; margin-top: 8px; color: #2C5282;">
-          当ライブラリでは、単年ごと（年別）の利益・PF・最大ドローダウン額に加え、<strong>生のMT4公式詳細レポート（HTMデータ）</strong>を完全開示しています。過剰最適化を避け、実際の相場におけるリスク感を把握する参考にしてください。
+          当ライブラリでは、単年ごと（年別）の利益・PF・最大ドローダウン額に加え、<strong>生のMT4公式詳細レポート（HTMデータ）</strong>を完全開示しています。<br>
+          個人では<strong>10年以上のバックテスト検証</strong>を行っていますが、すべてのデータをアップロードするのは大変なため、数年分のデータを抜粋して掲載しています。<br>
+          ※なお、バックテストに使用しているヒストリカルデータは Tick Data Suite (TDS) ではなく、<strong>QuantDataManager（モデリング品質 90%）</strong>を使用しています。
         </p>
       </div>
 
@@ -400,8 +404,18 @@
 
   <!-- Footer -->
   <footer class="site-footer">
-    <div class="container">
-      <p class="copyright">&copy; 2026 DarkVenus.set 勝手に置き場 All Rights Reserved.</p>
+    <div class="container" style="text-align: center;">
+      <p style="margin-bottom: 8px; font-weight: 700; color: #FFF; font-size: 1.1rem;">Dark Venus ラボ</p>
+      <p class="disclaimer" style="max-width: 800px; margin: 12px auto; font-size: 0.8rem; color: #A0AEC0; line-height: 1.6;">
+        【免責事項】当サイトで配布している.setファイルおよびバックテストデータは、検証目的で公開している各種設定データです。動作や将来の収益性を保証するものではありません。実際の運用の結果生じた損害について、当サイトは一切の責任を負いません。すべて自己責任にてご利用ください。
+      </p>
+      <p style="margin: 12px 0; font-size: 0.85rem;">
+        <a href="privacy.html" style="color: #A0AEC0; margin-right: 16px;">プライバシーポリシー</a>
+        <a href="contact.html" style="color: #A0AEC0;">お問い合わせ</a>
+      </p>
+      <p class="copyright" style="font-size: 0.8rem; color: #718096; margin-top: 12px;">
+        &copy; 2026 Dark Venus ラボ All Rights Reserved.
+      </p>
     </div>
   </footer>
 
@@ -534,6 +548,10 @@
             ? `<span class="spec-badge badge-spread"><i class="fa-solid fa-arrows-left-right"></i> スプレッド: ${item.spread}</span>`
             : '';
 
+          const dateBadgeHtml = item.uploadedDate
+            ? `<span class="spec-badge" style="background: #F7FAFC; color: #718096; border: 1px solid #E2E8F0;"><i class="fa-regular fa-calendar-plus"></i> 追加日: ${item.uploadedDate}</span>`
+            : '';
+
           const cardHtml = `
             <div class="setfile-card" id="${item.id}">
               <div class="card-header-flex">
@@ -546,10 +564,19 @@
                     <span class="spec-badge badge-lot"><i class="fa-solid fa-layer-group"></i> スタート: ${item.startLot}</span>
                     <span class="spec-badge badge-lot"><i class="fa-solid fa-wallet"></i> 想定資金: ${item.deposit}</span>
                     ${spreadBadgeHtml}
+                    ${dateBadgeHtml}
                   </div>
                 </div>
                 <div class="download-btn-area">
                   <a href="${item.fileUrl}" class="btn btn-primary" download><i class="fa-solid fa-download"></i> .setファイルをDL</a>
+                </div>
+              </div>
+
+              <!-- Ad Placeholder (Above Stats Table) -->
+              <div class="ad-placeholder" style="margin: 16px 0; background: #F8FAFC; border: 1px dashed #CBD5E1; border-radius: 8px; padding: 12px; text-align: center;">
+                <span class="ad-label" style="font-size: 0.7rem; color: #94A3B8; display: block; margin-bottom: 4px;">スポンサーリンク</span>
+                <div class="ad-box">
+                  <p style="margin: 0; font-size: 0.85rem; color: #64748B;"><i class="fa-solid fa-rectangle-ad"></i> 広告枠（Google AdSense）</p>
                 </div>
               </div>
 

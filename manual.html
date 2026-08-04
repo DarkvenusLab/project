@@ -4,10 +4,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dark Venus 公式マニュアル（参考訳）</title>
-  <meta name="description" content="無料EA「Dark Venus」の開発者公式英文マニュアル（Dark Venus Full strategy explanation）をゆる〜く参考訳しました！パラメータの確認程度にご活用ください。">
-
-  <!-- Google Fonts & FontAwesome -->
+  <title>公式マニュアル日本語訳・パラメータ全解説 | Dark Venus ラボ</title>
+  <meta name="description"
+    content="無料EA「Dark Venus」の開発者公式英文マニュアル（Dark Venus Full strategy explanation）を日本語訳。入力パラメータの意味やボリンジャーバンド戦略、ナンピン・損切り設定まで全解説。">
+  <meta property="og:title" content="公式マニュアル日本語訳・パラメータ全解説 | Dark Venus ラボ">
+  <meta property="og:description" content="Dark Venusの開発者公式マニュアルを日本語全訳。入力パラメータやロジック、ナンピン・決済設定まで詳細解説。">
+  <meta property="og:type" content="article">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -75,15 +77,15 @@
   <header class="site-header">
     <div class="container header-container">
       <a href="index.html" class="logo">
-        <span class="logo-badge">非公式・勝手に集積所</span>
-        <span class="logo-text">DarkVenus<span class="highlight">.set 置き場</span></span>
+        <span class="logo-badge">検証アーカイブ</span>
+        <span class="logo-text">Dark Venus<span class="highlight"> ラボ</span></span>
       </a>
       <nav class="main-nav">
         <ul>
-          <li><a href="index.html"><i class="fa-solid fa-house"></i> トップ</a></li>
+          <li><a href="index.html"><i class="fa-solid fa-house"></i> ホーム</a></li>
           <li><a href="setfiles.html"><i class="fa-solid fa-folder-open"></i> 検証済み.set一覧</a></li>
           <li><a href="manual.html" class="active"><i class="fa-solid fa-file-contract"></i> 公式マニュアル和訳</a></li>
-          <li><a href="how-to-setup.html"><i class="fa-solid fa-book-open"></i> 導入方法</a></li>
+          <li><a href="how-to-setup.html"><i class="fa-solid fa-circle-info"></i> 導入手順</a></li>
         </ul>
       </nav>
     </div>
@@ -124,11 +126,15 @@
       <div class="about-card mb-4" style="background: #FEFCBF; border-color: #ECC94B; margin-bottom: 30px;">
         <h3><i class="fa-solid fa-thumbs-up" style="color: #D69E2E;"></i> 当マニュアルの特徴とご利用のアドバイス</h3>
         <ul style="margin-top: 10px; padding-left: 20px; line-height: 1.8; font-weight: 700; color: #744210;">
-          <li><strong>マニュアル未記載の最新機能・設定も網羅！:</strong> 原本の公式PDFには掲載されていない最新の入力パラメータ（ATRナンピン間隔設定や詳細な損切り停止制御、表示系オプションなど）も、実際の画面を基に補完・追加解説しています。</li>
-          <li><strong>実際のバックテストで挙動確認を推奨:</strong> パラメータの組み合わせによって挙動やリスクが大きく変化します。まずはMT4/MT5の「ストラテジーテスター」でバックテストを行い、実際の挙動や取引ルールをご自身で確かめてから運用することをおすすめします！</li>
-          <li><strong>推奨時間足（タイムフレーム）:</strong> 適切な設定を行えば <strong>M5（5分足）</strong>、<strong>M15（15分足）</strong> をはじめ、その他のすべての時間足で使用できます。</li>
-          <li><strong>推奨通貨ペア:</strong> <strong>EURUSD、GBPUSD、AUDUSD、USDCAD</strong> など幅広く対応可能です。</li>
-          <li><strong>口座環境 & 通信環境:</strong> 取ッチの少ない <strong>ECN口座</strong> および 24時間安定した <strong>VPS（仮想サーバー）</strong> での稼働を強く推奨します。</li>
+          <li><strong>マニュアル未記載の最新機能・設定も網羅！:</strong>
+            原本の公式PDFには掲載されていない最新の入力パラメータ（ATRナンピン間隔設定や詳細な損切り停止制御、表示系オプションなど）も、実際の画面を基に補完・追加解説しています。</li>
+          <li><strong>実際のバックテストで挙動確認を推奨:</strong>
+            パラメータの組み合わせによって挙動やリスクが大きく変化します。まずはMT4/MT5の「ストラテジーテスター」でバックテストを行い、実際の挙動や取引ルールをご自身で確かめてから運用することをおすすめします！</li>
+          <li><strong>推奨時間足（タイムフレーム）:</strong> 適切な設定を行えば <strong>M5（5分足）</strong>、<strong>M15（15分足）</strong>
+            をはじめ、その他のすべての時間足で使用できます。</li>
+          <li><strong>対象通貨ペア:</strong>適切な設定を行えば <strong>メジャー通貨だけでなく様々な通貨で</strong> 使用可能です。</li>
+          <li><strong>口座環境 & 通信環境:</strong> 取ッチの少ない <strong>ECN口座</strong> および 24時間安定した <strong>VPS（仮想サーバー）</strong>
+            での稼働を強く推奨します。</li>
         </ul>
       </div>
 
@@ -258,12 +264,14 @@
           <li>
             <strong>Cross Up Central Band in Up Trend Buy（条件交差型）:</strong><br>
             価格が中央線を注文方向に強い大陽線でブレイクした瞬間にエントリー。<br>
-            <small style="color: var(--primary); font-weight: normal;">※（注意）戦略5と戦略6の細かいロジックやニュアンスは、実際のプログラムの挙動と翻訳解釈で認識が異なる可能性があります。デモやバックテストで挙動をご確認ください。</small>
+            <small
+              style="color: var(--primary); font-weight: normal;">※（注意）戦略5と戦略6の細かいロジックやニュアンスは、実際のプログラムの挙動と翻訳解釈で認識が異なる可能性があります。デモやバックテストで挙動をご確認ください。</small>
           </li>
           <li>
             <strong>Cross Down Central Band in Down Trend Buy:</strong><br>
             上記と逆に、下降ブレイクした瞬間にエントリー。<br>
-            <small style="color: var(--primary); font-weight: normal;">※（注意）こちらも同様に解釈が異なる場合があるため、バックテスト等での事前検証を推奨します。</small>
+            <small
+              style="color: var(--primary); font-weight: normal;">※（注意）こちらも同様に解釈が異なる場合があるため、バックテスト等での事前検証を推奨します。</small>
           </li>
         </ol>
       </div>
@@ -526,7 +534,8 @@
               <td class="param-name">Broker Commission</td>
               <td>
                 決済価格の計算に考慮するブローカー手数料（1ロットあたりの手数料ポイント）。<br>
-                <small style="color: var(--primary); font-weight: normal;">※（補足）実際のトレード検証上、この設定値が実際の決済処理に影響を与えていない（直接関係していない）可能性があります。</small>
+                <small
+                  style="color: var(--primary); font-weight: normal;">※（補足）実際のトレード検証上、この設定値が実際の決済処理に影響を与えていない（直接関係していない）可能性があります。</small>
               </td>
             </tr>
             <tr>
@@ -610,8 +619,19 @@
 
   <!-- Footer -->
   <footer class="site-footer">
-    <div class="container">
-      <p class="copyright">&copy; 2026 DarkVenus.set 勝手に置き場 All Rights Reserved.</p>
+    <div class="container" style="text-align: center;">
+      <p style="margin-bottom: 8px; font-weight: 700; color: #FFF; font-size: 1.1rem;">Dark Venus ラボ</p>
+      <p class="disclaimer"
+        style="max-width: 800px; margin: 12px auto; font-size: 0.8rem; color: #A0AEC0; line-height: 1.6;">
+        【免責事項】当サイトで配布している.setファイルおよびバックテストデータは、検証目的で公開している各種設定データです。動作や将来の収益性を保証するものではありません。実際の運用の結果生じた損害について、当サイトは一切の責任を負いません。すべて自己責任にてご利用ください。
+      </p>
+      <p style="margin: 12px 0; font-size: 0.85rem;">
+        <a href="privacy.html" style="color: #A0AEC0; margin-right: 16px;">プライバシーポリシー</a>
+        <a href="contact.html" style="color: #A0AEC0;">お問い合わせ</a>
+      </p>
+      <p class="copyright" style="font-size: 0.8rem; color: #718096; margin-top: 12px;">
+        &copy; 2026 Dark Venus ラボ All Rights Reserved.
+      </p>
     </div>
   </footer>
 

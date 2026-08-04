@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>なぜEA運用でバックテスト検証が絶対に必要なのか？ | Dark Venus ラボ</title>
+  <meta name="description" content="FX自動売買（EA）の運用前にバックテスト検証を行うべき理由、単年データの確認ポイント、過去データによるリスク管理手法について詳しく解説します。">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Zen+Maru+Gothic:wght@500;700;900&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+  <!-- Header Nav -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="index.html" class="logo">
+        <span class="badge">検証アーカイブ</span>
+        Dark Venus <span class="accent">ラボ</span>
+      </a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html"><i class="fa-solid fa-house"></i> ホーム</a></li>
+          <li><a href="setfiles.html"><i class="fa-solid fa-folder-open"></i> 検証済み.set一覧</a></li>
+          <li><a href="manual.html"><i class="fa-solid fa-file-contract"></i> 公式マニュアル和訳</a></li>
+          <li><a href="how-to-setup.html"><i class="fa-solid fa-circle-info"></i> 導入手順</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container my-4" style="max-width: 860px; margin-left: auto; margin-right: auto;">
+    <!-- Breadcrumb -->
+    <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">
+      <a href="index.html" style="color: var(--text-muted); text-decoration: none;">ホーム</a> &gt;
+      <a href="index.html#columns" style="color: var(--text-muted); text-decoration: none;">コラム一覧</a> &gt;
+      <span style="color: var(--text-main); font-weight: 700;">バックテスト検証の必要性</span>
+    </div>
+
+    <article
+      style="background: #FFF; border: 3px solid var(--text-main); border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow-pop);">
+      <div style="text-align: center; margin-bottom: 28px;">
+        <span
+          style="background: #F3E8FF; color: #6B21A8; padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 0.85rem;">
+          <i class="fa-solid fa-chart-line"></i> 検証・データ分析
+        </span>
+        <h1
+          style="font-size: 1.7rem; font-weight: 900; margin-top: 12px; margin-bottom: 12px; color: var(--text-main); line-height: 1.4;">
+          なぜEA運用でバックテスト検証が絶対に必要なのか？<br>失敗を防ぐ3つのチェックポイント
+        </h1>
+      </div>
+
+      <div style="line-height: 1.8; color: #334155; font-size: 1rem;">
+        <h2
+          style="font-size: 1.3rem; border-left: 5px solid var(--primary); padding-left: 12px; margin-top: 28px; margin-bottom: 16px; color: var(--text-main);">
+          1. リアル資金を投入する前の「安全確認」
+        </h2>
+        <p>
+          バックテストとは、過去数年間のヒストリカルデータ（過去の値動き）を用いて「そのEA・設定を過去の相場で稼働させていたらどんな結果になっていたか」をシミュレーションする作業です。
+        </p>
+        <p>
+          自動車の衝突安全テストを行わずに試運転しないのと同様、大切な自己資金を運用する前にバックテストで安全性を検証することは**EA運用の大前提**です。
+        </p>
+
+        <h2
+          style="font-size: 1.3rem; border-left: 5px solid var(--primary); padding-left: 12px; margin-top: 32px; margin-bottom: 16px; color: var(--text-main);">
+          2. バックテストを見る際に見るべき「3つの指標」
+        </h2>
+
+        <div
+          style="background: #F8FAFC; border: 2px solid #E2E8F0; border-radius: 10px; padding: 20px; margin-bottom: 20px;">
+          <h3 style="margin-top: 0; color: #1E293B; font-size: 1.05rem;">① 最大ドローダウン（DD）額とパーセンテージ</h3>
+          <p style="margin-bottom: 8px; font-size: 0.95rem;">
+            過去の運用において「一時的に資金が最大でどれだけ減少したか」を示す数値です。自分の許容できる含み損・リスク範囲内に収まっているかを確認します。
+          </p>
+        </div>
+
+        <div
+          style="background: #F8FAFC; border: 2px solid #E2E8F0; border-radius: 10px; padding: 20px; margin-bottom: 20px;">
+          <h3 style="margin-top: 0; color: #1E293B; font-size: 1.05rem;">② プロフィットファクター（PF）</h3>
+          <p style="margin-bottom: 8px; font-size: 0.95rem;">
+            総利益 ÷ 総損失 の比率です。1.0以上で利益が出ていることを示しますが、ナンピンEAの場合は1.3〜2.0程度が最もバランスが良いとされています。
+          </p>
+        </div>
+
+        <div
+          style="background: #F8FAFC; border: 2px solid #E2E8F0; border-radius: 10px; padding: 20px; margin-bottom: 20px;">
+          <h3 style="margin-top: 0; color: #1E293B; font-size: 1.05rem;">③ 単年ごとのパフォーマンスのムラ（年別損益）</h3>
+          <p style="margin-bottom: 0; font-size: 0.95rem;">
+            通算成績だけでなく「2021年はどうだったか」「2022年はどうだったか」と年別に細かく分析することが重要です。相場環境の変化によって強い年・弱い年があることを事前に知っておくことで、メンタルを保ちやすくなります。
+          </p>
+        </div>
+
+        <h2
+          style="font-size: 1.3rem; border-left: 5px solid var(--primary); padding-left: 12px; margin-top: 32px; margin-bottom: 16px; color: var(--text-main);">
+          3. 当ライブラリが単年データを公開している理由
+        </h2>
+        <p>
+          当「Dark Venus ラボ」では、通算データだけでなく**単年ごとの詳細レポート（生のHTMファイル）**を包み隠さず公開しています。
+        </p>
+        <p>
+          これにより、ご利用者様自身が「得意な相場」「苦手な時期」を客観的に把握し、ご自身の資金量に合った最適なパラメータを選択できるよう配慮しています。
+        </p>
+
+        <div
+          style="background: #EFF6FF; border: 2px dashed #3B82F6; border-radius: 10px; padding: 20px; margin-top: 32px; text-align: center;">
+          <h3 style="margin-top: 0; color: #1E40AF; font-size: 1.1rem;">まとめ：バックテストはEA運用の「羅針盤」</h3>
+          <p style="margin-bottom: 0; font-size: 0.95rem;">
+            バックテストデータをしっかり読み解き、根拠のある設定で運用を始めることが、長期的にFX市場で<br>残るための鍵となります。
+          </p>
+        </div>
+      </div>
+
+      <!-- Ad Banner Placeholder (Before Back Button) -->
+      <div
+        style="margin-top: 32px; background: #F8FAFC; border: 1px dashed #CBD5E1; border-radius: 8px; padding: 16px; text-align: center;">
+        <span style="font-size: 0.75rem; color: #94A3B8; display: block; margin-bottom: 4px;">スポンサーリンク</span>
+        <div style="color: #64748B; font-size: 0.9rem;">
+          <i class="fa-solid fa-rectangle-ad"></i> ここにGoogle AdSense広告が表示されます
+        </div>
+      </div>
+
+      <!-- Navigation Link -->
+      <div style="margin-top: 36px; text-align: center; border-top: 2px solid #E2E8F0; padding-top: 24px;">
+        <a href="index.html" class="btn btn-outline" style="text-decoration: none;">
+          <i class="fa-solid fa-arrow-left"></i> ホームへ戻る
+        </a>
+      </div>
+    </article>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container" style="text-align: center;">
+      <p style="margin-bottom: 8px; font-weight: 700; color: #FFF; font-size: 1.1rem;">Dark Venus ラボ</p>
+      <p class="disclaimer"
+        style="max-width: 800px; margin: 12px auto; font-size: 0.8rem; color: #A0AEC0; line-height: 1.6;">
+        【免責事項】当サイトで配布している.setファイルおよびバックテストデータは、検証目的で公開している各種設定データです。動作や将来の収益性を保証するものではありません。実際の運用の結果生じた損害について、当サイトは一切の責任を負いません。すべて自己責任にてご利用ください。
+      </p>
+      <p style="margin: 12px 0; font-size: 0.85rem;">
+        <a href="privacy.html" style="color: #A0AEC0; margin-right: 16px;">プライバシーポリシー</a>
+        <a href="contact.html" style="color: #A0AEC0;">お問い合わせ</a>
+      </p>
+      <p class="copyright" style="font-size: 0.8rem; color: #718096; margin-top: 12px;">
+        &copy; 2026 Dark Venus ラボ All Rights Reserved.
+      </p>
+    </div>
+  </footer>
+</body>
+
+</html>
