@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>検証済み設定ファイル一覧 (.set) | DarkVenus ラボ</title>
+  <meta name="description" content="Dark Venus EAの検証済み設定ファイル(.set)一覧。通年バックテストの単年損益・最大含み損・スペック詳細を機械的に完全公開。">
+
+  <!-- Google Fonts: Zen Maru Gothic & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Zen+Maru+Gothic:wght@400;700;900&display=swap"
+    rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .setfile-card {
+      background: #ffffff;
+      border: 2px solid #E2E8F0;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .setfile-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 12px;
+      border-bottom: 2px dashed #EDF2F7;
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+
+    .card-title-group h3 {
+      font-size: 1.3rem;
+      color: var(--text-main);
+      margin-bottom: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+    }
+
+    .badge-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .spec-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .badge-platform {
+      background: #EDF2F7;
+      color: #2D3748;
+      border: 1px solid #CBD5E0;
+      font-weight: 800;
+    }
+
+    .badge-pair {
+      background: #EBF8FF;
+      color: #2B6CB0;
+    }
+
+    .badge-tf {
+      background: #FEFCBF;
+      color: #744210;
+    }
+
+    .badge-lot {
+      background: #EDF2F7;
+      color: #4A5568;
+    }
+
+    .badge-spread {
+      background: #E6FFFA;
+      color: #234E52;
+      border: 1px solid #B2F5EA;
+    }
+
+    /* Vertical Layout Stack */
+    .card-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Stats Table */
+    .stats-table-wrapper {
+      overflow-x: auto;
+    }
+
+    .stats-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: 0.9rem;
+    }
+
+    .stats-table th,
+    .stats-table td {
+      padding: 10px 12px;
+      text-align: center;
+      border: 1px solid #E2E8F0;
+      white-space: nowrap;
+    }
+
+    .stats-table th {
+      background: #F7FAFC;
+      color: #4A5568;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .status-survived {
+      color: #38A169;
+      font-weight: bold;
+    }
+
+    .status-failed {
+      color: #E53E3E;
+      font-weight: bold;
+    }
+
+    .btn-report-view {
+      display: inline-block;
+      padding: 5px 12px;
+      background: #EDF2F7;
+      color: #2B6CB0;
+      border: 1px solid #CBD5E0;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-report-view:hover {
+      background: #E2E8F0;
+      color: #1A365D;
+    }
+
+    /* Spec Grid System for 2-column key-values */
+    .spec-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 30px;
+      margin-top: 8px;
+      background: #F8FAFC;
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid #E2E8F0;
+    }
+
+    @media (max-width: 640px) {
+      .spec-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .spec-item {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px dashed #E2E8F0;
+      padding-bottom: 4px;
+      font-size: 0.88rem;
+    }
+
+    .spec-label {
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    .spec-value {
+      color: var(--text-main);
+      font-weight: 700;
+    }
+
+    .notes-box {
+      background: #FFFBEB;
+      border-left: 4px solid #F59E0B;
+      padding: 12px 16px;
+      margin-top: 20px;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.88rem;
+      color: #92400E;
+    }
+
+    .download-btn-area {
+      margin-top: 0;
+      text-align: right;
+    }
+
+    /* Pagination Styles */
+    .pagination-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin-top: 40px;
+      margin-bottom: 20px;
+    }
+
+    .page-btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      min-width: 40px;
+      height: 40px;
+      padding: 0 12px;
+      border-radius: 8px;
+      background: #ffffff;
+      border: 1px solid #CBD5E0;
+      color: #4A5568;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .page-btn:hover:not(.disabled) {
+      background: #EDF2F7;
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .page-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    .page-btn.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Ad Modal Backdrop */
+    .ad-modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(4px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .ad-modal-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .ad-modal-content {
+      background: #ffffff;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 520px;
+      padding: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      position: relative;
+    }
+
+    .ad-modal-header {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--text-main);
+      margin-bottom: 16px;
+    }
+
+    .ad-modal-box {
+      background: #F7FAFC;
+      border: 2px dashed #CBD5E0;
+      border-radius: 12px;
+      padding: 40px 20px;
+      margin-bottom: 20px;
+      color: #718096;
+    }
+
+    .ad-modal-close-btn {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 30px;
+      font-weight: 900;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.2s;
+    }
+
+    .ad-modal-close-btn:hover {
+      background: var(--primary-hover);
+      transform: scale(1.03);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Top Header Banner -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="index.html" class="logo">
+        <span class="logo-badge">検証アーカイブ</span>
+        <span class="logo-text">DarkVenus<span class="highlight">.set ラボ</span></span>
+      </a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html"><i class="fa-solid fa-house"></i> ホーム</a></li>
+          <li><a href="setfiles.html" class="active"><i class="fa-solid fa-folder-open"></i> 検証済み.set一覧</a></li>
+          <li><a href="manual.html"><i class="fa-solid fa-file-contract"></i> 公式マニュアル和訳</a></li>
+          <li><a href="how-to-setup.html"><i class="fa-solid fa-circle-info"></i> 導入手順</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section" style="padding: 40px 0;">
+    <div class="container hero-container"
+      style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+      <div class="speech-bubble" style="margin-bottom: 12px;">
+        <span class="emoji">🧪</span> バックテストで検証済みの設定ファイルを公開中！
+      </div>
+      <h1 class="hero-title" style="margin-top: 0; margin-bottom: 16px;">
+        DarkVenus 検証済み.set ライブラリ
+      </h1>
+      <p class="hero-desc" style="max-width: 760px; margin: 0 auto; line-height: 1.8;">
+        単年ごとの損益・最大含み損・PFを客観的に検証した設定ファイル集です。<br>
+        生還データだけでなく、マイナス年や破綻設定も隠さずリアルに開示しています。<br>
+        スペックやリスク管理手法を確認のうえ、ご自身の責任でテスト・運用にご活用ください。
+      </p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <section class="section">
+    <div class="container" style="max-width: 980px;">
+
+      <!-- Attention Note -->
+      <div class="about-card mb-4" style="background: #EBF8FF; border-color: #3182CE; margin-bottom: 30px;">
+        <h3 style="color: #2B6CB0;"><i class="fa-solid fa-circle-info"></i> 検証データ閲覧のアドバイス</h3>
+        <p style="font-size: 0.9rem; line-height: 1.7; margin-top: 8px; color: #2C5282;">
+          当ライブラリでは、単年ごと（年別）の利益・PF・最大ドローダウン額に加え、<strong>生のMT4公式詳細レポート（HTMデータ）</strong>を完全開示しています。過剰最適化を避け、実際の相場におけるリスク感を把握する参考にしてください。
+        </p>
+      </div>
+
+      <!-- Setfiles List Container -->
+      <div id="setfiles-container"></div>
+
+      <!-- Pagination Navigation -->
+      <div id="pagination-container" class="pagination-container"></div>
+
+    </div>
+  </section>
+
+  <!-- Ad Modal Window -->
+  <div id="adModal" class="ad-modal-backdrop">
+    <div class="ad-modal-content">
+      <div class="ad-modal-header">
+        <i class="fa-solid fa-shield-halved" style="color: var(--primary);"></i> 詳細バックテストレポートの閲覧
+      </div>
+      <div class="ad-modal-box">
+        <p style="font-size: 0.85rem; color: #4A5568; margin-bottom: 8px;">【スポンサー広告】</p>
+        <p><i class="fa-solid fa-rectangle-ad fa-2x" style="color: #A0AEC0;"></i></p>
+        <p style="font-size: 0.8rem; margin-top: 8px;">ここにGoogle AdSense等の広告が表示されます</p>
+      </div>
+      <button id="adModalCloseBtn" class="ad-modal-close-btn">
+        <i class="fa-solid fa-circle-check"></i> 閉じてレポートを見る
+      </button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <p class="copyright">&copy; 2026 DarkVenus.set 勝手に置き場 All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Script -->
+  <script>
+    const defaultData = [
+      {
+        "id": "SET-001",
+        "title": "#SET-001 | EURUSD M15",
+        "platform": "MT4",
+        "pair": "EURUSD",
+        "timeframe": "M15",
+        "startLot": "0.01 (単利)",
+        "deposit": "100,000円",
+        "spread": "20 point (固定)",
+        "fileUrl": "downloads/SET-001_EURUSD_M15.set",
+        "uploadedDate": "2026-08-04",
+        "specs": {
+          "bbStrategy": "1.Sell Above and Buy Below",
+          "nanpinType": "Lots Sum",
+          "maxOrders": 50,
+          "allowBuySell": "Buy & Sell (片建て)",
+          "timeFilter": "あり",
+          "hasSL": "なし (Disabled)",
+          "closeMode": "Average Point Weighted",
+          "exitStrategy": "Closing on Bollinger Bands"
+        },
+        "notes": "決済にボリンジャーバンド決済を採用しているので実質損切設定がされています。低ドローダウンで3年間を無傷で生還した堅実設計です。",
+        "yearlyStats": [
+          {
+            "year": "2023年",
+            "profit": "+6,879円",
+            "pf": "5.96",
+            "maxDrawdown": "-2,343円(2.20%)",
+            "unrealizedLoss": "0円",
+            "status": "生還",
+            "survived": true,
+            "reportUrl": "report/SET-001/2023/StrategyTester.htm"
+          },
+          {
+            "year": "2024年",
+            "profit": "+5,200円",
+            "pf": "2.17",
+            "maxDrawdown": "-5,680円(5.66%)",
+            "unrealizedLoss": "0円",
+            "status": "生還",
+            "survived": true,
+            "reportUrl": "report/SET-001/2024/StrategyTester.htm"
+          },
+          {
+            "year": "2025年",
+            "profit": "+6,306円",
+            "pf": "2.62",
+            "maxDrawdown": "-5,988円(5.88%)",
+            "unrealizedLoss": "-36円",
+            "status": "生還",
+            "survived": true,
+            "reportUrl": "report/SET-001/2025/StrategyTester.htm"
+          }
+        ]
+      }
+    ];
+
+    let pendingTargetUrl = '';
+    let allSetFiles = [];
+    let currentPage = 1;
+    const itemsPerPage = 5;
+
+    function openReportWithAd(url) {
+      pendingTargetUrl = url;
+      const modal = document.getElementById('adModal');
+      modal.classList.add('active');
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const modal = document.getElementById('adModal');
+      const closeBtn = document.getElementById('adModalCloseBtn');
+
+      closeBtn.addEventListener('click', function () {
+        modal.classList.remove('active');
+        if (pendingTargetUrl) {
+          window.open(pendingTargetUrl, '_blank');
+          pendingTargetUrl = '';
+        }
+      });
+
+      function renderPage(page) {
+        currentPage = page;
+        const container = document.getElementById('setfiles-container');
+        const paginationContainer = document.getElementById('pagination-container');
+        container.innerHTML = '';
+        paginationContainer.innerHTML = '';
+
+        if (!allSetFiles || allSetFiles.length === 0) {
+          container.innerHTML = '<p class="text-center">現在登録されている設定ファイルはありません。</p>';
+          return;
+        }
+
+        const totalPages = Math.ceil(allSetFiles.length / itemsPerPage);
+        const startIndex = (page - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const pageItems = allSetFiles.slice(startIndex, endIndex);
+
+        pageItems.forEach(item => {
+          let statsRows = '';
+          item.yearlyStats.forEach(stat => {
+            const statusClass = stat.survived ? 'status-survived' : 'status-failed';
+            const reportBtnHtml = stat.reportUrl
+              ? `<button class="btn-report-view" onclick="openReportWithAd('${stat.reportUrl}')"><i class="fa-solid fa-file-contract"></i> レポート</button>`
+              : '-';
+
+            statsRows += `
+              <tr>
+                <td><strong>${stat.year}</strong></td>
+                <td style="color: #2B6CB0; font-weight: 700;">${stat.profit}</td>
+                <td style="font-weight: 700;">${stat.pf || '-'}</td>
+                <td style="color: #E53E3E; font-weight: 700;">${stat.maxDrawdown}</td>
+                <td style="color: #D69E2E; font-weight: 700;">${stat.unrealizedLoss || '-'}</td>
+                <td class="${statusClass}">${stat.status}</td>
+                <td>${reportBtnHtml}</td>
+              </tr>
+            `;
+          });
+
+          const platformBadgeHtml = item.platform
+            ? `<span class="spec-badge badge-platform"><i class="fa-solid fa-desktop"></i> ${item.platform}</span>`
+            : `<span class="spec-badge badge-platform"><i class="fa-solid fa-desktop"></i> MT4</span>`;
+
+          const spreadBadgeHtml = item.spread
+            ? `<span class="spec-badge badge-spread"><i class="fa-solid fa-arrows-left-right"></i> スプレッド: ${item.spread}</span>`
+            : '';
+
+          const cardHtml = `
+            <div class="setfile-card" id="${item.id}">
+              <div class="card-header-flex">
+                <div class="card-title-group">
+                  <h3><i class="fa-solid fa-code" style="color: var(--primary);"></i> ${item.title}</h3>
+                  <div class="badge-group">
+                    ${platformBadgeHtml}
+                    <span class="spec-badge badge-pair"><i class="fa-solid fa-coins"></i> ${item.pair}</span>
+                    <span class="spec-badge badge-tf"><i class="fa-regular fa-clock"></i> ${item.timeframe}</span>
+                    <span class="spec-badge badge-lot"><i class="fa-solid fa-layer-group"></i> スタート: ${item.startLot}</span>
+                    <span class="spec-badge badge-lot"><i class="fa-solid fa-wallet"></i> 想定資金: ${item.deposit}</span>
+                    ${spreadBadgeHtml}
+                  </div>
+                </div>
+                <div class="download-btn-area">
+                  <a href="${item.fileUrl}" class="btn btn-primary" download><i class="fa-solid fa-download"></i> .setファイルをDL</a>
+                </div>
+              </div>
+
+              <!-- Vertical Stack -->
+              <div class="card-stack">
+                <!-- Top: Yearly Stats Table (Full Width) -->
+                <div>
+                  <h4 style="font-size: 1rem; color: var(--text-main); margin-bottom: 8px;">
+                    <i class="fa-solid fa-chart-line"></i> 単年バックテスト成績
+                  </h4>
+                  <div class="stats-table-wrapper">
+                    <table class="stats-table">
+                      <thead>
+                        <tr>
+                          <th>年度</th>
+                          <th>年間損益</th>
+                          <th>PF</th>
+                          <th>最大DD</th>
+                          <th>決済待ち(含み損)</th>
+                          <th>結果</th>
+                          <th>詳細データ</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        ${statsRows}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <!-- Bottom: Parameters Spec (Grid Box) -->
+                <div>
+                  <h4 style="font-size: 1rem; color: var(--text-main); margin-bottom: 8px;">
+                    <i class="fa-solid fa-sliders"></i> 設定スペック仕様
+                  </h4>
+                  <div class="spec-grid">
+                    <div class="spec-item"><span class="spec-label">ボリンジャーバンド戦略</span><span class="spec-value">${item.specs.bbStrategy || '-'}</span></div>
+                    <div class="spec-item"><span class="spec-label">ロット増加方式</span><span class="spec-value">${item.specs.nanpinType || '-'}</span></div>
+                    <div class="spec-item"><span class="spec-label">最大ポジション数</span><span class="spec-value">${item.specs.maxOrders || '-'}</span></div>
+                    <div class="spec-item"><span class="spec-label">売買方向</span><span class="spec-value">${item.specs.allowBuySell || '-'}</span></div>
+                    <div class="spec-item"><span class="spec-label">曜日/時間帯制限</span><span class="spec-value">${item.specs.timeFilter || '-'}</span></div>
+                    <div class="spec-item"><span class="spec-label">損切り(SL)設定</span><span class="spec-value">${item.specs.hasSL || '-'}</span></div>
+                    <div class="spec-item"><span class="spec-label">決済計算方式</span><span class="spec-value">${item.specs.closeMode || '-'}</span></div>
+                    <div class="spec-item"><span class="spec-label">決済条件</span><span class="spec-value">${item.specs.exitStrategy || '-'}</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Notes / Special Features -->
+              ${item.notes ? `
+                <div class="notes-box">
+                  <strong><i class="fa-solid fa-lightbulb"></i> 特記事項・カスタマイズポイント:</strong><br>
+                  ${item.notes}
+                </div>
+              ` : ''}
+            </div>
+          `;
+
+          container.innerHTML += cardHtml;
+        });
+
+        // Build Pagination Buttons if more than 1 page
+        if (totalPages > 1) {
+          let paginationHtml = '';
+
+          // Prev button
+          const prevDisabled = page === 1 ? 'disabled' : '';
+          paginationHtml += `<button class="page-btn ${prevDisabled}" onclick="changePage(${page - 1})"><i class="fa-solid fa-chevron-left"></i></button>`;
+
+          for (let i = 1; i <= totalPages; i++) {
+            const activeClass = i === page ? 'active' : '';
+            paginationHtml += `<button class="page-btn ${activeClass}" onclick="changePage(${i})">${i}</button>`;
+          }
+
+          // Next button
+          const nextDisabled = page === totalPages ? 'disabled' : '';
+          paginationHtml += `<button class="page-btn ${nextDisabled}" onclick="changePage(${page + 1})"><i class="fa-solid fa-chevron-right"></i></button>`;
+
+          paginationContainer.innerHTML = paginationHtml;
+        }
+      }
+
+      window.changePage = function (newPage) {
+        const totalPages = Math.ceil(allSetFiles.length / itemsPerPage);
+        if (newPage >= 1 && newPage <= totalPages) {
+          renderPage(newPage);
+          window.scrollTo({ top: 300, behavior: 'smooth' });
+        }
+      };
+
+      function initData(data) {
+        // Reverse array so latest added json item comes first!
+        allSetFiles = [...data].reverse();
+        renderPage(1);
+      }
+
+      fetch('data/setfiles.json')
+        .then(response => {
+          if (!response.ok) throw new Error('HTTP error ' + response.status);
+          return response.json();
+        })
+        .then(data => {
+          initData(data);
+        })
+        .catch(err => {
+          console.warn("Local fetch failed, using fallback data.", err);
+          initData(defaultData);
+        });
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DarkVenus設定ファイル勝手にまとめ置き場【拾い物.set】</title>
+  <meta name="description" content="ネットで拾ったDarkVenusの設定ファイル(.set)を勝手にアーカイブして置いておくだけのページ。自己責任で勝手にダウンロードして使ってください。">
+
+  <!-- Google Fonts: Zen Maru Gothic & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Zen+Maru+Gothic:wght@400;700;900&display=swap"
+    rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <!-- Top Header Banner -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="index.html" class="logo">
+        <span class="logo-badge">非公式・勝手に集積所</span>
+        <span class="logo-text">DarkVenus<span class="highlight">.set 置き場</span></span>
+      </a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="#about"><i class="fa-solid fa-ghost"></i> これ何？</a></li>
+          <li><a href="setfiles.html"><i class="fa-solid fa-folder-open"></i> 検証済み.set一覧</a></li>
+          <li><a href="manual.html"><i class="fa-solid fa-file-contract"></i> 公式マニュアル和訳</a></li>
+          <li><a href="how-to-setup.html"><i class="fa-solid fa-circle-info"></i> 導入手順</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container hero-container">
+      <div class="hero-content">
+        <div class="speech-bubble">
+          <span class="emoji">📦</span> 「ネットに落ちてた設定ファイル、ここに置いておきますね」
+        </div>
+        <h1 class="hero-title">
+          DarkVenus 設定ファイル<br>
+          <span class="marker">勝手に集めた.set 置き場</span>
+        </h1>
+        <p class="hero-desc">
+          海外掲示板やSNSで拾ったDarkVenusの設定ファイルを自分用に整理した保管庫です。<br>
+          勝手に置いてるだけなので、必要な人は勝手に持っていってください〜<br>（※動作保証も責任も一切ナシ！）
+        </p>
+        <div class="hero-buttons">
+          <a href="#presets" class="btn btn-primary btn-bounce"><i class="fa-solid fa-download"></i>
+            拾い物.setファイル一覧を見る</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="lab-badge"><i class="fa-solid fa-triangle-exclamation"></i> ゆるい注意書き</div>
+        <div class="hero-stat-box">
+          <span class="stat-label">※本音のつぶやき</span>
+          <p style="font-size: 0.95rem; font-weight: 700; color: #4A5568; margin-top: 8px; line-height: 1.5;">
+            自分がリアル口座でガチ運用してる設定は非公開です（笑）。<br>
+            ここに置いてるのはあくまで「ネットで拾った平均的なやつ」「まぁまぁ見かける設定」です！
+          </p>
+        </div>
+        <div class="hero-card-tags">
+          <span class="tag">拾い物集約</span>
+          <span class="tag">勝手にDLどうぞ</span>
+          <span class="tag">破綻いっぱい</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ad Banner Placeholder (Header Top/Middle) -->
+  <div class="container my-3">
+    <div class="ad-placeholder">
+      <span class="ad-label">スポンサーリンク / 広告</span>
+      <div class="ad-box">
+        <!-- Google AdSense / アフィリエイトタグ設置エリア -->
+        <p><i class="fa-solid fa-rectangle-ad"></i> ここにGoogle AdSenseやバナー広告が入ります</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- About Section -->
+  <section id="about" class="section about-section">
+    <div class="container">
+      <div class="section-header center">
+        <span class="sub-title">WHAT IS THIS SITE?</span>
+        <h2>このサイトって何なの？</h2>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-card">
+          <div class="about-icon"><i class="fa-solid fa-file-code"></i></div>
+          <h3>そもそも「設定ファイル(.set)」って何？</h3>
+          <p>
+            EAの「ナンピン幅」や「ロット数」「利確pips」などのパラメータ数値をひとまとめに保存したデータファイルです。MT4で「読み込み」を押すだけで、面倒な数値入力が一瞬で完了します！
+          </p>
+        </div>
+        <div class="about-card">
+          <div class="about-icon"><i class="fa-solid fa-box-archive"></i></div>
+          <h3>ただの「拾い物ファイル置き場」です</h3>
+          <p>
+            海外のフォーラムやSNSで出回っているDarkVenusの.setファイルを、PCのローカルに眠らせておくのもアレなので勝手にアップして置いておくだけのサイトです。
+          </p>
+        </div>
+        <div class="about-card">
+          <div class="about-icon"><i class="fa-solid fa-face-laugh-wink"></i></div>
+          <h3>自分のガチ設定は別で使ってます(笑)</h3>
+          <p>
+            私が実際にリアル口座で資金を入れてぶん回しているオリジナル設定は別で大事に使っています。ここに置いてるのは「拾い物のスタンダードなやつ」です！
+          </p>
+        </div>
+        <div class="about-card">
+          <div class="about-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+          <h3>無料です（広告代でサーバー代回収中）</h3>
+          <p>
+            勝手に拾ってきたファイルなので当然無料です。サイト内の広告をクリックしてもらえると、このサーバー代の足しになるので助かります！
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Presets Download Section -->
+  <section id="presets" class="section presets-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="sub-title">ARCHIVED SETTINGS</span>
+        <h2>ネットで拾った .set ファイル一覧</h2>
+        <p>使ってみたいやつがあれば勝手にダウンロードして持っていってください。</p>
+      </div>
+
+      <div class="presets-grid">
+
+        <!-- Preset Card 1 -->
+        <div class="preset-card">
+          <div class="card-header">
+            <span class="pair-badge">EURUSD</span>
+            <span class="tf-badge">M5（5分足）</span>
+          </div>
+          <h3>DV_EURUSD_NetPickup_v1.set</h3>
+          <p class="card-desc">海外掲示板でよく見かける標準的なEURUSD設定。PFも爆発的ではないですが、そこそこ普通に動くやつです。</p>
+
+          <div class="card-specs">
+            <div class="spec-item">
+              <span class="spec-label">入手元</span>
+              <span class="spec-val">海外Forum拾い物</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">PF（プロフィットファクター）</span>
+              <span class="spec-val">1.25 前後（普通）</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">一言コメント</span>
+              <span class="spec-val">よくあるナンピン設定</span>
+            </div>
+          </div>
+
+          <div class="card-actions">
+            <a href="#" class="btn btn-download btn-block"
+              onclick="alert('サンプルダウンロード: .setファイルをダウンロードします'); return false;">
+              <i class="fa-solid fa-download"></i> .setファイルを勝手にDL
+            </a>
+            <button class="btn btn-outline btn-block mt-2" onclick="toggleDetails('detail-1')">
+              <i class="fa-solid fa-code"></i> 中身のパラメータを見る
+            </button>
+          </div>
+
+          <!-- Hidden Details -->
+          <div id="detail-1" class="preset-details hidden">
+            <h4>💡 パラメータメモ（拾った時のメモ）</h4>
+            <ul>
+              <li><strong>Max Orders:</strong> 10</li>
+              <li><strong>PipStep:</strong> 20</li>
+              <li><strong>Target Profit:</strong> 10 pips</li>
+            </ul>
+            <div class="bt-summary-box">
+              <p><strong>【バックテストの所感】</strong></p>
+              <p>特に特筆すべき神成績でもないですが、レンジ相場なら無難に増える感じの一般的な数値です。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Preset Card 2 -->
+        <div class="preset-card">
+          <div class="card-header">
+            <span class="pair-badge GBPUSD">GBPUSD</span>
+            <span class="tf-badge">M15（15分足）</span>
+          </div>
+          <h3>DV_GBPUSD_SNS_Shared.set</h3>
+          <p class="card-desc">SNSで流れてたポンドドル用設定。ボラティリティが大きい通貨ペアなのでドローダウンはそれなりにあります。</p>
+
+          <div class="card-specs">
+            <div class="spec-item">
+              <span class="spec-label">入手元</span>
+              <span class="spec-val">SNS共有の拾い物</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">PF（プロフィットファクター）</span>
+              <span class="spec-val">1.18 前後（荒め）</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">一言コメント</span>
+              <span class="spec-val">波が激しいです</span>
+            </div>
+          </div>
+
+          <div class="card-actions">
+            <a href="#" class="btn btn-download btn-block"
+              onclick="alert('サンプルダウンロード: .setファイルをダウンロードします'); return false;">
+              <i class="fa-solid fa-download"></i> .setファイルを勝手にDL
+            </a>
+            <button class="btn btn-outline btn-block mt-2" onclick="toggleDetails('detail-2')">
+              <i class="fa-solid fa-code"></i> 中身のパラメータを見る
+            </button>
+          </div>
+
+          <!-- Hidden Details -->
+          <div id="detail-2" class="preset-details hidden">
+            <h4>💡 パラメータメモ（拾った時のメモ）</h4>
+            <ul>
+              <li><strong>Max Orders:</strong> 12</li>
+              <li><strong>PipStep:</strong> 25</li>
+              <li><strong>Target Profit:</strong> 15 pips</li>
+            </ul>
+            <div class="bt-summary-box">
+              <p><strong>【バックテストの所感】</strong></p>
+              <p>利益が出るときは早いですがドローダウンも深め。デモ口座でのテスト推奨です。</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Ad Banner Placeholder (Middle) -->
+  <div class="container my-4">
+    <div class="ad-placeholder">
+      <span class="ad-label">スポンサーリンク / 広告</span>
+      <div class="ad-box">
+        <p><i class="fa-solid fa-rectangle-ad"></i> ここにGoogle AdSenseやバナー広告が入ります</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ Section (Chummy & Casual Q&A) -->
+  <section id="faq" class="section faq-section">
+    <div class="container">
+      <div class="section-header center">
+        <span class="sub-title">FAQ</span>
+        <h2>よくある質問（というかテキトーな回答）</h2>
+      </div>
+
+      <div class="faq-list">
+        <div class="faq-card">
+          <div class="faq-q">
+            <span class="q-badge">Q</span>
+            <h3>この設定ファイル使えば勝てますか？</h3>
+          </div>
+          <div class="faq-a">
+            <p><strong>A. 全然わかりません！(笑)</strong> 拾い物なので責任は持てないです。バックテストでPFがめちゃくちゃ良いわけでもないので、使うならデモやマイクロ口座で試してからにしてくださいね。
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-card">
+          <div class="faq-q">
+            <span class="q-badge">Q</span>
+            <h3>管理人のリアルで運用している設定は公開しないの？</h3>
+          </div>
+          <div class="faq-a">
+            <p><strong>A. 今のところ秘密です！</strong> 自分のリアル口座で試行錯誤して作った設定は思い入れがあるので内緒です。気が向いたら限定公開するかも…？</p>
+          </div>
+        </div>
+
+        <div class="faq-card">
+          <div class="faq-q">
+            <span class="q-badge">Q</span>
+            <h3>勝手にダウンロードして使っていいの？</h3>
+          </div>
+          <div class="faq-a">
+            <p><strong>A. どうぞどうぞ！自由に使ってください。</strong> 報告も連絡も要りません。もしサイトが役に立ったらたまに広告でもクリックしてもらえると嬉しいです。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Disclaimer Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          DarkVenus.set 勝手に置き場
+        </div>
+        <p class="disclaimer">
+          【免責事項】当サイトで配布している.setファイルは、インターネット上の各種掲示板やSNS等で収集した拾い物データです。管理人が動作や収益性を保証するものではありません。ダウンロードおよび実際の運用の結果生じた損害について、当サイトは一切の責任を負いません。すべて自己責任にてご利用ください。
+        </p>
+        <p class="copyright">
+          &copy; 2026 DarkVenus.set 勝手に置き場 All Rights Reserved.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+
+</html>

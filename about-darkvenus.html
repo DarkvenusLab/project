@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DarkVenusとは？特徴・ロジック・リスクとプロファイル評価【無料EA】</title>
+  <meta name="description"
+    content="10万DL超の無料人気EA「Dark Venus（ダークヴィーナス）」の特徴、ボリンジャーバンド×ナンピンロジック、月利ポテンシャルとドローダウンリスク、海外コミュニティでの評価まで徹底解説！">
+
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Zen+Maru+Gothic:wght@400;700;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .expert-box {
+      background: #F7FAFC;
+      border: 2px solid var(--secondary);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .expert-box h4 {
+      color: var(--secondary-hover);
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+    }
+
+    .risk-alert-box {
+      background: #FFF5F5;
+      border: 2px solid var(--primary);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .risk-alert-box h4 {
+      color: var(--primary);
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+    }
+
+    .badge-tag {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--text-main);
+      font-weight: 900;
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-right: 6px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="index.html" class="logo">
+        <span class="logo-badge">非公式・勝手に集積所</span>
+        <span class="logo-text">DarkVenus<span class="highlight">.set 置き場</span></span>
+      </a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html"><i class="fa-solid fa-house"></i> トップ（.set置き場）</a></li>
+          <li><a href="about-darkvenus.html" class="active"><i class="fa-solid fa-circle-info"></i> DarkVenusとは？</a>
+          </li>
+          <li><a href="how-to-setup.html"><i class="fa-solid fa-book-open"></i> 設定・導入方法</a></li>
+          <li><a href="manual.html"><i class="fa-solid fa-file-contract"></i> 公式マニュアル完全全訳</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Page Header -->
+  <section class="hero-section" style="padding: 40px 0 30px;">
+    <div class="container">
+      <div class="speech-bubble">
+        <span class="emoji">🤔</span> 「世界で10万DL超え！どんな特徴やポテンシャルがあるの？」
+      </div>
+      <h1 class="hero-title">
+        Dark Venus（ダークヴィーナス）とは？<br>
+        <span class="marker">特徴・ロジック・実運用リスクを深掘り解説</span>
+      </h1>
+      <p class="hero-desc">
+        MQL5マーケットで10万ダウンロード以上を誇る大人気無料EA「Dark Venus」の概要から、専門的な評価、月利ポテンシャルとドローダウンリスクまで分かりやすく解説します！
+      </p>
+    </div>
+  </section>
+
+  <!-- Ad Banner -->
+  <div class="container my-3">
+    <div class="ad-placeholder">
+      <span class="ad-label">スポンサーリンク / 広告</span>
+      <div class="ad-box">
+        <p><i class="fa-solid fa-rectangle-ad"></i> ここにGoogle AdSenseやバナー広告が入ります</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content Section -->
+  <section class="section">
+    <div class="container" style="max-width: 860px;">
+
+      <!-- Basic Intro -->
+      <div class="about-card mb-4" style="margin-bottom: 30px;">
+        <h3><i class="fa-solid fa-bolt" style="color: var(--accent-green);"></i> ざっくり言うとどんなEA？</h3>
+        <p style="margin-top: 10px; line-height: 1.8; color: var(--text-main); font-weight: 700;">
+          Dark Venus（ダークヴィーナス）は、MQL5マーケットで無料公開されている自動売買EA（Expert
+          Advisor）で、<strong>累計10万以上のダウンロード数を記録する超人気のスキャルピング・ナンピン自動売買ツール</strong>です。<br><br>
+          作者の <strong>Venus Labs（Carlo Pagani氏）</strong>
+          が手掛けるMT4/MT5対応のDarkシリーズの代表作であり、世界中のトレーダーに愛用されています。
+        </p>
+      </div>
+
+      <!-- Logic & Features -->
+      <div class="about-card mb-4" style="margin-bottom: 30px;">
+        <h3><i class="fa-solid fa-chart-line" style="color: var(--secondary);"></i> 主な取引ロジックと仕組み</h3>
+        <p style="margin-top: 10px; line-height: 1.7; font-weight: 700; color: var(--text-muted);">
+          このEAは、相場の行き過ぎを測るテクニカル指標<strong>ボリンジャーバンド（Bollinger Bands）</strong>をシグナルの基盤にして、回数多く取引を行い短期的な利益を狙います。
+        </p>
+        <ul style="padding-left: 20px; margin-top: 12px; line-height: 1.8; font-weight: 700; color: var(--text-main);">
+          <li><strong>ボリンジャーバンドエントリー:</strong> バンドの上限・下限突破などを合図に売買を開始（6通りの戦略を選択可能）。</li>
+          <li><strong>ナンピン・グリッド戦略:</strong>
+            相場が逆行した場合は、あらかじめ決めた値幅ごとにポジションを追加（ナンピン）し、平均取得価格を有利に引き寄せて決済を狙います。</li>
+          <li><strong>柔軟なカスタマイズ性:</strong> 取引時間帯の制限、曜日ごとの指定、金額や％指定での緊急全ストップ機能など設定項目が豊富です。</li>
+        </ul>
+      </div>
+
+      <!-- Professional Evaluation & Potential -->
+      <div class="expert-box">
+        <h4><i class="fa-solid fa-square-poll-vertical"></i> ポテンシャル</h4>
+        <p style="font-weight: 700; line-height: 1.8; color: var(--text-main); font-size: 0.95rem;">
+          Dark Venusの最大の強みは、<strong>「パラメータ設定の柔軟さ」</strong>と<strong>「バックテスト（過去検証）のしやすさ」</strong>にあります。<br>
+          <strong>手数料の安い低スプレッド口座（ECN口座など）で最適な設定を行えば、月利30%〜100%を目指せるポテンシャル</strong>を秘めています。<br>
+          <span style="color: var(--primary);">（※あくまでもポテンシャルの話です。高い月利を狙う設定ほど、口座が破綻するリスクも大幅に高まります。）</span>
+        </p>
+      </div>
+
+      <!-- Risks & Reddit Consensus -->
+      <div class="risk-alert-box">
+        <h4><i class="fa-solid fa-triangle-exclamation"></i> 【注意】最大の弱点と海外コミュニティでの注意点</h4>
+        <p style="font-weight: 700; line-height: 1.8; color: var(--text-main); font-size: 0.95rem;">
+          一方で、最大の弱点は<strong>一方的なトレンド相場に巻き込まれた際の含み損の大きさ</strong>です。相場が一方向に強く動き続けると、ナンピンポジションが積み上がり、口座残高がゼロになる破綻リスクがあります。<br><br>
+          海外のFXフォーラムやトレーダー仲間などの実際の声でも、<br>
+          <em style="color: var(--primary); font-style: normal;">「ロットやナンピン幅の設定さえ安全に組めば優秀だけど、欲を出して無理なパラメータで動かすとあっという間に口座が破綻する」</em><br>
+          といったリアルな警告が数多く見られます。
+        </p>
+      </div>
+
+      <!-- Money Management Guidance -->
+      <div class="about-card mb-4" style="background: #EDF2F7; border-color: #CBD5E0; margin-bottom: 30px;">
+        <h3><i class="fa-solid fa-shield-halved" style="color: var(--secondary-hover);"></i> 推奨される運用・リスク管理の鉄則</h3>
+        <ul style="padding-left: 20px; margin-top: 10px; line-height: 1.8; font-weight: 700; color: var(--text-main);">
+          <li><span class="badge-tag">デモ運用推奨</span> いきなりリアルマネーを入れるのではなく、最初は必ずデモ口座やマイクロ口座（少額口座）で試し動作を行ってください。</li>
+          <li><span class="badge-tag">リスク管理・損切り</span> 大切な資金を守るために、自分が許容できる損失額（口座資金の数％以内など）をあらかじめ決め、損切り（ストップロス）設定を入れて無理のない設定で運用しましょう。<br><small style="color: var(--text-muted); font-weight: normal;">（※あえて破綻覚悟でハイリスク・ハイリターンを狙う場合はストップロス無しで運用する人もいます）</small></li>
+        </ul>
+      </div>
+
+      <!-- Feature Comparison Grid -->
+      <div class="section-header" style="margin-top: 30px;">
+        <h2>メリットとデメリットまとめ</h2>
+      </div>
+
+      <div class="about-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 30px;">
+        <div class="about-card" style="border-color: var(--accent-green);">
+          <h3 style="color: var(--accent-green);"><i class="fa-solid fa-thumbs-up"></i> メリット</h3>
+          <ul
+            style="padding-left: 18px; margin-top: 10px; font-size: 0.9rem; font-weight: 700; line-height: 1.7; color: var(--text-muted);">
+            <li>完全無料で高機能（10万DL以上の実績）</li>
+            <li>パラメータが非常に豊富で自由にカスタマイズ可能</li>
+            <li>レンジ相場に強く、高頻度取引で勝率が高い</li>
+            <li>ECN口座＋低スプレッド環境で高い爆発力</li>
+          </ul>
+        </div>
+        <div class="about-card" style="border-color: var(--primary);">
+          <h3 style="color: var(--primary);"><i class="fa-solid fa-triangle-exclamation"></i> デメリット</h3>
+          <ul
+            style="padding-left: 18px; margin-top: 10px; font-size: 0.9rem; font-weight: 700; line-height: 1.7; color: var(--text-muted);">
+            <li>一方的なトレンドブレイクアウト相場に弱い</li>
+            <li>パラメータ（.set）が多すぎて初心者は設定に迷う</li>
+            <li>デフォルト設定のまま無茶なリスクをとると口座破綻する</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Call to Action -->
+      <div class="about-card" style="background: #FFFBEB; border-color: #FCD34D;">
+        <h3><i class="fa-solid fa-lightbulb" style="color: #F59E0B;"></i> まとめ：パラメータ設定次第で可能性は無限大！</h3>
+        <p style="margin-top: 8px; font-weight: 700; color: #4A5568; line-height: 1.8;">
+          Dark Venusは設定できるパラメータが非常に豊富なため、<strong>自分好みの戦略や新しいアイデア次第で無限の可能性を秘めたEA</strong>です！<br>
+          「どんな設定が良いか分からない…」「新しい設定のアイデアが欲しい！」という方は、他人が作成した設定ファイルをぜひ参考にしてみてください。<br>
+          海外やネット上の有志が作ったパラメータを見ることで、自分では思いつかなかった新しい設定のヒントやひらめきが見つかるかもしれません！
+        </p>
+        <div style="margin-top: 16px;">
+          <a href="index.html#presets" class="btn btn-primary"><i class="fa-solid fa-download"></i> 拾い物.setファイル一覧をヒントにする</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Ad Banner -->
+  <div class="container my-4">
+    <div class="ad-placeholder">
+      <span class="ad-label">スポンサーリンク / 広告</span>
+      <div class="ad-box">
+        <p><i class="fa-solid fa-rectangle-ad"></i> ここにGoogle AdSenseやバナー広告が入ります</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <p class="copyright">&copy; 2026 DarkVenus.set 勝手に置き場 All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+
+</html>

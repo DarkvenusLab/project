@@ -1,0 +1,20 @@
+1.Sell Above and Buy Below
+
+2.Buy Above and Sell Below
+
+3.Up Trend Buy and Down Trend Sell
+
+4.Down Trend Buy and Up Trend Sell
+
+5.Cross Up Central Band in Up Trend Buy
+
+6.Cross Down Central Band in Down Trend Buy
+
+
+Buy & Sell (片建て)
+
+Buy & Sell (両建て)
+
+
+Target Point
+Closing on Bollinger Bands

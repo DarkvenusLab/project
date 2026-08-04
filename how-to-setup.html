@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>【図解】DarkVenusの設置・設定・バックテスト方法</title>
+  <meta name="description"
+    content="無料EA「DarkVenus」の本体ダウンロード方法（MQL5ユーザー登録の注意点）から、.setファイルのバックテスト手順、MT4チャートへの設置・読み込みまで画像・図解付きでわかりやすく解説！">
+
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Zen+Maru+Gothic:wght@400;700;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .step-img-box {
+      margin: 16px 0;
+      text-align: center;
+      background: #F7FAFC;
+      border: 2px solid #E2E8F0;
+      border-radius: var(--radius-md);
+      padding: 10px;
+    }
+
+    .step-img-box img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .step-img-caption {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    .notice-box {
+      background: #FFF5F5;
+      border-left: 4px solid var(--primary);
+      padding: 12px 16px;
+      margin: 14px 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .notice-box h4 {
+      color: var(--primary);
+      margin-bottom: 4px;
+      font-size: 0.95rem;
+    }
+
+    .notice-box p {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #4A5568;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="index.html" class="logo">
+        <span class="logo-badge">非公式・勝手に集積所</span>
+        <span class="logo-text">DarkVenus<span class="highlight">.set 置き場</span></span>
+      </a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html"><i class="fa-solid fa-house"></i> トップ（.set置き場）</a></li>
+          <li><a href="about-darkvenus.html"><i class="fa-solid fa-circle-info"></i> DarkVenusとは？</a></li>
+          <li><a href="how-to-setup.html" class="active"><i class="fa-solid fa-book-open"></i> 設定・導入方法</a></li>
+          <li><a href="manual.html"><i class="fa-solid fa-file-contract"></i> 公式マニュアル完全全訳</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Page Header -->
+  <section class="hero-section" style="padding: 40px 0 30px;">
+    <div class="container">
+      <div class="speech-bubble">
+        <span class="emoji">🛠️</span> 「MQL5登録からバックテスト、チャート設置まで図解解説！」
+      </div>
+      <h1 class="hero-title">
+        Dark Venus 設置・バックテスト・設定方法<br>
+        <span class="marker">.setファイルの読み込み手順【完全版】</span>
+      </h1>
+      <p class="hero-desc">
+        Dark Venus本体の無料入手、拾った.setファイルのバックテスト方法、実際のMT4チャートへの読み込みまで流れに沿ってさらっと解説します！
+      </p>
+    </div>
+  </section>
+
+  <!-- Ad Banner -->
+  <div class="container my-3">
+    <div class="ad-placeholder">
+      <span class="ad-label">スポンサーリンク / 広告</span>
+      <div class="ad-box">
+        <p><i class="fa-solid fa-rectangle-ad"></i> ここにGoogle AdSenseやバナー広告が入ります</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step-by-Step Guide Section -->
+  <section class="section">
+    <div class="container" style="max-width: 860px;">
+
+      <!-- Step 1 -->
+      <div class="about-card mb-4" style="margin-bottom: 35px; position: relative;">
+        <span
+          style="position: absolute; top: -14px; left: 20px; background: var(--accent); color: var(--text-main); font-weight: 900; padding: 4px 12px; border-radius: 12px; border: 2px solid var(--text-main);">STEP
+          1</span>
+        <h3 style="margin-top: 10px;"><i class="fa-solid fa-cloud-arrow-down" style="color: var(--secondary);"></i> Dark
+          Venus本体（無料）をゲットする</h3>
+        <p style="margin-top: 10px; line-height: 1.8;">
+          Dark Venusは有料の商材ではなく、MQL5マーケット公式から<strong>誰でも無料</strong>でダウンロードできます。
+        </p>
+
+        <!-- Notice: MQL5 Registration -->
+        <div class="notice-box">
+          <h4><i class="fa-solid fa-triangle-exclamation"></i> 【重要】MQL5の無料ユーザー登録が必要です！</h4>
+          <p>
+            MT4のマーケットタブからEAをダウンロードするには、<strong>MQL5公式コミュニティの無料会員登録（アカウント作成）およびMT4へのログインが必須</strong>です。<br>
+          </p>
+        </div>
+
+        <ol style="padding-left: 20px; margin-top: 10px; line-height: 1.8; font-weight: 700; color: var(--text-muted);">
+          <li>お使いのMT4を起動し、上部メニュー「ツール」➔「オプション」➔「コミュニティ」タブからMQL5アカウントでログインします。</li>
+          <li>画面下の「ターミナル」ウィンドウから<strong>「マーケット」タブ</strong>を開きます。</li>
+          <li>検索窓に <strong>「Dark Venus」</strong> と入力して検索。</li>
+          <li>「無料ダウンロード」ボタンを押すと、自動的にMT4の「ナビゲーター」枠に追加されます！</li>
+        </ol>
+
+        <div class="step-img-box">
+          <img src="images/step1_1.png" alt="MQL5マーケットでのDark Venusダウンロード画面">
+          <p class="step-img-caption">📷 MT4画面下のマーケットタブからDark Venusを検索してダウンロード</p>
+        </div>
+
+        <div class="step-img-box">
+          <img src="images/step1_2.PNG" alt="Dark Venusのダウンロードボタン">
+          <p class="step-img-caption">📷 無料ダウンロードボタンを押すとMT4に自動インストールされます</p>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="about-card mb-4" style="margin-bottom: 35px; position: relative;">
+        <span
+          style="position: absolute; top: -14px; left: 20px; background: var(--accent); color: var(--text-main); font-weight: 900; padding: 4px 12px; border-radius: 12px; border: 2px solid var(--text-main);">STEP
+          2</span>
+        <h3 style="margin-top: 10px;"><i class="fa-solid fa-file-export" style="color: var(--primary);"></i> 当サイトから .set
+          ファイルを入手</h3>
+        <p style="margin-top: 10px; line-height: 1.8;">
+          トップページの「拾い物.set一覧」から、動かしてみたい通貨ペアや時間足の設定ファイル（拡張子が <code>.set</code> のファイル）をパソコンにダウンロード保存します。
+        </p>
+        <div style="margin-top: 12px;">
+          <a href="index.html#presets" class="btn btn-outline" style="font-size: 0.85rem;"><i
+              class="fa-solid fa-arrow-right"></i> .set置き場はこちら</a>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="about-card mb-4" style="margin-bottom: 35px; position: relative;">
+        <span
+          style="position: absolute; top: -14px; left: 20px; background: var(--accent); color: var(--text-main); font-weight: 900; padding: 4px 12px; border-radius: 12px; border: 2px solid var(--text-main);">STEP
+          3</span>
+        <h3 style="margin-top: 10px;"><i class="fa-solid fa-chart-line" style="color: #8B5CF6;"></i>
+          .set ファイルをバックテストで検証してみる</h3>
+        <p style="margin-top: 10px; line-height: 1.8;">
+          リアル口座やデモ口座に適用する前に、まずはMT4の「ストラテジーテスター」を使って過去データでテスト（バックテスト）してみることを強くおすすめします！
+        </p>
+        <ol style="padding-left: 20px; margin-top: 10px; line-height: 1.8; font-weight: 700; color: var(--text-muted);">
+          <li>MT4上部メニューの「表示」➔「ストラテジーテスター」（または <code>Ctrl + R</code>）を開きます。</li>
+          <li>エキスパートアドバイザー項目で <strong>「Dark Venus」</strong> を選択。</li>
+          <li>テストしたい通貨ペア・時間足・期間（例: 過去1年間など）を設定します。</li>
+          <li><strong>「エキスパート設定」ボタン</strong>を押し、「パラメーターの入力」タブで<strong>「読み込み」</strong>をクリックし、入手した <code>.set</code>
+            ファイルを読み込ませます。</li>
+          <li>「スタート」ボタンを押すとバックテストが開始され、右肩上がりのグラフになるか確認できます！</li>
+        </ol>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="about-card mb-4" style="margin-bottom: 35px; position: relative;">
+        <span
+          style="position: absolute; top: -14px; left: 20px; background: var(--accent); color: var(--text-main); font-weight: 900; padding: 4px 12px; border-radius: 12px; border: 2px solid var(--text-main);">STEP
+          4</span>
+        <h3 style="margin-top: 10px;"><i class="fa-solid fa-sliders" style="color: var(--accent-green);"></i>
+          実際のMT4チャートに読み込ませる（本番・デモ稼働）</h3>
+        <p style="margin-top: 10px; line-height: 1.8;">
+          いよいよ実際のチャートにDark Venusと.setファイルをセットして自動売買を開始します！
+        </p>
+        <ol style="padding-left: 20px; margin-top: 10px; line-height: 1.8; font-weight: 700; color: var(--text-muted);">
+          <li>運用したい通貨ペア（例：EURUSD）の指定時間足チャートを開きます。</li>
+          <li>MT4のナビゲーター枠から「Dark Venus」を開いたチャートへドラッグ＆ドロップ！</li>
+          <li>設定画面が開いたら、<strong>「全般」タブで「自動売買を許可する」にチェック</strong>を入れます。</li>
+          <li><strong>「パラメーターの入力」タブ</strong>を開き、右側にある<strong>「読み込み」ボタン</strong>をクリック！</li>
+          <li>入手した <code>.set</code> ファイルを選択して「OK」を押せば設定完了です！</li>
+        </ol>
+
+        <div class="step-img-box">
+          <img src="images/step4_1.png" alt="EAのパラメーター読み込み画面">
+          <p class="step-img-caption">📷 「パラメーターの入力」タブの「読み込み」ボタンから.setファイルを適用します</p>
+        </div>
+      </div>
+
+      <!-- Troubleshooting -->
+      <div class="about-card" style="background: #FFFBEB; border-color: #FCD34D;">
+        <h3><i class="fa-solid fa-circle-question" style="color: #F59E0B;"></i> トラブルシューティング：動かない時は？</h3>
+        <ul
+          style="padding-left: 18px; margin-top: 10px; font-size: 0.9rem; font-weight: 700; line-height: 1.7; color: var(--text-muted);">
+          <li><strong>チャート右上の顔マークが悲しい顔（ニコニコしていない）:</strong> MT4上部の「自動売買」ボタンがON（緑色）になっているか確認してください。</li>
+          <li><strong>勝手に取引が始まらない:</strong> エントリー条件（ボリンジャーバンド突破）を満たすまで待機状態です。気長に待ちましょう！</li>
+          <li><strong>MQL5ログインエラーが出る:</strong> MT4の「ツール」➔「オプション」➔「コミュニティ」でログインパスワードを再入力してください。</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Ad Banner -->
+  <div class="container my-4">
+    <div class="ad-placeholder">
+      <span class="ad-label">スポンサーリンク / 広告</span>
+      <div class="ad-box">
+        <p><i class="fa-solid fa-rectangle-ad"></i> ここにGoogle AdSenseやバナー広告が入ります</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <p class="copyright">&copy; 2026 DarkVenus.set 勝手に置き場 All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+
+</html>

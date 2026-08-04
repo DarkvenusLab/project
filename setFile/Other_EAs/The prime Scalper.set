@@ -1,0 +1,47 @@
+INFO1====== Volume ==============================
+LotsSize=0.00000000
+LotsSize,F=0
+LotsSize,1=0.00000000
+LotsSize,2=0.00000000
+LotsSize,3=0.00000000
+INFO_=----------------------------------------------
+LotsPer1000=0.20000000
+LotsPer1000,F=0
+LotsPer1000,1=0.20000000
+LotsPer1000,2=0.00000000
+LotsPer1000,3=0.00000000
+MinLots=0.01000000
+MinLots,F=0
+MinLots,1=0.01000000
+MinLots,2=0.00000000
+MinLots,3=0.00000000
+MaxLots=0.01000000
+MaxLots,F=0
+MaxLots,1=60.00000000
+MaxLots,2=0.00000000
+MaxLots,3=0.00000000
+INFO2====== Protection ============================
+def_MaxSpread=2.80000000
+def_MaxSpread,F=0
+def_MaxSpread,1=1.50000000
+def_MaxSpread,2=0.00000000
+def_MaxSpread,3=0.00000000
+INFO3====== Confirmation ==========================
+RSI_PARAM=80
+RSI_PARAM,F=0
+RSI_PARAM,1=80
+RSI_PARAM,2=0
+RSI_PARAM,3=0
+ICHIMOKU_PARAM=12, 28, 50
+def_SL=3.60000000
+def_SL,F=0
+def_SL,1=3.60000000
+def_SL,2=0.00000000
+def_SL,3=0.00000000
+INFO4====== More ===============================
+MyMagicNumber=202008
+MyMagicNumber,F=0
+MyMagicNumber,1=202008
+MyMagicNumber,2=0
+MyMagicNumber,3=0
+Comment=PriceActionScalping.Com

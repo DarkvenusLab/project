@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dark Venus 公式マニュアル（参考訳）</title>
+  <meta name="description" content="無料EA「Dark Venus」の開発者公式英文マニュアル（Dark Venus Full strategy explanation）をゆる〜く参考訳しました！パラメータの確認程度にご活用ください。">
+
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Zen+Maru+Gothic:wght@400;700;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .manual-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0 24px;
+      background: #FFF;
+      border: 2px solid var(--text-main);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .manual-table th,
+    .manual-table td {
+      padding: 12px 16px;
+      border: 1px solid #E2E8F0;
+      font-size: 0.95rem;
+    }
+
+    .manual-table th {
+      background: #EDF2F7;
+      font-weight: 900;
+      color: var(--text-main);
+      text-align: left;
+    }
+
+    .manual-table td.param-name {
+      font-weight: 900;
+      color: var(--secondary-hover);
+      white-space: nowrap;
+    }
+
+    .note-box {
+      background: #FFFBEB;
+      border-left: 4px solid var(--accent);
+      padding: 12px 16px;
+      margin: 12px 0;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #4A5568;
+    }
+
+    .formula-box {
+      background: #F7FAFC;
+      border: 2px solid #CBD5E0;
+      border-radius: 8px;
+      padding: 14px;
+      font-family: monospace;
+      font-size: 0.95rem;
+      margin: 12px 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="index.html" class="logo">
+        <span class="logo-badge">非公式・勝手に集積所</span>
+        <span class="logo-text">DarkVenus<span class="highlight">.set 置き場</span></span>
+      </a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html"><i class="fa-solid fa-house"></i> トップ</a></li>
+          <li><a href="setfiles.html"><i class="fa-solid fa-folder-open"></i> 検証済み.set一覧</a></li>
+          <li><a href="manual.html" class="active"><i class="fa-solid fa-file-contract"></i> 公式マニュアル和訳</a></li>
+          <li><a href="how-to-setup.html"><i class="fa-solid fa-book-open"></i> 導入方法</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Page Header -->
+  <section class="hero-section" style="padding: 40px 0 30px;">
+    <div class="container">
+      <div class="speech-bubble">
+        <span class="emoji">📖</span> 「英語マニュアルをざっくり日本語に訳してみたよ！」
+      </div>
+      <h1 class="hero-title">
+        Dark Venus 戦略マニュアル<br>
+        <span class="marker">【公式PDFの参考訳メモ】</span>
+      </h1>
+      <p class="hero-desc">
+        開発者（Carlo Pagani氏）が公開している『Dark Venus Full strategy explanation』のざっくり日本語訳です。<br>
+        ※個人の翻訳メモ程度なので、あまり当てにせずパラメータ確認の参考程度にご覧くださいね！
+      </p>
+    </div>
+  </section>
+
+  <!-- Ad Banner -->
+  <div class="container my-3">
+    <div class="ad-placeholder">
+      <span class="ad-label">スポンサーリンク / 広告</span>
+      <div class="ad-box">
+        <p><i class="fa-solid fa-rectangle-ad"></i> ここにGoogle AdSenseやバナー広告が入ります</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Manual Body -->
+  <section class="section">
+    <div class="container" style="max-width: 960px;">
+
+      <!-- Top Recommendation -->
+      <div class="about-card mb-4" style="background: #FEFCBF; border-color: #ECC94B; margin-bottom: 30px;">
+        <h3><i class="fa-solid fa-thumbs-up" style="color: #D69E2E;"></i> 当マニュアルの特徴とご利用のアドバイス</h3>
+        <ul style="margin-top: 10px; padding-left: 20px; line-height: 1.8; font-weight: 700; color: #744210;">
+          <li><strong>マニュアル未記載の最新機能・設定も網羅！:</strong> 原本の公式PDFには掲載されていない最新の入力パラメータ（ATRナンピン間隔設定や詳細な損切り停止制御、表示系オプションなど）も、実際の画面を基に補完・追加解説しています。</li>
+          <li><strong>実際のバックテストで挙動確認を推奨:</strong> パラメータの組み合わせによって挙動やリスクが大きく変化します。まずはMT4/MT5の「ストラテジーテスター」でバックテストを行い、実際の挙動や取引ルールをご自身で確かめてから運用することをおすすめします！</li>
+          <li><strong>推奨時間足（タイムフレーム）:</strong> 適切な設定を行えば <strong>M5（5分足）</strong>、<strong>M15（15分足）</strong> をはじめ、その他のすべての時間足で使用できます。</li>
+          <li><strong>推奨通貨ペア:</strong> <strong>EURUSD、GBPUSD、AUDUSD、USDCAD</strong> など幅広く対応可能です。</li>
+          <li><strong>口座環境 & 通信環境:</strong> 取ッチの少ない <strong>ECN口座</strong> および 24時間安定した <strong>VPS（仮想サーバー）</strong> での稼働を強く推奨します。</li>
+        </ul>
+      </div>
+
+      <!-- Chapter Index -->
+      <div class="about-card mb-4" style="margin-bottom: 40px;">
+        <h3><i class="fa-solid fa-list-ol"></i> 目次</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; font-weight: 700;">
+          <div><a href="#part1" style="color: var(--secondary);">1. 基本設定＆資金管理</a></div>
+          <div><a href="#part2" style="color: var(--secondary);">2. ボリンジャーバンド6大戦略</a></div>
+          <div><a href="#part3" style="color: var(--secondary);">3. 取引時間・曜日・方向フィルター</a></div>
+          <div><a href="#part4" style="color: var(--secondary);">4. ナンピン(グリッド)設定の詳細</a></div>
+          <div><a href="#part5" style="color: var(--secondary);">5. 決済ルール＆利確ターゲット</a></div>
+          <div><a href="#part6" style="color: var(--secondary);">6. 損失許容＆トレイリングストップ</a></div>
+          <div><a href="#part7" style="color: var(--secondary);">7. 金曜日決済＆画面表示・最適化</a></div>
+          <div><a href="#part8" style="color: var(--secondary);">8. 動作環境＆免責事項</a></div>
+        </div>
+      </div>
+
+      <!-- PART 1 -->
+      <div id="part1" class="about-card mb-4" style="margin-bottom: 40px;">
+        <h2>1. 基本設定＆資金管理 (BASIC SETTINGS & MONEY MANAGEMENT)</h2>
+
+        <table class="manual-table">
+          <thead>
+            <tr>
+              <th>設定項目名</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="param-name">Magic Number</td>
+              <td>注文を識別するための固有ID番号。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Max Spread</td>
+              <td>取引を許可する最大スプレッド（Points単位）。許容値を超えると新規注文を行いません。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Lots</td>
+              <td>資金管理機能が無効（false）の場合に使用される固定ロット数。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Money Management</td>
+              <td>trueに設定すると、口座残高に応じた自動資金管理機能を有効化します。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Risk Percent</td>
+              <td>資金管理が有効な場合、口座残高に対して何％のリスクを取ってロット数を計算するかを指定します。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Max Lot Amount</td>
+              <td>EAが開くことができる最大ロット数の上限。0に設定すると制限なしになります。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PART 2 -->
+      <div id="part2" class="about-card mb-4" style="margin-bottom: 40px;">
+        <h2>2. インジケーター設定＆ボリンジャーバンド6大戦略 (BOLLINGER BANDS)</h2>
+        <p style="font-weight: 700; color: var(--text-muted); margin-bottom: 16px;">
+          【基本原理】初回注文（1本目）はボリンジャーバンドインジケーターに基づいて開かれます。その他のすべての設定はフィルターおよびポジション管理として機能します。
+        </p>
+
+        <table class="manual-table">
+          <thead>
+            <tr>
+              <th>項目名</th>
+              <th>設定内容・解説</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="param-name">Enable Bollinger Bands</td>
+              <td>trueでボリンジャーバンドインジケーターを有効化。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Moment of the signal</td>
+              <td>
+                シグナル判定のタイミングを指定。<br>
+                ・<strong>bar close price:</strong> 前のローソク足の終値で判定。<br>
+                ・<strong>Current Price:</strong> 現在進行中のローソク足価格でリアルタイム判定。
+              </td>
+            </tr>
+            <tr>
+              <td class="param-name">Bollinger Bands Period</td>
+              <td>ボリンジャーバンドの計算期間（標準は20）。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Bollinger Bands Deviations</td>
+              <td>上限・下限バンドの標準偏差（Deviations）。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Bollinger Bands Price</td>
+              <td>ボリンジャーバンドの計算に使用する価格タイプ（Close, Open, High, Lowなど）。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Bollinger Bands Timeframe</td>
+              <td>インジケーターを適用する時間足。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>💡 6つのボリンジャーバンド戦略（Bollinger Bands Strategies）</h3>
+        <p style="font-size: 0.9rem; font-weight: 700; color: var(--text-muted); margin-bottom: 12px;">
+          ※開発者アドバイス: チャートにボリンジャーバンドを表示させてバックテストしてみると挙動がわかりやすいです。
+        </p>
+
+        <ol style="padding-left: 20px; font-weight: 700; line-height: 1.8; color: var(--text-main);">
+          <li>
+            <strong>Sell Above and Buy Below（逆張り）:</strong><br>
+            ローソク足が上限バンドを上に突破したら「売り（Sell）」、下限バンドを下に突破したら「買い（Buy）」を発注。
+          </li>
+          <li>
+            <strong>Buy Above and Sell Below（順張り・ブレイクアウト）:</strong><br>
+            上記と逆ルール。上限バンド突破で「買い」、下限バンド突破で「売り」を発注。
+          </li>
+          <li>
+            <strong>Up Trend Buy and Down Trend Sell（トレンド順張り）:</strong><br>
+            中央線（ミドルバンド）を考慮し、上昇トレンドで「買い」、下降トレンドで「売り」を発注。
+          </li>
+          <li>
+            <strong>Down Trend Buy and Up Trend Sell（カウンターカレント逆張り）:</strong><br>
+            トレンドと逆方向にエントリー。レンジ相場に有効な設定。
+          </li>
+          <li>
+            <strong>Cross Up Central Band in Up Trend Buy（条件交差型）:</strong><br>
+            価格が中央線を注文方向に強い大陽線でブレイクした瞬間にエントリー。<br>
+            <small style="color: var(--primary); font-weight: normal;">※（注意）戦略5と戦略6の細かいロジックやニュアンスは、実際のプログラムの挙動と翻訳解釈で認識が異なる可能性があります。デモやバックテストで挙動をご確認ください。</small>
+          </li>
+          <li>
+            <strong>Cross Down Central Band in Down Trend Buy:</strong><br>
+            上記と逆に、下降ブレイクした瞬間にエントリー。<br>
+            <small style="color: var(--primary); font-weight: normal;">※（注意）こちらも同様に解釈が異なる場合があるため、バックテスト等での事前検証を推奨します。</small>
+          </li>
+        </ol>
+      </div>
+
+      <!-- PART 3 -->
+      <div id="part3" class="about-card mb-4" style="margin-bottom: 40px;">
+        <h2>3. 取引時間・曜日・方向フィルター (FILTERS)</h2>
+        <div class="note-box">
+          注: フィルターは「最初の1注文目（初回エントリー）」にのみ影響します。ナンピン追加注文は、指定された条件に従って自動実行されます。
+        </div>
+
+        <table class="manual-table">
+          <thead>
+            <tr>
+              <th>設定項目</th>
+              <th>詳細と挙動</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="param-name">Enable Time Filter</td>
+              <td>trueで時間フィルターを有効化。falseの場合は24時間取引します。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Trading Start / Stop Hour & Minute</td>
+              <td>稼働開始・終了の「時」および「分」を指定します。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Close everything Out of hours</td>
+              <td>trueにすると、指定した稼働時間帯の終了時にすべての注文を強制クローズします。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Monday 〜 Sunday</td>
+              <td>曜日ごとの取引可否（true / false）。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Allow Buy / Allow Sell</td>
+              <td>買い注文 / 売り注文の許可。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Allow Buy and Sell at the same time</td>
+              <td>
+                trueの場合、買いと売りを同時に保有可能（両建て）。<br>
+                falseの場合、片方のポジションがある間は逆の注文を開きません。
+              </td>
+            </tr>
+            <tr>
+              <td class="param-name">Allow Order From others charts at same time</td>
+              <td>
+                trueの場合、他チャートからの注文と同時の取引を許可。<br>
+                falseの場合、他のチャートで注文がある間は発注を制限します。
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PART 4 -->
+      <div id="part4" class="about-card mb-4" style="margin-bottom: 40px;">
+        <h2>4. ナンピン(グリッド)設定の詳細 (GRID SETTINGS)</h2>
+
+        <table class="manual-table">
+          <thead>
+            <tr>
+              <th>パラメータ名</th>
+              <th>機能説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="param-name">Max Orders Buy / Sell</td>
+              <td>買い・売りそれぞれの最大ナンピン回数上限。</td>
+            </tr>
+            <tr>
+              <td class="param-name">One Trade Bar</td>
+              <td>trueにすると、1つのローソク足につき最大1回しか初回注文を開きません。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Do Not Open Orders if there is Closed Order on Current Bar</td>
+              <td>現在のローソク足内ですでに決済された注文がある場合、同じ足内での再発注を禁止します。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Enable Grid</td>
+              <td>trueでナンピン機能を有効化。false（無効）にする場合は、損切り（Stop Loss）の設定を推奨します。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Grid Management</td>
+              <td>ナンピン時のロット計算方式（Fix / Lots sum / All Lots Sum / Martingale）。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Coefficient Grid Management</td>
+              <td>ロット加算やマーチンゲール計算時に使用する係数・倍率（例: 1.0, 1.5, 2.0等）。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Min Distance (for the grid orders)</td>
+              <td>次のナンピン注文を開くために必要な最小値幅距離（Points指定）。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Min Distance Multiplier</td>
+              <td>ナンピン回数が増えるごとに、ナンピン間隔距離（Min Distance）に乗算する倍率。</td>
+            </tr>
+            <tr>
+              <td class="param-name">One Trade Bar Grid</td>
+              <td>trueにすると、1つのローソク足の中で最大1回しかナンピン追加注文を開きません。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Min Distance On Atr</td>
+              <td>trueにすると、相場のボラティリティ（平均ボラティリティ指標：ATR）に応じて動的にナンピン間隔を調整する機能を有効化します。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Atr Period</td>
+              <td>ATR（Average True Range）の計算期間（標準値: 9）。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Atr Multiplier</td>
+              <td>算出されたATR値に乗算する倍率（例: 2.0 の場合、ATR値の2倍をナンピン距離として使用）。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Atr Timeframe</td>
+              <td>ATRを計算するための基準時間足（currentはチャートと同じ時間足）。</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>💡 4種類のナンピン・ロット計算方式</h3>
+        <ul
+          style="padding-left: 20px; font-weight: 700; line-height: 1.8; color: var(--text-main); margin-bottom: 16px;">
+          <li>
+            <strong>1. Fix（固定ロット）:</strong> すべてのナンピン注文を初期ロットと同じ固定数で発注。
+          </li>
+          <li>
+            <strong>2. Lots sum（ロット加算）:</strong> 初期ロット ＋（ベースロット × 係数）を加算。<br>
+            <em>例: 0.01, 0.02, 0.03, 0.04 ...</em>
+          </li>
+          <li>
+            <strong>3. All Lots Sum（全オーダー加算）:</strong> 保有中の全ポジション数をカウントして計算。
+          </li>
+          <li>
+            <strong>4. Martingale（マーチンゲール・倍々）:</strong> 前のロット数に倍率を掛け算。<br>
+            <em>例: 倍率2.0の場合 → 0.01, 0.02, 0.04, 0.08, 0.16 ...</em>
+          </li>
+        </ul>
+
+        <h3>💡 ナンピン間隔の計算（Min Distance & Multiplier）</h3>
+        <p style="font-weight: 700; line-height: 1.7; color: var(--text-muted);">
+          ▪ <strong>Min Distance:</strong> 次のナンピンを開く最小距離（Points指定）。<br>
+          ▪ <strong>Min Distance Multiplier:</strong> ナンピンが進むごとの距離の倍率。<br>
+          <em>例: 初期が100 pointsで、倍率が1.5の場合：</em>
+        </p>
+        <div class="formula-box">
+          ・1回目のナンピン: 100 points離れた位置<br>
+          ・2回目のナンピン: 150 points離れた位置 (100 * 1.5)<br>
+          ・3回目のナンピン: 225 points離れた位置 (150 * 1.5)
+        </div>
+      </div>
+
+      <!-- PART 5 -->
+      <div id="part5" class="about-card mb-4" style="margin-bottom: 40px;">
+        <h2>5. 決済ルール＆利確ターゲット (TARGET SETTINGS)</h2>
+
+        <table class="manual-table">
+          <thead>
+            <tr>
+              <th>設定パラメータ</th>
+              <th>仕様解説</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="param-name">Enable Closing on Bollinger Bands</td>
+              <td>ボリンジャーバンドの条件に合わせて途中で自動決済する機能を有効化。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Closure Type</td>
+              <td>
+                ・<strong>Close on Opposite signal:</strong> 逆方向のシグナル発生で一括決済。<br>
+                ・<strong>Close on Central Band:</strong> 価格が中央線に達した時点で決済。
+              </td>
+            </tr>
+            <tr>
+              <td class="param-name">Take Target</td>
+              <td>全ポジションの利益確定目標（Points指定）。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Different Take Target for first order</td>
+              <td>ポジションが1つ（最初の1本目）だけの場合に別の利確目標を使うかどうか。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Stop Target Mode</td>
+              <td>
+                ・<strong>Default:</strong> 保有ポジションの「平均価格（加重平均）」から指定ポイント離れた位置に損切り（SL）を配置。<br>
+                ・<strong>First Order:</strong> 最初の「1本目のエントリー価格」から指定ポイント離れた位置に損切り（SL）を配置。<br>
+                ・<strong>Disabled:</strong> 損切り（Stop Loss）機能を完全に無効化します。
+              </td>
+            <tr>
+              <td class="param-name">Close Trades Only at End Of Bar</td>
+              <td>trueにすると、利確・決済判定をリアルタイムではなく「ローソク足が確定したタイミング（終値）」のみで行うよう制限します。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Close Mode（決済計算方式）</td>
+              <td>
+                a) <strong>Average Point:</strong> 単純平均価格。<br>
+                b) <strong>Average Point Weighted:</strong> ロット数の大きさを考慮した平均価格。<br>
+                c) <strong>Breakeven:</strong> 損益0（建値）になった時点で決済。<br>
+                d) <strong>Fix Point:</strong> 固定金銭額で計算して決済。
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PART 6 -->
+      <div id="part6" class="about-card mb-4" style="margin-bottom: 40px;">
+        <h2>6. 損失許容＆トレイリングストップ (LOSS & TRAILING)</h2>
+
+        <table class="manual-table">
+          <thead>
+            <tr>
+              <th>設定項目</th>
+              <th>詳細説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="param-name">Enable Monetary Stop Loss</td>
+              <td>指定した「金額（最大許容損失額）」に達した時に全決済する保護機能を有効化。</td>
+            </tr>
+            <tr>
+              <td class="param-name">If true, Multiply Monetary Stop Loss Amount*Start Lot size*100</td>
+              <td>
+                trueにすると、設定した許容損失額を「初期ロット数（Start Lot）」に応じて自動で倍率調整します。<br>
+                <em>（解説：例えば初期ロットが0.01ではなく0.02や0.05に増えた時、許容損失額も同じ比率で自動拡張してくれる便利機能です。基本はfalseで固定金額指定でもOKです）</em>
+              </td>
+            </tr>
+            <tr>
+              <td class="param-name">Stop EA after Monetary loss</td>
+              <td>最大損失（許容損失）に達して全決済が行われた後、EAの新規エントリー（新規稼働）を停止します。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Enable Close In Percentage Loss</td>
+              <td>口座残高の「パーセンテージ（％）」での自動損切り決済機能を有効化。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Stop EA After Percentage Loss</td>
+              <td>パーセンテージ損切りが行われた後、EAの新規エントリー（新規稼働）を停止します。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Loss Amount in Percentage</td>
+              <td>許容する最大損失割合（％指定。例: 30 で口座残高の30％損切り）。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Enable Average Trailing Stop</td>
+              <td>平均エントリー価格に基づいたトレイリングストップ（追従決済）機能を有効化。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Only In Profit</td>
+              <td>trueにすると、ポジション合計損益がプラス（含み益）になった場合のみトレイリングストップを開始します。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Broker Commission</td>
+              <td>
+                決済価格の計算に考慮するブローカー手数料（1ロットあたりの手数料ポイント）。<br>
+                <small style="color: var(--primary); font-weight: normal;">※（補足）実際のトレード検証上、この設定値が実際の決済処理に影響を与えていない（直接関係していない）可能性があります。</small>
+              </td>
+            </tr>
+            <tr>
+              <td class="param-name">Average Trailing Stop Value</td>
+              <td>トレイリングストップの追従距離（Points指定。例: 50 points）。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Average Trailing Step Value</td>
+              <td>価格がいくら動いたらトレイリングストップ位置を更新（追従）するかというステップ幅（Points指定）。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PART 7 -->
+      <div id="part7" class="about-card mb-4" style="margin-bottom: 40px;">
+        <h2>7. 金曜日決済＆画面表示・最適化 (CLOSE SETTINGS & GRAPHIC)</h2>
+
+        <table class="manual-table">
+          <thead>
+            <tr>
+              <th>設定項目</th>
+              <th>機能解説</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="param-name">Freezes All Friday / Freezes Hour</td>
+              <td>指定した金曜日の時間以降、EAの動作を停止します。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Close Friday Night / Close Friday Hour</td>
+              <td>
+                週末の持ち越しを防ぐため、金曜夜に利益が出ている注文のみを決済します。
+              </td>
+            </tr>
+            <tr>
+              <td class="param-name">Forced Close Friday Night / Forced Close Friday Hour</td>
+              <td>含み損が出ている注文であっても、指定した金曜夜の時間に強制全決済します。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Show Panel / Show Button</td>
+              <td>チャート上に情報パネルや手動一括決済ボタンを表示するかどうかを切り替えます。</td>
+            </tr>
+            <tr>
+              <td class="param-name">Custom Chart</td>
+              <td>チャート画面の背景色やカラーテーマをDarkVenus仕様のカスタム配色に変更・表示します。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PART 8 -->
+      <div id="part8" class="about-card mb-4" style="background: #EDF2F7; border-color: #CBD5E0;">
+        <h2>8. 動作環境＆免責事項 (RECOMMENDATIONS & DISCLAIMER)</h2>
+
+        <h3>💻 稼働環境について</h3>
+        <p style="font-weight: 700; line-height: 1.8; color: var(--text-main);">
+          自動売買を正常に動かすには、MT4が24時間常に動いている必要があります。<br>
+          ご自宅のPCをつけっぱなしにするか、通信が安定しているVPS（仮想サーバー）の利用をおすすめします。
+        </p>
+
+        <h3 style="margin-top: 20px; color: var(--primary);">⚠️ 免責事項</h3>
+        <p style="font-size: 0.85rem; font-weight: 700; line-height: 1.7; color: var(--text-muted);">
+          本ページの内容は、海外の公式英文マニュアルを個人が個人的に翻訳・まとめた参考メモです。翻訳の正確性を保証するものではなく、いかなる投資助言・勧誘を行うものでもありません。FX取引や自動売買には大きなリスクが伴いますので、取引の判断はすべてご自身の責任で行ってください。本情報によって生じた損害等について、当サイトは一切の責任を負いません。
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Ad Banner -->
+  <div class="container my-4">
+    <div class="ad-placeholder">
+      <span class="ad-label">スポンサーリンク / 広告</span>
+      <div class="ad-box">
+        <p><i class="fa-solid fa-rectangle-ad"></i> ここにGoogle AdSenseやバナー広告が入ります</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <p class="copyright">&copy; 2026 DarkVenus.set 勝手に置き場 All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,317 @@
+=== PAGE 1 ===
+Recommendations 
+Having low spreads is very important, a high spread, can totally compromises your trading, it can transform 
+winnings into ->->->->-> losses 
+For all Expert Advisor an ECN broker is strongly recommended, you can use: 
+https://roboforex.com/?a=syok 
+ 
+ 
+ 
+Dark Venus Full strategy explanation 
+ 
+BASIC SETTINGS 
+▪ Magic Number: ID number of the orders. 
+▪ Max Spread: maximum spread to trade. 
+Money Management Settings 
+▪ Lots: number of lots, if the money management option is disabled. 
+▪ Money Management: if true enables the money management option.  
+▪ Risk Percent: if the money management option is enabled, it indicates the risk amount, based 
+on your account balance. 
+▪ Max Lot Amount: the EA cannot open a lot larger than this (put 0 for disable) 
+Indicators Settings 
+Bollinger Bands 
+▪ Enable Bollinger Bands: if true, enable Bollinger Bands indicator 
+▪ Bollinger Bands Strategies: This parameter is complex and will be explained in the next 
+section (go below) 
+▪ Moment of the signal: “bar close price” The previous bar will be considered for each signal 
+“Current Price” the current Bar Price (or bid) will be considered for each signal 
+▪ Bollinger Bands Period: periods of the Bollinger Bands indicator. 
+▪ Bollinger Bands Deviations: Standard Deviations for Bollinger Bands Upper and Lower Band 
+▪ Bollinger Bands Price: Price to calculate Bollinger Bands indicator 
+▪ Bollinger Bands Timeframe: timeframe for apply the Bollinger Bands indicator. 
+Trading Hour 
+▪ Enable Time Filter: if true, enables the time filter (if false, EA can trade during any hour) 
+▪ Trading Start Hour: operating start Hour 
+▪ Trading Start Minute: operating start minutes 
+▪ Trading Stop Hours: operating end Hour 
+▪ Trading Stop Minute: operating end minutes 
+▪ Close everything Out of hours: close all orders at the end of the timetable. 
+=== PAGE 2 ===
+Note: By default, grid operations don't have to respect trading hours, to change this, go to grid 
+settings 
+Trading Days 
+▪ Monday: if true, Trading on this Day is allowed. 
+▪ Tuesday: if true, Trading on this Day is allowed. 
+▪ Wednesday: if true, Trading on this Day is allowed. 
+▪ Thursday: if true, Trading on this Day is allowed. 
+▪ Friday: if true, Trading on this Day is allowed. 
+▪ Saturday: if true, Trading on this Day is allowed. 
+▪ Sunday: if true, Trading on this Day is allowed. 
+Note: By default, grid operations don't have to respect trading days, to change this, go to grid 
+settings 
+Trading Directions 
+▪ Allow Buy: if true, Ea can trade with buy orders. 
+▪ Allow Sell: if true, Ea can trade with sell orders. 
+▪ Allow Buy and Sell at the same time: If true, I can have 1 Trade buy and 1 Trade sell (or 
+more) at the same time. If false, I cannot open a trade buy with 1 Trade Sell at market. and 
+viceversa 
+▪ Allow Order From others charts at same time: If true, I can have 1 Trade from this chart and 
+1 Trade from another chart (or more) at the same time. If false, I cannot open a trade from 
+the current chart with 1 Trade from another chart at market. 
+Note: grid operations don't have to respect Allow Buy and Allow Sell, So if a sell order is already 
+open, it is possible to open other sell orders 
+Trading Settings 
+▪ Max Orders Buy: Maximum number of orders, for long 
+▪ Max Orders Sell: Maximum number of orders, for short 
+▪ One Trade Bar: if true, robot can open only one trade for bar. Note, this is for the first order 
+of the series, it is not for Grid orders, for grid orders go to the grid settings below. 
+▪ Do Not Open Orders if there is Closed Order on Current Bar 
+▪ Orders Timeframe: Timeframes for the orders (related to One Trade Bar and 
+DoNotOpenOrders...) 
+Grid Settings 
+▪ Enable Grid: if true, enable grid orders, if false, disable grid orders, in this case, I 
+recommended you, to go to set a stop loss. 
+▪ Grid Orders Comply Max Spread Condition: if true, grid orders respect the "Max Spread" 
+parameter for open at market 
+▪ Grid Orders Comply Indicators Conditions: if true, grid orders respect all the Indicators 
+Conditions for open at market ( if false, They will be based on the Minimum Distance and 
+other parameters that may be set) 
+▪ Grid Orders Comply Hours Conditions: if true, grid orders respect Trading Hours set above, for 
+open at market. (if false, grid orders will open at any time) 
+▪ Grid Orders Comply Week Days Conditions: if true, grid orders respect Trading Days settings 
+for open at market. (if false, grid orders can open also if a day is on “false” status) 
+▪ Grid Management: Type of Lots management. -> Below you will find a very detailed 
+explanation of this setting. 
+▪ Coefficient Grid Management: Multiplier for, lots sum, martingale, all lots sum. -> Below you 
+will find a very detailed explanation of this setting. 
+=== PAGE 3 ===
+▪ Min Distance: Min Distance for Next Order in Point. -> Below you will find a very detailed 
+explanation of this setting. 
+▪ Min Distance Multiplier: Multiply Min Distance for Each Orders. If 2 for example, Min Distance 
+Doubles for any open order 
+▪ One Trade Bar Grid: if true, robot can open only one trade for bar for grid orders. 
+▪ Grid Order Timeframe: (related on “One Trade Bar Grid”) 
+▪ Min Distance On Atr: Min Distance for new grid order calculate on Atr Value * Multiplier. 
+▪ Atr Period: Atr Periods for calculate atr for min distance. 
+▪ Atr Multiplier: Value for multiply Atr. 
+▪ Atr Timeframe: Atr timeframe for calculate atr min distance. 
+Closure on Indicator 
+● Enable Closing on Bollinger Bands: Enable to close Trades on Bollinger Bands Rules 
+● Closure Type: Select the rules, for close orders on Bollinger bands 
+‘Close on Opposite signal’: Buy orders will be closed when we have a Sell signal, and 
+viceversa 
+'Close on Central Band' Work only with 'Sell Above and Buy Below' and 'Buy Above and Sell 
+Below'. The Trades will be closed as soon as the central band is passed 
+Target Settings 
+▪ Take Target: Coefficient Target in Point. (This is a Global Take Profit, for open orders on the 
+current chart) (sell and buy separated) 
+▪ Different Take Target for first order: if true, use a Different Take Target if we have only 1 
+order at market. (the first order of a series) 
+▪ Take Target first orders: if previous parameter is Enabled (true), you have to set the Take 
+Target for the first order 
+▪ Stop Target: Coefficient Stop in point. (this is a Global Stop Loss in point, for open orders on 
+the current chart) (fir Buy or sell)  Note: By default is disabled, for enabled it, check next 
+parameter 
+▪ Stop Target Mode: by default disabled, then you can change in “First Order” or “default” 
+“First order” mean, The global Stop Loss will be placed X points from the first order. When it 
+is reached, all open orders will be closed at a loss (sell and buy separated) 
+“Default” mean, the global Stop Loss will be  placed X point from the ‘Weighted average of 
+the entry point’ for the current open orders. When it reached, all open orders will be closed 
+at a loss. (sell and buy separated) 
+▪ Close Trades Only at End of Bar: if true, close Trade only at end of bar. (I mean only at the 
+end of the bar time, on the "Close" price) 
+▪ Close Mode: You can change the default calculation method, both for stop target and take 
+target -> 
+in “Average Point” so without weigh the amount of the lot.  
+“Breakeven” Grid orders will be closed as soon as they hit 0 profit/loss (This option is not 
+considered when there is only 1 open order per direction) 
+Fix Money as a point: If take target is 50 points, the profit will be closed with 50 cents profit 
+for every 0.01 open lots 
+Monetary Loss 
+▪ Enable Monetary Loss: if true, close on “monetary loss amount”. 
+▪ Multiply Monetary Loss: if true, Multiply “Monetary Loss amount” X 100 X Start Lot amount 
+▪ Stop EA after Monetary loss: Remove the EA from chart When Maximum Monetary Loss is Hit. 
+▪ Maximum Monetary Loss: Loss in Money for close all orders. 
+Percentage Loss 
+=== PAGE 4 ===
+▪ Enable Percentage Loss: if true, close on “Loss Amount in Percentage” amount in percentage 
+of account balance. 
+▪ Stop EA after Percentage Loss: Remove the EA from chart When “Loss Amount in Percentage” 
+is Hit. 
+▪ Loss Amount in Percentage: Loss in Percentage on the account balance, for close all orders. 
+Average Trailing Stop 
+● Enable Average Trailing Stop: if true, enable average trailing stop 
+● Only In Profit: if true, the average trailing stop start only if trades are in Profit 
+● Broker Commission: Put your broker commission amount for 1 lot trade 
+● Average Trailing Stop Value: Trailing Stop Value in point 
+● Average Trailing Step Value: Trailing Step Value in point 
+Note: The Average Trailing Stop, acts on all open orders in one direction (buy and sell) by calculating 
+the weighted average entry point 
+Note 2: you can see the Yellow line for it 
+Close Trade Settings  
+▪ Freezes All Friday: no position will be changed, the Ea is completely frozen. 
+▪ Freezes Hour: Time of the previous parameter. 
+▪ Close Friday Night: it makes it much more likely that we will not have orders in the weekend, 
+in fact, it closes all orders in earnings and prevents the opening of other orders. (but if we 
+have orders at a loss, they will be left open, to allow the grid to recover) 
+▪ Close Friday Hour: Time of the previous parameter. 
+▪ Forced Close Friday Night: Forced closure even if orders are at a loss. 
+▪ Forced Close Friday Hour: Time of the previous parameter. 
+Graphic Settings 
+▪ Custom Comment: personalized comment for each order. 
+▪ Show Panel: if true, Show Info Panel 
+▪ Show Button: if true, Show close Buy, close sell, and close all buttons 
+▪ Custom Chart: if true, use my favorite colors for the current trading chart. 
+▪ Show Alert: if true, show spread and others useful alert 
+▪ Spread Value for alert: if spread is over this value, EA show an alert 
+▪ Latency Value for Alert: if latency in MS is more then this, EA show an alert 
+Note: these alert are only on during the first start of the EA 
+Optimization Settings 
+● Minimum Trades: If the number of Trades is less than this, OnTester value will be 0 
+Note: for this EA, by default, OnTester Value is net Profit/Monetary Drawdown 
+ 
+ 
+ 
+BASE 
+The First Trade is open based on Bollinger Bands Indicator. 
+=== PAGE 5 ===
+Everything else acts as a filter and trade management.  
+ 
+ 
+Order Timeframe: 
+If One Trade Bar is enabled, the expert opens maximum One Trade for bar. if we are on M1 and we 
+select M5, will open 1 trade each 5 minute bar. it will therefore look like 1 trade every 5 bars (from 
+the m1 view) 
+You can change it from “Order Timeframe”.  
+With Alternation Opening Bars you can change the order step, from all the bars (0 default) to for 
+example, a bar yes, a bar no (1) or….. 1 bar yes, 2 bars no (2) etc ... 
+BOLLINGER BANDS 
+Bollinger Bands Strategies: To understand these, I Strongly recommended to apply the Bollinger Bands on 
+the chart, during a Backtest or demo trading 
+Then: Sell Above and Buy Below 
+ 
+Here you can see, The first order, which was opened as a Sell, as it is the bar overtook the upper band 
+For the “Buy Above and Sell Below” The rules are reversed, and we would have opened a Buy 
+For “Up Trend Buy and Down Trend Sell” Only the central band is taken into consideration, with a Trend at 
+the top we open a Buy, with a Trend at the bottom we open a Sell 
+To determine the trend, we consider the last 8 bars 
+“Down Trend Buy and Up Trend Sell” the reverse, so for Up trend we go Sell and for Down Trend we go 
+Buy, this can be useful for Counter Trend instruments  
+“Cross Up Central Band in Up Trend Buy” This strategy is slightly more complex, it requires 2 conditions 
+
+=== PAGE 6 ===
+ 
+A downtrend of at least 5 bars is required -> So it is also necessary that the central bar is "crossed" by the 
+price, in the direction of the order.  
+In the image we see a Short Trend 
+And we see that the order has been opened after a big red bar that crossed the center band! 
+Cross Down Central Band in Down Trend Buy: In this case, all is on opposite side (for a Buy Trade, we need 
+short trend and short cross) -> also this is for Counter Trend Strategy 
+ 
+FILTERS 
+All these indicators and settings are filters. 
+Clarification: all filters, will affect the first order open, grid orders will be opened anyway, on the step and 
+modality defined below. You can also activate these filters in the grid settings, Separately. 
+Standard time filter 
+Standard Trading Days filter 
+Standard Direction Filter 
+ 
+GRID 
+Grid Management: Type of Lots management. 
+4 forms of lots management are available 
+● Fix: all trades = fix lot 
+● Lots sum: we sum base lot * Coefficient grid management. 
+Example, if I have 1 order buy and grid management is 1, next buy order will be 0.02, 0.03, 0.04 
+… 
+If I have 5 buy orders, first sell order will be 0.01. 
+
+=== PAGE 7 ===
+All Lots Sum 
+we count all the orders. 
+Example, if I have 1 order buy and grid management is 1, next buy order will be 0.02, 0.03, 0.04 
+… 
+If I have 5 buy orders, first sell order will be 0.06.  all lots sum, buy + sell orders so 
+Martingale 
+Classic lot multiplier. So if Coefficient Grid Management = 2. First order 0.01, second order 0.02, 
+0.04, 0.08, 0.16……. 
+You can also use decimal value for all Grid management coefficient like 1.5, 1.1 etc….. 
+ 
+Min Distance: Distance for Next Order in point, if “One Trade Bar Grid” is false and “Min Distance On 
+Atr” is false. -> otherwise this is the Minimum Distance, for open a grid trade 
+Min Distance Multiplier, multiply the Minimum Distance for the number of orders, for example if min 
+distance is 100, and this multiplier is 1.5, the First grid order will be at 100 point, the second at 15 
+point, the third at 225 point (150*1.5), the 4° at 337 point (225*1.5) 
+If “One Trade Bar Grid” is on true, we open only on Open of new Bar and Min Distance from previous 
+order. Grid Order Timeframe is about this parameter. 
+Min Distance On Atr: Min Distance for new grid order calculate on Atr Value * Multiplier. 
+Atr Multiplier: Value for multiply Atr. 
+ 
+Closure on Indicator 
+This section enable you to close the Trades on the Main Indicator of the EA, in this case, Bollinger 
+Bands 
+“Close on Opposite Signal” mean, the trade or trades will be close on the opposite signal (of the 
+current strategy, so if there is Buy Signal, all Sell trades will be closed 
+Image Example: 
+=== PAGE 8 ===
+ 
+This Example use “Sell Above and Buy Below” Bollinger Bands Strategy, on Opposite signal (Buy 
+Below) the Sell trades has been closed 
+“Close on Central Band” mean the Trades will be closed in central band, but this “close type” can be 
+used only with “sell above and buy below” and reverse (the second stratey) 
+For the other 4 it would not make sense 
+Target Settings  
+▪ Close Mode: how to calculate exit point. 
+a) Average Point. 
+b) Average Point Weighted: based on Lots value. 
+Example, we open 1 trade sell for 0.01 at 1.00010. 
+1 trade sell for 0.03 at 1.00050 
+So (1.00050*0.03)+(1.00010*0.01) all / (0.03+0.01) 
+So 150+10= 160, /4 = 40.  So 1.00040, when price hit this point we close all trades. 
+c) Breakeven: Close Grid Orders to breakeven. 
+If we have 1 order, it close to take target, if we have 2 orders or more, if Ea see trades in gain, 
+immediately close. 
+d) Fix Point: Close Grid Orders to Fix Point Take Target. If take target is 50, it close all 
+orders to 0.50 cent (if you have 0.01 as a basic lot) 
+ 
+Close Trade Settings  
+● Take Target On Atr: when this setting is active, the take target value will not be used, but 
+the calculated Real Time value based on atr will be used.   
+Example: 
+
+=== PAGE 9 ===
+Take Target Atr Period: 9 
+Take Target Multiplier: 2.5 
+Take Target Timeframe: Current 
+If we are in M5, Ea create a Atr Indicator, with 9 periods, in M5. If for example value is 0.00070, it 
+multiply the value * 2.5 so = 0.00175  this is our New Take Target value for this trade (175 point) 
+ 
+ 
+ 
+ 
+for now these are the settings, for more information contact me! Very thanks! 
+Recommendations 
+For all Expert Advisor an ECN broker is strongly recommended, you can use: 
+https://roboforex.com/?a=syok 
+Having low spreads is very important, a high spread, can totally compromises your trading, it can transform 
+winnings into ->->->->-> losses 
+Your platform must also remain open 24 hours a day, to make the robot work properly 
+
+=== PAGE 10 ===
+So, for all Expert Advisor a high quality and low latency windows VPS is strongly recommended, you can 
+use: https://dipgate.com/aff.php?aff=2 
+The VPS is a sort of small computer, totally online, check this 1 minute example video for access to your 
+new vps: https://youtu.be/jnp4_hXt11E  
+Thank you very much for your attention. 
+Telegram Channel Link: https://t.me/darktradingchannel  
+Download Others High Quality Free EAs: https://www.mql5.com/en/users/msolito59/seller 
+ 
+ 
+Disclaimer 
+Dark Venus is an educational Expert Advisor. Any information, advice or trading strategy should NOT be understood in any way as a personalized 
+investment operating advice, nor as a solicitation to collect public savings. The results presented, real or simulated, the trading analysis, the training 
+videos and the general material published are intended as information for an indistinct public and do not constitute any guarantee regarding 
+hypothetical future operating performance. The speculative trading activity involves significant economic risks and anyone doing it does so under 
+their own exclusive responsibility, therefore Dark Venus and the author non assumes no responsibility for any direct or indirect damage related to 
+investment decisions made by the reader. Therefore, the reader exonerates author, within the limits of the law, from any liability in any case 
+connected or deriving from the use of the information present. 
+ 
