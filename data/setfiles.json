@@ -95,7 +95,7 @@
         "unrealizedLoss": "-2,237円",
         "status": "生還",
         "survived": true,
-        "reportUrl": "report/SET-001/2024/StrategyTester.htm"
+        "reportUrl": "report/SET-002/2024/StrategyTester.htm"
       },
       {
         "year": "2025年",
@@ -105,7 +105,62 @@
         "unrealizedLoss": "-112円",
         "status": "生還",
         "survived": true,
-        "reportUrl": "report/SET-001/2025/StrategyTester.htm"
+        "reportUrl": "report/SET-002/2025/StrategyTester.htm"
+      }
+    ]
+  },
+  {
+    "id": "SET-003",
+    "title": "#SET-003 | GBPJPY M30",
+    "platform": "MT4",
+    "pair": "GBPJPY",
+    "timeframe": "M30",
+    "startLot": "0.01 (単利)",
+    "deposit": "1,000,000円",
+    "spread": "20 point (固定)",
+    "fileUrl": "downloads/SET-003_GBPJPY_M30.set",
+    "uploadedDate": "2026-08-05",
+    "specs": {
+      "bbStrategy": "5.Cross Up Central Band in Up Trend Buy",
+      "nanpinType": "All Lots Sum",
+      "maxOrders": 50,
+      "allowBuySell": "Buy & Sell (両建て)",
+      "timeFilter": "なし",
+      "hasSL": "なし (Disabled)",
+      "closeMode": "Average Point Weighted",
+      "exitStrategy": "Average Trailing Stop"
+    },
+    "notes": "ナンピン間隔が狭く、Average Trailing Stop採用のEA。Cross Up Central Band in Up Trend Buyも珍しいかも。ただ、ボラリティが高い通貨なのでSLなしなのはやっぱり怖いです。",
+    "yearlyStats": [
+      {
+        "year": "2023年",
+        "profit": "+194,101円",
+        "pf": "3.19",
+        "maxDrawdown": "-118,449円(10.23%)",
+        "unrealizedLoss": "0円",
+        "status": "生還",
+        "survived": true,
+        "reportUrl": "report/SET-003/2023/StrategyTester.htm"
+      },
+      {
+        "year": "2024年",
+        "profit": "+249,136円",
+        "pf": "1.90",
+        "maxDrawdown": "-591,584円(54.50%)",
+        "unrealizedLoss": "0円",
+        "status": "生還",
+        "survived": true,
+        "reportUrl": "report/SET-003/2024/StrategyTester.htm"
+      },
+      {
+        "year": "2025年",
+        "profit": "+195,698円",
+        "pf": "3.47",
+        "maxDrawdown": "-111,074円(9.79%)",
+        "unrealizedLoss": "0円",
+        "status": "生還",
+        "survived": true,
+        "reportUrl": "report/SET-003/2025/StrategyTester.htm"
       }
     ]
   }
