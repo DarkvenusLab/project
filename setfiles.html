@@ -424,64 +424,6 @@
 
   <!-- Script -->
   <script>
-    const defaultData = [
-      {
-        "id": "SET-001",
-        "title": "#SET-001 | EURUSD M15",
-        "platform": "MT4",
-        "pair": "EURUSD",
-        "timeframe": "M15",
-        "startLot": "0.01 (単利)",
-        "deposit": "100,000円",
-        "spread": "20 point (固定)",
-        "fileUrl": "downloads/SET-001_EURUSD_M15.set",
-        "uploadedDate": "2026-08-04",
-        "specs": {
-          "bbStrategy": "1.Sell Above and Buy Below",
-          "nanpinType": "Lots Sum",
-          "maxOrders": 50,
-          "allowBuySell": "Buy & Sell (片建て)",
-          "timeFilter": "あり",
-          "hasSL": "なし (Disabled)",
-          "closeMode": "Average Point Weighted",
-          "exitStrategy": "Closing on Bollinger Bands"
-        },
-        "notes": "決済にボリンジャーバンド決済を採用しているので実質損切設定がされています。低ドローダウンで3年間を無傷で生還した堅実設計です。",
-        "yearlyStats": [
-          {
-            "year": "2023年",
-            "profit": "+6,879円",
-            "pf": "5.96",
-            "maxDrawdown": "-2,343円(2.20%)",
-            "unrealizedLoss": "0円",
-            "status": "生還",
-            "survived": true,
-            "reportUrl": "report/SET-001/2023/StrategyTester.htm"
-          },
-          {
-            "year": "2024年",
-            "profit": "+5,200円",
-            "pf": "2.17",
-            "maxDrawdown": "-5,680円(5.66%)",
-            "unrealizedLoss": "0円",
-            "status": "生還",
-            "survived": true,
-            "reportUrl": "report/SET-001/2024/StrategyTester.htm"
-          },
-          {
-            "year": "2025年",
-            "profit": "+6,306円",
-            "pf": "2.62",
-            "maxDrawdown": "-5,988円(5.88%)",
-            "unrealizedLoss": "-36円",
-            "status": "生還",
-            "survived": true,
-            "reportUrl": "report/SET-001/2025/StrategyTester.htm"
-          }
-        ]
-      }
-    ];
-
     let pendingTargetUrl = '';
     let allSetFiles = [];
     let currentPage = 1;
@@ -676,7 +618,7 @@
         renderPage(1);
       }
 
-      fetch('data/setfiles.json')
+      fetch('data/setfiles.json?v=' + new Date().getTime())
         .then(response => {
           if (!response.ok) throw new Error('HTTP error ' + response.status);
           return response.json();
@@ -685,8 +627,8 @@
           initData(data);
         })
         .catch(err => {
-          console.warn("Local fetch failed, using fallback data.", err);
-          initData(defaultData);
+          console.error("Failed to load setfiles.json", err);
+          document.getElementById('setfiles-container').innerHTML = '<p class="text-center" style="color:red;">データの読み込みに失敗しました。</p>';
         });
     });
   </script>
