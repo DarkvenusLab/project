@@ -52,10 +52,17 @@
       text-align: left;
     }
 
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
     .manual-table td.param-name {
       font-weight: 900;
       color: var(--secondary-hover);
-      white-space: nowrap;
+      word-break: break-word;
+      overflow-wrap: anywhere;
     }
 
     .note-box {
