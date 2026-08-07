@@ -639,17 +639,22 @@ a {
   font-weight: 700;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
+  .site-header {
+    position: static;
+    padding: 10px 0;
+  }
   .hero-container {
     grid-template-columns: 1fr;
   }
   .header-container {
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
   }
   .main-nav ul {
     gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
   }
   .hero-title {
     font-size: 1.8rem;
