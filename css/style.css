@@ -121,8 +121,7 @@ a {
 .site-header {
   background: #FFF;
   border-bottom: 3px solid var(--text-main);
-  position: sticky;
-  top: 0;
+  position: static;
   z-index: 100;
   padding: 14px 0;
 }
