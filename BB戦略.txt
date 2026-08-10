@@ -16,5 +16,11 @@ Buy & Sell (片建て)
 Buy & Sell (両建て)
 
 
+Lot Sum
+Martingale
+All Lots Sum
+Fix
+
 Target Point
 Closing on Bollinger Bands
+Average Trailing Stop
