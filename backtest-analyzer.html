@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DVLab バックテスト分析ツール | ナンピン・グリッドEAリスク自動診断 | Dark Venus ラボ</title>
+  <meta name="description" content="MT4のバックテストレポート(.htm/.html)をアップロードするだけで、ナンピンEA特有の最大ポジション推移・曜日時間帯別損益・破綻リスク・損切りログを自動可視化。完全無料・インストール不要のWeb分析ツール。">
+  <meta property="og:title" content="DVLab バックテスト分析ツール | ナンピン・グリッドEAリスク自動診断">
+  <meta property="og:description" content="MT4バックテストレポートを瞬時に可視化。ナンピン段数別リスク・時間帯別勝率・損切りログ抽出機能を備えた高度分析Webアプリ。">
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Zen+Maru+Gothic:wght@400;700;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .analyzer-hero-box {
+      background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+      color: #FFFFFF;
+      border-radius: var(--radius-lg);
+      padding: 40px 30px;
+      border: 3px solid #0EA5E9;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 32px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin: 32px 0;
+    }
+
+    .feature-card {
+      background: var(--card-bg);
+      border: 2px solid var(--text-main);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      box-shadow: var(--shadow-md);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .feature-icon {
+      font-size: 2.2rem;
+      color: #0EA5E9;
+      margin-bottom: 12px;
+    }
+
+    .step-list-box {
+      background: #F8FAFC;
+      border: 2px dashed #CBD5E1;
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin: 24px 0;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+
+    .step-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .step-num {
+      background: #0EA5E9;
+      color: #FFF;
+      font-weight: 900;
+      font-size: 1.1rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .launch-box {
+      background: #EFF6FF;
+      border: 3px solid #3B82F6;
+      border-radius: var(--radius-lg);
+      padding: 36px 24px;
+      text-align: center;
+      margin: 40px 0;
+    }
+
+    .notice-security-box {
+      background: #F0FDF4;
+      border-left: 4px solid #16A34A;
+      padding: 16px 20px;
+      border-radius: 0 8px 8px 0;
+      margin: 24px 0;
+    }
+  </style>
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8628151059114036"
+     crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="index.html" class="logo">
+        <span class="logo-badge">検証アーカイブ</span>
+        <span class="logo-text">Dark Venus<span class="highlight"> ラボ</span></span>
+      </a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html"><i class="fa-solid fa-house"></i> ホーム</a></li>
+          <li><a href="backtest-analyzer.html" class="active" style="color: #0EA5E9; font-weight: 800;"><i class="fa-solid fa-chart-line"></i> 高度バックテスト分析 <span style="font-size: 0.7rem; background: #0EA5E9; color: #FFF; padding: 2px 6px; border-radius: 10px; margin-left: 2px;">WEBツール</span></a></li>
+          <li><a href="setfiles.html"><i class="fa-solid fa-folder-open"></i> 検証済み.set一覧</a></li>
+          <li><a href="manual.html"><i class="fa-solid fa-file-contract"></i> 公式マニュアル和訳</a></li>
+          <li><a href="how-to-setup.html"><i class="fa-solid fa-circle-info"></i> 導入手順</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section" style="padding: 40px 0 30px;">
+    <div class="container">
+      <div class="speech-bubble">
+        <span class="emoji">📊</span> 「MT4のバックテスト結果、ドラッグ＆ドロップで深層分析！」
+      </div>
+      <h1 class="hero-title">
+        DVLab Backtest Analyzer<br>
+        <span class="marker">ナンピン・グリッドEA特化型 Web分析ツール</span>
+      </h1>
+      <p class="hero-desc">
+        標準のMT4レポートでは見えない「ナンピン何段目まで到達したか」「どの曜日・時間帯に負けているか」「破綻時の損切り挙動」を自動可視化します。
+      </p>
+    </div>
+  </section>
+
+  <!-- Header Ad Banner -->
+  <div class="container my-3">
+    <div class="ad-placeholder" id="ad-header-top">
+      <span class="ad-label">スポンサーリンク / 広告</span>
+      <div class="ad-box">
+        <p><i class="fa-solid fa-rectangle-ad"></i> ここにGoogle AdSenseやバナー広告が入ります</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="container my-4">
+
+    <!-- Overview Hero Box -->
+    <div class="analyzer-hero-box">
+      <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 280px;">
+          <span style="background: #0EA5E9; color: #FFF; font-weight: 800; font-size: 0.75rem; padding: 4px 12px; border-radius: 20px; letter-spacing: 1px;">無料WEBアプリ</span>
+          <h2 style="font-size: 1.8rem; font-weight: 900; margin: 10px 0; color: #F8FAFC;">MT4レポートを入れるだけ！数秒でプロ級のリスク分析</h2>
+          <p style="color: #94A3B8; line-height: 1.7; font-size: 0.95rem; margin-bottom: 0;">
+            「Dark Venus」をはじめとするナンピン・グリッドEAのバックテストレポート（.htm / .html）をアップロードするだけで、チャートやグラフで直感的にリスクを可視化します。
+          </p>
+        </div>
+        <div style="text-align: center; background: rgba(255,255,255,0.05); padding: 20px 24px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+          <i class="fa-solid fa-cloud-arrow-up" style="font-size: 3rem; color: #38BDF8; margin-bottom: 8px;"></i>
+          <p style="font-weight: 800; font-size: 0.9rem; color: #E2E8F0; margin: 0;">インストール不要・完全無料</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Security Notice -->
+    <div class="notice-security-box">
+      <h3 style="margin-bottom: 6px; font-size: 1.05rem; color: #15803D; font-weight: 800;"><i class="fa-solid fa-shield-halved"></i> 安心のプライバシー保護設計</h3>
+      <p style="font-size: 0.9rem; font-weight: 600; color: #166534; margin: 0; line-height: 1.6;">
+        アップロードされたバックテストレポート（.htm/.html）は、お使いのブラウザ内でのみ一時的に解析されます。<strong>サーバー上にファイルが保存・蓄積されたり、第三者に送信されることは一切ありません。</strong> 安心してご活用ください。
+      </p>
+    </div>
+
+    <!-- Key Features Section -->
+    <section class="my-5">
+      <div class="section-header center">
+        <span class="sub-title">ANALYSIS FEATURES</span>
+        <h2>主な分析機能とメリット</h2>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-layer-group"></i></div>
+          <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 8px;">1. ナンピン層別・到達率分析</h3>
+          <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; margin: 0;">
+            全取引の中で「1段目で決済された割合」「最大ナンピン段数まで達した回数」「各段数の平均含み損保有期間」を一覧表示。リスクの限界値が一目瞭然になります。
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-calendar-days"></i></div>
+          <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 8px;">2. 曜日×時間帯 損益ヒートマップ</h3>
+          <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; margin: 0;">
+            「どの時間帯に負けが集中しているか」「週末の持ち越しリスクは高いか」を色分けヒートマップと評価バッジ（S/A/B/C/D）で自動分析。稼働時間フィルタの参考に最適です。
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+          <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 8px;">3. 破綻・損切りログ抽出＆CSV化</h3>
+          <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; margin: 0;">
+            強制ロスカット（close at stop）や手動損切りトレードだけをピンポイント抽出。損切りが発生した日時・ロット数・ドローダウン金額を一覧にし、CSV形式で一発ダウンロード可能です。
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-filter"></i></div>
+          <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 8px;">4. 買い(Buy)/売り(Sell)分離モード</h3>
+          <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; margin: 0;">
+            両建てトレード全体だけでなく、「買いポジションのみ」「売りポジションのみ」にワンクリックで表示切替。片方向のトレンドに弱いパラメータを即座に発見できます。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Usage Steps Section -->
+    <section class="my-5">
+      <div class="section-header center">
+        <span class="sub-title">HOW TO USE</span>
+        <h2>使い方の 3 ステップ</h2>
+      </div>
+
+      <div class="step-list-box">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div>
+            <h4 style="font-size: 1.05rem; font-weight: 800; margin-bottom: 4px;">MT4でバックテストを実行しレポートを保存</h4>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0; line-height: 1.5;">
+              MT4のストラテジーテスターでバックテストを行い、結果画面で右クリック ➔「レポートの保存」を選択して `.htm` または `.html` ファイルをPCに保存します。
+            </p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div>
+            <h4 style="font-size: 1.05rem; font-weight: 800; margin-bottom: 4px;">DVLab Analyzer にファイルをドロップ</h4>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0; line-height: 1.5;">
+              下記の「分析ツールを起動する」ボタンを押して画面を開き、左側サイドバーのアップロードエリアにファイルをドラッグ＆ドロップします。
+            </p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div>
+            <h4 style="font-size: 1.05rem; font-weight: 800; margin-bottom: 4px;">自動生成されたレポートでリスクをチェック！</h4>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0; line-height: 1.5;">
+              わずか数秒で総合パフォーマンス、ナンピン層別データ、時間帯ヒートマップ、損切りログが自動生成されます。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pre-Launch Ad Banner -->
+    <div class="container my-4">
+      <div class="ad-placeholder" id="ad-before-launch">
+        <span class="ad-label">スポンサーリンク / 広告</span>
+        <div class="ad-box">
+          <p><i class="fa-solid fa-rectangle-ad"></i> ここにGoogle AdSenseやバナー広告が入ります</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main CTA Launch Box -->
+    <div class="launch-box" id="launch">
+      <span style="background: #2563EB; color: #FFF; font-weight: 800; font-size: 0.8rem; padding: 4px 14px; border-radius: 20px;">WEB APPLICATION</span>
+      <h2 style="font-size: 1.7rem; font-weight: 900; color: #1E3A8A; margin: 12px 0 8px;">DVLab Backtest Analyzer を起動する</h2>
+      <p style="font-size: 0.95rem; font-weight: 700; color: #3B82F6; margin-bottom: 24px;">
+        ※ボタンをクリックすると別タブで分析Webツールが開きます
+      </p>
+
+      <a href="https://dvlab-backtest-analyzer.streamlit.app/" id="btn-launch-streamlit" target="_blank" rel="noopener" class="btn btn-bounce" style="background: #0EA5E9; color: #FFF; border: 3px solid #0284C7; font-size: 1.2rem; font-weight: 900; padding: 18px 40px; border-radius: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 12px; box-shadow: 0 10px 25px rgba(14, 165, 233, 0.4);">
+        <i class="fa-solid fa-chart-pie" style="font-size: 1.4rem;"></i> バックテスト分析ツールを開く (完全無料) <i class="fa-solid fa-arrow-up-right-from-square"></i>
+      </a>
+    </div>
+
+    <!-- Bottom Ad Banner -->
+    <div class="container my-4">
+      <div class="ad-placeholder" id="ad-after-launch">
+        <span class="ad-label">スポンサーリンク / 広告</span>
+        <div class="ad-box">
+          <p><i class="fa-solid fa-rectangle-ad"></i> ここにGoogle AdSenseやバナー広告が入ります</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container" style="text-align: center;">
+      <p style="margin-bottom: 8px; font-weight: 700; color: #FFF; font-size: 1.1rem;">Dark Venus ラボ</p>
+      <p class="disclaimer" style="max-width: 800px; margin: 12px auto; font-size: 0.8rem; color: #A0AEC0; line-height: 1.6;">
+        【免責事項】当サイトで配布している.setファイルおよびバックテストデータは、検証目的で公開している各種設定データです。動作や将来の収益性を保証するものではありません。実際の運用の結果生じた損害について、当サイトは一切の責任を負いません。すべて自己責任にてご利用ください。
+      </p>
+      <p style="margin: 12px 0; font-size: 0.85rem;">
+        <a href="privacy.html" style="color: #A0AEC0; margin-right: 16px;">プライバシーポリシー</a>
+        <a href="contact.html" style="color: #A0AEC0;">お問い合わせ</a>
+      </p>
+      <p class="copyright" style="font-size: 0.8rem; color: #718096; margin-top: 12px;">
+        &copy; 2026 Dark Venus ラボ All Rights Reserved.
+      </p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+
+</html>
