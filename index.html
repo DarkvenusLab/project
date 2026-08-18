@@ -47,6 +47,7 @@
       <nav class="main-nav">
         <ul>
           <li><a href="index.html" class="active"><i class="fa-solid fa-house"></i> ホーム</a></li>
+          <li><a href="https://dvlab-backtest-analyzer.streamlit.app/" target="_blank" rel="noopener" style="color: #0EA5E9; font-weight: 800;"><i class="fa-solid fa-chart-line"></i> 高度バックテスト分析 <span style="font-size: 0.7rem; background: #0EA5E9; color: #FFF; padding: 2px 6px; border-radius: 10px; margin-left: 2px;">NEW</span></a></li>
           <li><a href="setfiles.html"><i class="fa-solid fa-folder-open"></i> 検証済み.set一覧</a></li>
           <li><a href="manual.html"><i class="fa-solid fa-file-contract"></i> 公式マニュアル和訳</a></li>
           <li><a href="how-to-setup.html"><i class="fa-solid fa-circle-info"></i> 導入手順</a></li>
@@ -70,8 +71,9 @@
           海外掲示板やSNSで拾ったDarkVenusの設定ファイルのバックテスト置き場です。<br>
           勝手に置いてるだけなので、必要な人は勝手に持っていってください〜<br>（※動作保証も責任も一切ナシ！）
         </p>
-        <div class="hero-buttons">
-          <a href="#presets" class="btn btn-primary btn-bounce"><i class="fa-solid fa-download"></i>
+        <div class="hero-buttons" style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px;">
+          <a href="https://dvlab-backtest-analyzer.streamlit.app/" target="_blank" rel="noopener" class="btn btn-bounce" style="background: #0EA5E9; color: #FFF; border: 2px solid var(--text-main); box-shadow: 4px 4px 0 var(--text-main); font-weight: 800; border-radius: var(--radius-md); text-decoration: none; padding: 12px 20px;"><i class="fa-solid fa-chart-pie"></i> 高度バックテスト分析ツールを開く (無料)</a>
+          <a href="#presets" class="btn btn-primary"><i class="fa-solid fa-download"></i>
             拾い物.setファイル一覧を見る</a>
         </div>
       </div>
@@ -307,6 +309,40 @@
               ドローダウン・PF・単年データ確認の重要性と失敗を防ぐ3つのチェックポイント。</p>
           </div>
         </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Web Tool Showcase Section -->
+  <section id="analyzer-tool" class="section" style="background: #0F172A; color: #FFF; padding: 48px 0; border-top: 3px solid #0EA5E9; border-bottom: 3px solid #0EA5E9;">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; align-items: center;">
+        <div>
+          <span style="background: #38BDF8; color: #0F172A; font-weight: 800; font-size: 0.75rem; padding: 4px 12px; border-radius: 20px; letter-spacing: 1px;">WEB APP / WEBツール</span>
+          <h2 style="font-size: 1.8rem; font-weight: 900; margin: 12px 0; color: #F8FAFC;">DVLab Backtest Analyzer</h2>
+          <p style="color: #94A3B8; line-height: 1.7; font-size: 0.95rem; margin-bottom: 20px;">
+            MT4のバックテストHTMLレポートをドラッグ＆ドロップするだけ！<br>
+            ナンピン・マーチンゲールEAに特化した深層リスク分析・曜日時間帯別勝率・最大ポジション推移を全自動で視覚化します。
+          </p>
+          <ul style="list-style: none; padding: 0; margin: 0 0 24px 0; color: #CBD5E1; font-size: 0.9rem;">
+            <li style="margin-bottom: 8px;"><i class="fa-solid fa-check" style="color: #38BDF8; margin-right: 8px;"></i> ナンピン層別（段数別）の到達率・平均保有時間分析</li>
+            <li style="margin-bottom: 8px;"><i class="fa-solid fa-check" style="color: #38BDF8; margin-right: 8px;"></i> 曜日×時間帯別の損益ヒートマップ＆ネオンバッジ評価</li>
+            <li style="margin-bottom: 8px;"><i class="fa-solid fa-check" style="color: #38BDF8; margin-right: 8px;"></i> 強制ロスカット（close at stop）分離・損切りログCSV化</li>
+          </ul>
+          <a href="https://dvlab-backtest-analyzer.streamlit.app/" target="_blank" rel="noopener" class="btn btn-bounce" style="background: #0EA5E9; color: #FFF; border: none; font-weight: 800; padding: 14px 28px; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 14px rgba(14, 165, 233, 0.4);">
+            <i class="fa-solid fa-bolt"></i> 無料でバックテストを高度分析する <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+        <div style="background: #1E293B; border: 2px solid #334155; border-radius: 12px; padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); text-align: center;">
+          <div style="font-size: 3rem; color: #38BDF8; margin-bottom: 12px;"><i class="fa-solid fa-chart-line"></i></div>
+          <h3 style="color: #F1F5F9; font-weight: 800; font-size: 1.2rem; margin-bottom: 8px;">ブラウザで即座に解析</h3>
+          <p style="color: #94A3B8; font-size: 0.85rem; line-height: 1.5; margin-bottom: 16px;">
+            インストール不要・完全無料。<br>お持ちのMT4バックテストレポート（.htm/.html）をアップロードするだけで、詳細なレポートが秒速で生成されます。
+          </p>
+          <a href="https://dvlab-backtest-analyzer.streamlit.app/" target="_blank" rel="noopener" style="color: #38BDF8; font-weight: 700; font-size: 0.9rem; text-decoration: underline;">
+            分析ツールを別タブで開く <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </a>
+        </div>
       </div>
     </div>
   </section>
