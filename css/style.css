@@ -49,8 +49,9 @@ a {
 
 /* Base Utility Classes */
 .hidden { display: none !important; }
-.my-3 { margin: 24px 0; }
-.my-4 { margin: 32px 0; }
+.my-3 { margin-top: 24px; margin-bottom: 24px; }
+.my-4 { margin-top: 32px; margin-bottom: 32px; }
+.my-5 { margin-top: 48px; margin-bottom: 48px; }
 .mt-2 { margin-top: 12px; }
 
 /* Buttons */
