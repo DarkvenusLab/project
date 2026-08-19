@@ -298,8 +298,9 @@ a {
   font-weight: 700;
 }
 
-/* Ad Placeholder Styling */
+/* Ad Placeholder Styling (Hidden during AdSense Review) */
 .ad-placeholder {
+  display: none;
   background: #FFF;
   border: 2px dashed #CBD5E0;
   border-radius: var(--radius-md);
