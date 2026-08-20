@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZCK7N99R3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-BZCK7N99R3');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>フォワード検証ラボ | 自作・実験中EAのmyfxbookリアルタイム成績 | Dark Venus ラボ</title>
+  <meta name="description" content="SlopeRider GridやBounceRider Gridなど、DVLabで開発・実験中の自作EAのリアルタイムフォワードテスト成績（myfxbook）を透明性高く公開中。">
+  <meta property="og:title" content="フォワード検証ラボ | 自作・実験中EAのmyfxbookリアルタイム成績">
+  <meta property="og:description" content="独自開発EAのリアルタイム運用推移（myfxbook）を完全公開。ロジック・通貨ペア・時間足ごとの実験ログ。">
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Zen+Maru+Gothic:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .lab-intro-box {
+      background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+      color: #FFFFFF;
+      border-radius: var(--radius-lg);
+      padding: 32px 24px;
+      border: 3px solid #0EA5E9;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 40px;
+    }
+
+    .ea-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+      margin: 32px 0;
+    }
+
+    .ea-card {
+      background: var(--card-bg);
+      border: 2px solid var(--text-main);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .ea-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .ea-badge-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #FEF3C7;
+      color: #D97706;
+      border: 1.5px solid #F59E0B;
+      font-weight: 800;
+      font-size: 0.8rem;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    .ea-title {
+      font-size: 1.4rem;
+      font-weight: 900;
+      margin: 14px 0 8px;
+      color: #0F172A;
+    }
+
+    .ea-desc {
+      font-size: 0.92rem;
+      color: #475569;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .ea-spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 24px;
+      font-size: 0.88rem;
+    }
+
+    .ea-spec-table th {
+      text-align: left;
+      color: #64748B;
+      font-weight: 700;
+      padding: 6px 0;
+      border-bottom: 1px dashed #E2E8F0;
+      width: 40%;
+    }
+
+    .ea-spec-table td {
+      color: #0F172A;
+      font-weight: 800;
+      padding: 6px 0;
+      border-bottom: 1px dashed #E2E8F0;
+    }
+
+    .btn-myfxbook {
+      background: #0EA5E9;
+      color: #FFF;
+      font-weight: 900;
+      font-size: 1rem;
+      padding: 14px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .btn-myfxbook:hover {
+      background: #0284C7;
+      transform: translateY(-1px);
+    }
+  </style>
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8628151059114036" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="index.html" class="logo">
+        <span class="logo-badge">検証アーカイブ</span>
+        <span class="logo-text">Dark Venus<span class="highlight"> ラボ</span></span>
+      </a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html"><i class="fa-solid fa-house"></i> ホーム</a></li>
+          <li><a href="forward-test.html" class="active" style="color: #0EA5E9; font-weight: 800;"><i class="fa-solid fa-vial"></i> フォワード検証 <span style="font-size: 0.7rem; background: #0EA5E9; color: #FFF; padding: 2px 6px; border-radius: 10px; margin-left: 2px;">NEW</span></a></li>
+          <li><a href="backtest-analyzer.html" style="color: #0EA5E9; font-weight: 800;"><i class="fa-solid fa-chart-line"></i> 分析ツール</a></li>
+          <li><a href="setfiles.html"><i class="fa-solid fa-folder-open"></i> 検証済み.set一覧</a></li>
+          <li><a href="manual.html"><i class="fa-solid fa-file-contract"></i> 公式マニュアル和訳</a></li>
+          <li><a href="how-to-setup.html"><i class="fa-solid fa-circle-info"></i> 導入手順</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section" style="padding: 40px 0 30px;">
+    <div class="container">
+      <div class="speech-bubble">
+        <span class="emoji">🧪</span> 「開発中・実験中EAのリアルタイム推移をmyfxbookで透明公開！」
+      </div>
+      <h1 class="hero-title">
+        DVLab フォワード検証ラボ<br>
+        <span class="marker">実験中EA myfxbook リアルタイム成績一覧</span>
+      </h1>
+      <p class="hero-desc">
+        当ラボで開発・検証を行っている各種EA（SlopeRider Grid、BounceRider Grid等）のフォワードテストデータをmyfxbookにて公開しています。
+      </p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container my-4">
+
+    <!-- Overview Intro Box -->
+    <div class="lab-intro-box">
+      <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 280px;">
+          <span style="background: #38BDF8; color: #0F172A; font-weight: 900; font-size: 0.75rem; padding: 4px 12px; border-radius: 20px; letter-spacing: 1px;">DEMO ACCOUNT FORWARD TEST</span>
+          <h2 style="font-size: 1.6rem; font-weight: 900; margin: 12px 0 8px; color: #F8FAFC;">フォワードテストの公開方針について</h2>
+          <p style="color: #94A3B8; line-height: 1.7; font-size: 0.92rem; margin: 0;">
+            当サイトで公開しているフォワードデータは、純粋なロジック検証およびデータの透明性を目的として、<strong>すべて「Axiory ナノ口座（デモ口座）」にてリアルタイムフォワードテストを実施</strong>しております。外部監査サービス（myfxbook）を通じて自動更新されるため、改ざんのない正確な損益推移をご確認いただけます。
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- EA Grid Section -->
+    <section class="my-5">
+      <div class="section-header center">
+        <span class="sub-title">FORWARD TESTING EAs</span>
+        <h2>現在フォワード検証中のEA一覧</h2>
+      </div>
+
+      <div class="ea-grid">
+
+        <!-- Card 1: SlopeRider Grid (NZDCAD M15) -->
+        <div class="ea-card">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span class="ea-badge-status"><i class="fa-solid fa-flask"></i> 実験検証中</span>
+              <span style="font-size: 0.8rem; color: #64748B; font-weight: 700;">Axiory ナノ口座</span>
+            </div>
+            <h3 class="ea-title">SlopeRider Grid</h3>
+            <p class="ea-desc">
+              トレンドフォローのナンピン・グリッド型EA。トレンドの発生を検知し、順張り方向にポジショニングとグリッド展開を行います。
+            </p>
+
+            <table class="ea-spec-table">
+              <tr>
+                <th><i class="fa-solid fa-coins"></i> 通貨ペア</th>
+                <td>NZDCAD</td>
+              </tr>
+              <tr>
+                <th><i class="fa-solid fa-clock"></i> 時間足</th>
+                <td>M15 (15分足)</td>
+              </tr>
+              <tr>
+                <th><i class="fa-solid fa-gears"></i> ロジック</th>
+                <td>トレンドフォロー / グリッド</td>
+              </tr>
+              <tr>
+                <th><i class="fa-solid fa-server"></i> 口座種別</th>
+                <td>デモ口座 (Axiory Nano)</td>
+              </tr>
+            </table>
+          </div>
+
+          <a href="https://www.myfxbook.com/portfolio/sloperider-grid-nzdcad/12132297" target="_blank" rel="noopener noreferrer" class="btn-myfxbook">
+            <i class="fa-solid fa-chart-line"></i> myfxbookで成績を見る <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.85rem;"></i>
+          </a>
+        </div>
+
+        <!-- Card 2: BounceRider Grid (EURUSD H1) -->
+        <div class="ea-card">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span class="ea-badge-status"><i class="fa-solid fa-flask"></i> 実験検証中</span>
+              <span style="font-size: 0.8rem; color: #64748B; font-weight: 700;">Axiory ナノ口座</span>
+            </div>
+            <h3 class="ea-title">BounceRider Grid <span style="font-size: 0.9rem; color: #0EA5E9; font-weight: 800;">(EURUSD)</span></h3>
+            <p class="ea-desc">
+              ボリンジャーバンド逆張りのナンピン・グリッド型EA。過熱感を判定し、レンジ相場での逆張り反発を狙ってグリッドエントリーを行います。
+            </p>
+
+            <table class="ea-spec-table">
+              <tr>
+                <th><i class="fa-solid fa-coins"></i> 通貨ペア</th>
+                <td>EURUSD</td>
+              </tr>
+              <tr>
+                <th><i class="fa-solid fa-clock"></i> 時間足</th>
+                <td>H1 (1時間足)</td>
+              </tr>
+              <tr>
+                <th><i class="fa-solid fa-gears"></i> ロジック</th>
+                <td>ボリンジャーバンド逆張り / グリッド</td>
+              </tr>
+              <tr>
+                <th><i class="fa-solid fa-server"></i> 口座種別</th>
+                <td>デモ口座 (Axiory Nano)</td>
+              </tr>
+            </table>
+          </div>
+
+          <a href="https://www.myfxbook.com/portfolio/bouncerider-grid-eurusd/12157919" target="_blank" rel="noopener noreferrer" class="btn-myfxbook">
+            <i class="fa-solid fa-chart-line"></i> myfxbookで成績を見る <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.85rem;"></i>
+          </a>
+        </div>
+
+        <!-- Card 3: BounceRider Grid (AUDNZD H1) -->
+        <div class="ea-card">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span class="ea-badge-status"><i class="fa-solid fa-flask"></i> 実験検証中</span>
+              <span style="font-size: 0.8rem; color: #64748B; font-weight: 700;">Axiory ナノ口座</span>
+            </div>
+            <h3 class="ea-title">BounceRider Grid <span style="font-size: 0.9rem; color: #0EA5E9; font-weight: 800;">(AUDNZD)</span></h3>
+            <p class="ea-desc">
+              レンジ形成しやすいオセアニア通貨ペア（AUD/NZD）に最適化したボリンジャーバンド逆張りグリッドEA。長期的レンジ推移での収益化を検証中。
+            </p>
+
+            <table class="ea-spec-table">
+              <tr>
+                <th><i class="fa-solid fa-coins"></i> 通貨ペア</th>
+                <td>AUDNZD</td>
+              </tr>
+              <tr>
+                <th><i class="fa-solid fa-clock"></i> 時間足</th>
+                <td>H1 (1時間足)</td>
+              </tr>
+              <tr>
+                <th><i class="fa-solid fa-gears"></i> ロジック</th>
+                <td>ボリンジャーバンド逆張り / グリッド</td>
+              </tr>
+              <tr>
+                <th><i class="fa-solid fa-server"></i> 口座種別</th>
+                <td>デモ口座 (Axiory Nano)</td>
+              </tr>
+            </table>
+          </div>
+
+          <a href="https://www.myfxbook.com/portfolio/bouncerider-grid-audnzd/12157924" target="_blank" rel="noopener noreferrer" class="btn-myfxbook">
+            <i class="fa-solid fa-chart-line"></i> myfxbookで成績を見る <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.85rem;"></i>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container" style="text-align: center;">
+      <p style="margin-bottom: 8px; font-weight: 700; color: #FFF; font-size: 1.1rem;">Dark Venus ラボ</p>
+      <p class="disclaimer" style="max-width: 800px; margin: 12px auto; font-size: 0.8rem; color: #A0AEC0; line-height: 1.6;">
+        【免責事項】当サイトで公開しているフォワードデータおよび検証結果は、実機デモ環境でのパフォーマンス記録です。将来の運用成果や収益性を保証するものではありません。実際の投資・運用の結果生じた損害について、当サイトは一切の責任を負いません。すべて自己責任にてご利用ください。
+      </p>
+      <p style="margin: 12px 0; font-size: 0.85rem;">
+        <a href="privacy.html" style="color: #A0AEC0; margin-right: 16px;">プライバシーポリシー</a>
+        <a href="contact.html" style="color: #A0AEC0;">お問い合わせ</a>
+      </p>
+      <p class="copyright" style="font-size: 0.8rem; color: #718096; margin-top: 12px;">
+        &copy; 2026 Dark Venus ラボ All Rights Reserved.
+      </p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+
+</html>
