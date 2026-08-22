@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DVLab EA 管理ダッシュボード</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Zen+Maru+Gothic:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body { background-color: #0F172A; color: #F8FAFC; }
+    .admin-container { max-width: 1200px; margin: 40px auto; padding: 20px; }
+    .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #334155; padding-bottom: 20px; }
+    .admin-card { background: #1E293B; border-radius: 12px; padding: 25px; margin-bottom: 30px; border: 1px solid #334155; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; font-size: 0.9rem; font-weight: 700; color: #94A3B8; margin-bottom: 5px; }
+    .form-control { width: 100%; padding: 10px 15px; background: #0F172A; border: 1px solid #334155; border-radius: 6px; color: #F8FAFC; font-family: inherit; }
+    .form-control:focus { outline: none; border-color: #0EA5E9; }
+    .form-row { display: flex; gap: 15px; }
+    .form-row .form-group { flex: 1; }
+    .btn { padding: 10px 20px; border-radius: 6px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-primary { background: #0EA5E9; color: white; }
+    .btn-primary:hover { background: #0284C7; }
+    .btn-secondary { background: #334155; color: white; }
+    .btn-secondary:hover { background: #475569; }
+    .btn-danger { background: #EF4444; color: white; }
+    .btn-danger:hover { background: #DC2626; }
+    
+    .ea-list-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.9rem; }
+    .ea-list-table th, .ea-list-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #334155; }
+    .ea-list-table th { color: #94A3B8; font-weight: 700; background: #0F172A; }
+    .ea-list-table tr:hover { background: #243447; }
+    .ea-list-table input { background: transparent; border: 1px solid transparent; color: #F8FAFC; padding: 5px; width: 100%; border-radius: 4px; }
+    .ea-list-table input:hover, .ea-list-table input:focus { border-color: #0EA5E9; background: #0F172A; }
+    
+    .status-msg { padding: 10px 15px; border-radius: 6px; margin-bottom: 20px; display: none; }
+    .status-success { background: rgba(16, 185, 129, 0.2); color: #34D399; border: 1px solid #10B981; }
+    .status-error { background: rgba(239, 68, 68, 0.2); color: #F87171; border: 1px solid #EF4444; }
+
+    /* Login Overlay */
+    #login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0F172A; z-index: 9999; display: flex; justify-content: center; align-items: center; }
+    .login-box { background: #1E293B; padding: 40px; border-radius: 12px; border: 1px solid #334155; width: 100%; max-width: 400px; text-align: center; }
+  </style>
+</head>
+<body>
+
+  <!-- 簡易パスワード保護オーバーレイ (セキュリティ強化のため) -->
+  <div id="login-overlay">
+    <div class="login-box">
+      <h2 style="margin-bottom: 20px;"><i class="fa-solid fa-lock" style="color: #0EA5E9;"></i> Admin Login</h2>
+      <div class="form-group">
+        <input type="password" id="admin-pass" class="form-control" placeholder="パスワードを入力">
+      </div>
+      <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="checkPassword()">ログイン</button>
+      <p id="login-error" style="color: #EF4444; margin-top: 10px; font-size: 0.85rem; display: none;">パスワードが間違っています</p>
+    </div>
+  </div>
+
+  <div class="admin-container">
+    <div class="admin-header">
+      <h2><i class="fa-solid fa-gear" style="color: #0EA5E9;"></i> EA管理ダッシュボード</h2>
+      <a href="index.html" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> サイトに戻る</a>
+    </div>
+
+    <!-- Notification Area -->
+    <div id="notification" class="status-msg"></div>
+
+    <!-- 新規登録フォーム -->
+    <div class="admin-card">
+      <h3 style="margin-bottom: 20px; border-bottom: 1px solid #334155; padding-bottom: 10px;"><i class="fa-solid fa-plus-circle"></i> 新規EAの登録</h3>
+      
+      <div class="form-row">
+        <div class="form-group" style="flex: 2;">
+          <label>myfxbook URL (ポートフォリオURL)</label>
+          <input type="text" id="new-url" class="form-control" placeholder="https://www.myfxbook.com/portfolio/...">
+        </div>
+        <div class="form-group" style="flex: 1; display: flex; align-items: flex-end;">
+          <button class="btn btn-secondary" style="width: 100%; justify-content: center;" onclick="autoFetchMyfxbook()">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> 情報自動取得
+          </button>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>EA名 (表示名)</label>
+          <input type="text" id="new-name" class="form-control" placeholder="例: SlopeRider Grid">
+        </div>
+        <div class="form-group">
+          <label>識別キー (英数字ハイフンのみ)</label>
+          <input type="text" id="new-key" class="form-control" placeholder="例: sloperider-grid">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>通貨ペア</label>
+          <input type="text" id="new-pair" class="form-control" placeholder="例: EURUSD">
+        </div>
+        <div class="form-group">
+          <label>時間足</label>
+          <input type="text" id="new-timeframe" class="form-control" placeholder="例: H1">
+        </div>
+        <div class="form-group">
+          <label>ブローカー</label>
+          <input type="text" id="new-broker" class="form-control" placeholder="例: Axiory">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>ロジックタイプ</label>
+          <input type="text" id="new-logic" class="form-control" placeholder="例: トレンド順張り / グリッド">
+        </div>
+        <div class="form-group">
+          <label>表示価格テキスト</label>
+          <input type="text" id="new-price-text" class="form-control" placeholder="例: ¥19,800 (税込)" value="無料 (オープンソース)">
+        </div>
+        <div class="form-group">
+          <label>数値価格 (評価用)</label>
+          <input type="number" id="new-price-val" class="form-control" placeholder="例: 19800" value="0">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>アフィリエイトURL / 入手ページURL</label>
+        <input type="text" id="new-affiliate" class="form-control" placeholder="https://...">
+      </div>
+
+      <div style="text-align: right; margin-top: 20px;">
+        <button class="btn btn-primary" onclick="registerNewEA()"><i class="fa-solid fa-database"></i> データベースへ登録</button>
+      </div>
+    </div>
+
+    <!-- 登録済みEA一覧リスト -->
+    <div class="admin-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; padding-bottom: 10px; margin-bottom: 20px;">
+        <h3 style="margin: 0;"><i class="fa-solid fa-list"></i> 登録済み EA一覧 & クイック編集</h3>
+        <button class="btn btn-secondary" onclick="loadEAList()" style="padding: 5px 15px; font-size: 0.8rem;"><i class="fa-solid fa-rotate"></i> 更新</button>
+      </div>
+      
+      <div style="overflow-x: auto;">
+        <table class="ea-list-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>EA名</th>
+              <th>表示価格 (編集可)</th>
+              <th>アフィリエイトURL (編集可)</th>
+              <th>状態</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="ea-list-body">
+            <tr><td colspan="6" style="text-align: center;">読み込み中...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Supabase JS Client (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
