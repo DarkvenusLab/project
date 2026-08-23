@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EA TCG Card Component Preview - Dark Venus Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #090D16;
+      color: #F8FAFC;
+      font-family: 'Zen Maru Gothic', 'Outfit', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    h1 { font-family: 'Outfit', sans-serif; font-size: 2rem; margin-bottom: 10px; text-align: center; color: #38BDF8; text-transform: uppercase; letter-spacing: 1px; }
+    p.subtitle { color: #94A3B8; margin-bottom: 40px; text-align: center; font-size: 0.95rem; }
+
+    /* Grid Layout for Cards */
+    .card-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+      max-width: 1200px;
+    }
+
+    /* TCG Card Base (Unified Yu-Gi-Oh / DBZ Format) */
+    .tcg-card {
+      width: 320px;
+      background: #111827;
+      border-radius: 16px;
+      padding: 16px;
+      position: relative;
+      border: 2px solid #334155;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+    }
+    
+    .tcg-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 35px -5px rgba(14, 165, 233, 0.3);
+    }
+
+    /* Rank Specific Glow / Borders */
+    .tcg-card.rank-sss {
+      border-color: #F59E0B;
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+      background: linear-gradient(145deg, #1E1B18 0%, #111827 100%);
+    }
+    .tcg-card.rank-ss {
+      border-color: #38BDF8;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+      background: linear-gradient(145deg, #132337 0%, #111827 100%);
+    }
+
+    /* Top Left Rank Badge (Dragon Ball Style) */
+    .rank-badge {
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      background: linear-gradient(135deg, #F59E0B, #D97706);
+      color: #000;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 900;
+      font-size: 1.4rem;
+      padding: 6px 14px 6px 16px;
+      border-bottom-right-radius: 16px;
+      border-top-left-radius: 14px;
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .rank-ss .rank-badge { background: linear-gradient(135deg, #38BDF8, #0284C7); color: #FFF; }
+    .rank-badge i { font-size: 0.9rem; }
+
+    /* Top Header Bar */
+    .card-header {
+      margin-left: 80px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .ea-title { font-size: 1.1rem; font-weight: 900; color: #F8FAFC; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 140px; }
+    .pair-badge { background: #1E293B; border: 1px solid #475569; color: #38BDF8; font-size: 0.75rem; font-weight: 700; padding: 3px 8px; border-radius: 6px; font-family: 'Outfit', sans-serif; }
+
+    /* Center Visual Area (Radar Chart) */
+    .visual-container {
+      background: #0B1120;
+      border: 1px solid #1E293B;
+      border-radius: 12px;
+      height: 180px;
+      position: relative;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 5px;
+    }
+    .visual-container canvas { max-height: 170px !important; }
+
+    /* Bottom Core 6-Axis Metrics Grid (Yu-Gi-Oh / DBZ Hybrid) */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .metric-item {
+      background: #1E293B;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 6px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .metric-label { font-size: 0.75rem; color: #94A3B8; font-weight: 700; }
+    .metric-val { font-size: 0.85rem; font-weight: 900; color: #F8FAFC; font-family: 'Outfit', sans-serif; }
+    .val-positive { color: #34D399; }
+    .val-danger { color: #F87171; }
+
+    /* Footer Price & CTA Button */
+    .card-footer {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .price-box {
+      background: #1E293B;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 8px;
+      text-align: center;
+      flex: 1;
+    }
+    .price-label { font-size: 0.65rem; color: #94A3B8; display: block; }
+    .price-val { font-size: 0.8rem; font-weight: 900; color: #F8FAFC; }
+    
+    .cta-btn {
+      flex: 2;
+      background: linear-gradient(135deg, #0EA5E9, #0284C7);
+      color: white;
+      text-decoration: none;
+      text-align: center;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: 900;
+      font-size: 0.85rem;
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
+      transition: all 0.2s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+    }
+    .cta-btn:hover { background: linear-gradient(135deg, #38BDF8, #0EA5E9); transform: scale(1.03); }
+
+    .btn-detail {
+      background: #334155;
+      color: #94A3B8;
+      border: none;
+      border-radius: 8px;
+      padding: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-detail:hover { color: white; background: #475569; }
+  </style>
+</head>
+<body>
+
+  <h1><i class="fa-solid fa-layer-group"></i> Dark Venus Lab EA Battle Card</h1>
+  <p class="subtitle">ドラゴンボール(ランクバッジ) ＋ 遊戯王(統一フォーマット) 融合デザインコンポーネント</p>
+
+  <div class="card-grid">
+
+    <!-- Card 1: Quantum King (SSS Rank) -->
+    <div class="tcg-card rank-sss">
+      <div class="rank-badge">SSS <i class="fa-solid fa-crown"></i></div>
+      
+      <div class="card-header">
+        <div class="ea-title">Quantum King</div>
+        <div class="pair-badge">EURUSD H1</div>
+      </div>
+
+      <div class="visual-container">
+        <canvas id="chart-quantum"></canvas>
+      </div>
+
+      <div class="metrics-grid">
+        <div class="metric-item">
+          <span class="metric-label">攻撃(月利)</span>
+          <span class="metric-val val-positive">+35.9%</span>
+        </div>
+        <div class="metric-item">
+          <span class="metric-label">防御(最大DD)</span>
+          <span class="metric-val val-danger">29.2%</span>
+        </div>
+        <div class="metric-item">
+          <span class="metric-label">収益性(PF)</span>
+          <span class="metric-val">2.26</span>
+        </div>
+        <div class="metric-item">
+          <span class="metric-label">資金効率(RF)</span>
+          <span class="metric-val">21.28</span>
+        </div>
+        <div class="metric-item">
+          <span class="metric-label">信頼(運用)</span>
+          <span class="metric-val">52週</span>
+        </div>
+        <div class="metric-item">
+          <span class="metric-label">手頃(推奨)</span>
+          <span class="metric-val">$500</span>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <div class="price-box">
+          <span class="price-label">価格</span>
+          <span class="price-val">無料</span>
+        </div>
+        <a href="https://www.mql5.com/ja/signals/2333407" target="_blank" class="cta-btn">
+          <i class="fa-solid fa-bolt"></i> EA入手
+        </a>
+        <button class="btn-detail" title="詳細スタッツを表示"><i class="fa-solid fa-circle-info"></i></button>
+      </div>
+    </div>
+
+    <!-- Card 2: SlopeRider Grid (SS Rank) -->
+    <div class="tcg-card rank-ss">
+      <div class="rank-badge">SS <i class="fa-solid fa-star"></i></div>
+      
+      <div class="card-header">
+        <div class="ea-title">SlopeRider Grid</div>
+        <div class="pair-badge">NZDCAD M15</div>
+      </div>
+
+      <div class="visual-container">
+        <canvas id="chart-sloperider"></canvas>
+      </div>
+
+      <div class="metrics-grid">
+        <div class="metric-item">
+          <span class="metric-label">攻撃(月利)</span>
+          <span class="metric-val val-positive">+12.4%</span>
+        </div>
+        <div class="metric-item">
+          <span class="metric-label">防御(最大DD)</span>
+          <span class="metric-val val-danger">15.1%</span>
+        </div>
+        <div class="metric-item">
+          <span class="metric-label">収益性(PF)</span>
+          <span class="metric-val">1.85</span>
+        </div>
+        <div class="metric-item">
+          <span class="metric-label">資金効率(RF)</span>
+          <span class="metric-val">14.30</span>
+        </div>
+        <div class="metric-item">
+          <span class="metric-label">信頼(運用)</span>
+          <span class="metric-val">38週</span>
+        </div>
+        <div class="metric-item">
+          <span class="metric-label">手頃(推奨)</span>
+          <span class="metric-val">$300</span>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <div class="price-box">
+          <span class="price-label">価格</span>
+          <span class="price-val">無料</span>
+        </div>
+        <a href="#" class="cta-btn">
+          <i class="fa-solid fa-bolt"></i> EA入手
+        </a>
+        <button class="btn-detail" title="詳細スタッツを表示"><i class="fa-solid fa-circle-info"></i></button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Helper to render Chart.js 6-axis Radar
+    function createRadar(canvasId, values, color) {
+      const ctx = document.getElementById(canvasId).getContext('2d');
+      new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: ['攻撃', '防御', '収益', '効率', '信頼', '手頃'],
+          datasets: [{
+            data: values,
+            backgroundColor: color.bg,
+            borderColor: color.border,
+            borderWidth: 2,
+            pointRadius: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            r: {
+              angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+              grid: { color: 'rgba(255, 255, 255, 0.1)' },
+              pointLabels: { color: '#94A3B8', font: { size: 9, weight: 'bold' } },
+              ticks: { display: false },
+              min: 0,
+              max: 100
+            }
+          }
+        }
+      });
+    }
+
+    createRadar('chart-quantum', [95, 75, 88, 92, 90, 85], { bg: 'rgba(245, 158, 11, 0.2)', border: '#F59E0B' });
+    createRadar('chart-sloperider', [82, 85, 78, 80, 75, 90], { bg: 'rgba(56, 189, 248, 0.2)', border: '#38BDF8' });
+  </script>
+</body>
+</html>
