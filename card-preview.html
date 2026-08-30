@@ -26,19 +26,19 @@
     p.subtitle { color: #94A3B8; margin-bottom: 40px; text-align: center; font-size: 0.95rem; }
 
     /* -------------------------------------------
-       The Physical Card Container
+       The Physical Card Container (Tightened Margins)
     ------------------------------------------- */
     .tcg-card {
       position: relative;
       background-color: #05070B;
       border-radius: 16px;
-      border: 3px solid #38BDF8;
+      border: 3.5px solid #38BDF8;
       box-shadow: 0 15px 40px -5px rgba(0, 0, 0, 0.9), 0 0 25px rgba(56, 189, 248, 0.25);
       width: 400px;
-      padding: 16px;
+      padding: 10px 8px 12px 8px; /* Reduced inner padding from 16px to 8px so frames expand! */
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 6px; /* Tightened gap between sections from 12px to 6px */
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .tcg-card:hover {
@@ -52,16 +52,16 @@
       justify-content: space-between;
       align-items: flex-start;
       position: relative;
-      min-height: 65px;
-      padding-right: 90px;
+      min-height: 62px;
+      padding: 4px 90px 0px 8px;
     }
     .ea-title-area {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 2px;
     }
     .ea-name {
-      font-size: 1.6rem;
+      font-size: 1.65rem;
       font-weight: 900;
       color: #F8FAFC;
       font-family: 'Outfit', sans-serif;
@@ -95,7 +95,7 @@
     .rank-badge-area {
       position: absolute;
       top: -8px;
-      right: -8px;
+      right: -2px;
       display: flex;
       flex-direction: column;
       align-items: flex-end;
@@ -129,10 +129,10 @@
       text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
     }
 
-    /* --- MIDDLE SECTION (Holographic frame_SS.png) --- */
+    /* --- MIDDLE SECTION (Expanded to Fill Edge) --- */
     .art-frame {
       position: relative;
-      height: 220px;
+      height: 225px;
       border-radius: 10px;
       box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 6px 16px rgba(0,0,0,0.6);
       background-image: url('images/CardDesignParts/Frame/frame_SS.png');
@@ -143,11 +143,12 @@
       justify-content: space-between;
       align-items: center;
       padding: 15px;
+      width: 100%;
     }
 
     .ea-thumbnail {
-      width: 140px;
-      height: 140px;
+      width: 145px;
+      height: 145px;
       border-radius: 18px;
       box-shadow: 8px 12px 25px rgba(0,0,0,0.85), -2px -2px 10px rgba(255,255,255,0.3);
       object-fit: cover;
@@ -158,8 +159,8 @@
     }
 
     .radar-circle {
-      width: 135px;
-      height: 135px;
+      width: 140px;
+      height: 140px;
       background: rgba(9, 13, 22, 0.88);
       backdrop-filter: blur(6px);
       border: 2px solid rgba(56, 189, 248, 0.5);
@@ -172,10 +173,11 @@
       z-index: 2;
     }
 
-    /* --- SKILL BANNER SECTION (Vertically Perfect Centering) --- */
+    /* --- SKILL BANNER SECTION (Expanded to Fill Edge) --- */
     .skill-banner-container {
       position: relative;
-      height: 76px;
+      height: 80px;
+      width: 100%;
       background-image: url('images/CardDesignParts/Frame/frame_Skill.png');
       background-size: 100% 100%;
       background-repeat: no-repeat;
@@ -183,7 +185,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 16px 20px 4px 20px; /* Adjusted padding to center text vertically in usable space */
+      padding: 18px 24px 4px 24px;
       filter: drop-shadow(0 4px 8px rgba(0,0,0,0.7));
     }
     .skill-tags-text {
@@ -191,21 +193,22 @@
       font-weight: 900;
       font-style: italic;
       font-family: 'M PLUS 1p', sans-serif;
-      font-size: 0.95rem;
+      font-size: 0.98rem;
       letter-spacing: 0.5px;
       text-align: center;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.95), 0 0 8px rgba(255,255,255,0.2);
       line-height: 1.25;
     }
 
-    /* --- BOTTOM STATS BOX (Game-matched Italic Typography) --- */
+    /* --- BOTTOM STATS BOX (Expanded to Fill Edge) --- */
     .stats-frame {
       position: relative;
+      width: 100%;
       background-image: url('images/CardDesignParts/Frame/frame_Under.png');
       background-size: 100% 100%;
       background-repeat: no-repeat;
       background-position: center;
-      padding: 16px 22px 14px 26px;
+      padding: 18px 24px 16px 28px;
       display: flex;
       flex-direction: column;
       gap: 7px;
@@ -224,7 +227,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      width: 140px;
+      width: 145px;
     }
     .stat-icon {
       font-size: 1.05rem;
@@ -236,7 +239,7 @@
     .stat-name {
       font-weight: 900;
       font-style: italic;
-      font-size: 0.92rem;
+      font-size: 0.95rem;
       color: #F8FAFC;
       letter-spacing: 0.5px;
       text-shadow: 2px 2px 3px rgba(0,0,0,0.95);
@@ -246,10 +249,10 @@
       font-family: 'Outfit', sans-serif;
       font-weight: 900;
       font-style: italic;
-      font-size: 1.05rem;
+      font-size: 1.08rem;
       color: #F8FAFC;
       text-shadow: 2px 2px 3px rgba(0,0,0,0.95);
-      width: 70px;
+      width: 75px;
       text-align: center;
     }
 
@@ -257,12 +260,12 @@
       font-family: 'M PLUS 1p', 'Outfit', sans-serif;
       font-weight: 900;
       font-style: italic;
-      font-size: 1.15rem;
+      font-size: 1.18rem;
       color: #FBBF24;
       text-decoration: underline;
       text-underline-offset: 3px;
       text-shadow: 0 0 8px rgba(251, 191, 36, 0.5), 1px 1px 2px rgba(0,0,0,0.9);
-      width: 90px;
+      width: 95px;
       text-align: right;
     }
 
@@ -322,7 +325,7 @@
 <body>
 
   <h1><i class="fa-solid fa-layer-group"></i> Real Custom Assets TCG Card Preview</h1>
-  <p class="subtitle">自作パーツ（『frame_SS.png』『frame_Skill.png』『frame_Under.png』）完全統合版</p>
+  <p class="subtitle">カード外枠ギリギリまでパーツを拡大＆余白（マージン）完全除去版</p>
 
   <div style="display:flex; flex-direction:column; align-items:center;">
 
@@ -346,7 +349,7 @@
         </div>
       </div>
 
-      <!-- MIDDLE SECTION (Real frame_SS.png) -->
+      <!-- MIDDLE SECTION (Expanded to Fill Edge) -->
       <div class="art-frame">
         <!-- Floating EA Thumbnail -->
         <img src="https://images.unsplash.com/photo-1614729939124-03290b55c9ce?auto=format&fit=crop&q=80&w=300" class="ea-thumbnail" alt="EA Thumbnail">
@@ -357,12 +360,12 @@
         </div>
       </div>
 
-      <!-- SKILL BANNER SECTION (Real frame_Skill.png - Vertically Centered) -->
+      <!-- SKILL BANNER SECTION (Expanded to Fill Edge) -->
       <div class="skill-banner-container">
         <div class="skill-tags-text">逆張り / ナンピン / スキャルピング /</div>
       </div>
 
-      <!-- BOTTOM SECTION (Real frame_Under.png - Game-matched Italic Typography) -->
+      <!-- BOTTOM SECTION (Expanded to Fill Edge) -->
       <div class="stats-frame">
         <div class="stat-row">
           <div class="stat-left">
