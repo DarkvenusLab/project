@@ -67,40 +67,42 @@
       display: flex;
       flex-direction: column;
       gap: 2px;
-      padding-top: 4px;
+      padding-top: 2px;
     }
     .ea-name {
-      font-size: 1.55rem;
+      font-size: 1.5rem;
       font-weight: 900;
       color: #F8FAFC;
       font-family: 'Outfit', sans-serif;
       font-style: italic;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
       line-height: 1.1;
+      max-width: 240px;
     }
     .ea-overall-stars {
       color: #FBBF24;
-      font-size: 1rem;
+      font-size: 0.95rem;
       letter-spacing: 2px;
       text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
     }
     .ea-overall-stars .empty { color: #334155; }
 
-    /* Massive floating badge area (Right) using user's real rank_SS.png */
+    /* Floating badge area (Right) using user's real rank_SS.png */
     .rank-badge-area {
       position: absolute;
-      top: -28px;
-      right: -15px;
+      top: -24px;
+      right: -10px;
       display: flex;
       flex-direction: column;
       align-items: flex-end;
       z-index: 10;
     }
     .rank-ss-logo {
-      width: 120px;
+      width: 90px; /* Reduced from 120px for perfect proportions */
       height: auto;
-      filter: drop-shadow(0 5px 10px rgba(0,0,0,0.7));
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.8));
       transition: transform 0.2s;
+      image-rendering: -webkit-optimize-contrast;
     }
     .rank-ss-logo:hover {
       transform: scale(1.08) rotate(2deg);
@@ -111,11 +113,11 @@
       color: #FFF;
       font-family: 'Outfit', sans-serif;
       font-weight: 900;
-      font-size: 0.85rem;
-      padding: 3px 14px;
-      margin-top: -12px;
-      margin-right: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.7);
+      font-size: 0.75rem;
+      padding: 2px 10px;
+      margin-top: -6px;
+      margin-right: 5px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.8);
       border: 1px solid #991B1B;
       z-index: 11;
       transform: skewX(-12deg);
@@ -148,6 +150,7 @@
       transform: perspective(800px) rotateY(15deg) rotateZ(-5deg) scale(1.05);
       z-index: 2;
       border: 2px solid rgba(255,255,255,0.4);
+      background-color: #0f172a;
     }
 
     /* Floating Radar Chart */
@@ -320,8 +323,8 @@
 
       <!-- MIDDLE SECTION (User's Real frame_SS.png Background) -->
       <div class="art-frame">
-        <!-- Floating EA Logo/Thumbnail with 3D Tilt -->
-        <img src="https://c.mql5.com/31/850/quantum-king-logo-200x200-2646.png" class="ea-thumbnail" alt="EA Thumbnail">
+        <!-- Floating EA Logo/Thumbnail (Reliable Unsplash Cyberpunk image) -->
+        <img src="https://images.unsplash.com/photo-1614729939124-03290b55c9ce?auto=format&fit=crop&q=80&w=300" class="ea-thumbnail" alt="EA Thumbnail">
         
         <!-- Radar Chart inside black circle -->
         <div class="radar-circle">
