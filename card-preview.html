@@ -6,7 +6,7 @@
   <title>EA TCG Card Component Preview - Dark Venus Lab</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:ital,wght@0,400;0,700;0,900;1,700;1,900&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1p:ital,wght@1,800;1,900&family=Outfit:ital,wght@0,400;0,700;0,900;1,700;1,900&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
@@ -14,7 +14,7 @@
     body {
       background: #090D16;
       color: #F8FAFC;
-      font-family: 'Zen Maru Gothic', 'Outfit', sans-serif;
+      font-family: 'M PLUS 1p', 'Outfit', 'Zen Maru Gothic', sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -172,7 +172,7 @@
       z-index: 2;
     }
 
-    /* --- SKILL BANNER SECTION (Using user's real frame_Skill.png) --- */
+    /* --- SKILL BANNER SECTION (Vertically Perfect Centering) --- */
     .skill-banner-container {
       position: relative;
       height: 76px;
@@ -183,28 +183,29 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 22px 20px 8px 20px; /* Offset for the embedded SKILL header */
+      padding: 16px 20px 4px 20px; /* Adjusted padding to center text vertically in usable space */
       filter: drop-shadow(0 4px 8px rgba(0,0,0,0.7));
     }
     .skill-tags-text {
       color: #FFF;
       font-weight: 900;
       font-style: italic;
+      font-family: 'M PLUS 1p', sans-serif;
       font-size: 0.95rem;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
       text-align: center;
-      text-shadow: 1px 1px 4px rgba(0,0,0,0.9);
-      line-height: 1.2;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.95), 0 0 8px rgba(255,255,255,0.2);
+      line-height: 1.25;
     }
 
-    /* --- BOTTOM STATS BOX (Using user's real frame_Under.png) --- */
+    /* --- BOTTOM STATS BOX (Game-matched Italic Typography) --- */
     .stats-frame {
       position: relative;
       background-image: url('images/CardDesignParts/Frame/frame_Under.png');
       background-size: 100% 100%;
       background-repeat: no-repeat;
       background-position: center;
-      padding: 16px 20px 14px 24px;
+      padding: 16px 22px 14px 26px;
       display: flex;
       flex-direction: column;
       gap: 7px;
@@ -216,6 +217,7 @@
       align-items: center;
       justify-content: space-between;
       font-style: italic;
+      font-family: 'M PLUS 1p', 'Outfit', sans-serif;
     }
 
     .stat-left {
@@ -225,36 +227,41 @@
       width: 140px;
     }
     .stat-icon {
-      font-size: 1rem;
-      width: 20px;
+      font-size: 1.05rem;
+      width: 22px;
       text-align: center;
       color: #FBBF24;
-      filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.6));
+      filter: drop-shadow(0 0 5px rgba(251, 191, 36, 0.7));
     }
     .stat-name {
       font-weight: 900;
-      font-size: 0.9rem;
-      color: #FFF;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.9);
+      font-style: italic;
+      font-size: 0.92rem;
+      color: #F8FAFC;
+      letter-spacing: 0.5px;
+      text-shadow: 2px 2px 3px rgba(0,0,0,0.95);
     }
 
     .stat-points {
       font-family: 'Outfit', sans-serif;
       font-weight: 900;
-      font-size: 1rem;
+      font-style: italic;
+      font-size: 1.05rem;
       color: #F8FAFC;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.9);
+      text-shadow: 2px 2px 3px rgba(0,0,0,0.95);
       width: 70px;
       text-align: center;
     }
 
     .stat-raw-value {
-      font-family: 'Outfit', sans-serif;
+      font-family: 'M PLUS 1p', 'Outfit', sans-serif;
       font-weight: 900;
+      font-style: italic;
       font-size: 1.15rem;
       color: #FBBF24;
       text-decoration: underline;
-      text-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
+      text-underline-offset: 3px;
+      text-shadow: 0 0 8px rgba(251, 191, 36, 0.5), 1px 1px 2px rgba(0,0,0,0.9);
       width: 90px;
       text-align: right;
     }
@@ -350,12 +357,12 @@
         </div>
       </div>
 
-      <!-- SKILL BANNER SECTION (Real frame_Skill.png) -->
+      <!-- SKILL BANNER SECTION (Real frame_Skill.png - Vertically Centered) -->
       <div class="skill-banner-container">
         <div class="skill-tags-text">逆張り / ナンピン / スキャルピング /</div>
       </div>
 
-      <!-- BOTTOM SECTION (Real frame_Under.png) -->
+      <!-- BOTTOM SECTION (Real frame_Under.png - Game-matched Italic Typography) -->
       <div class="stats-frame">
         <div class="stat-row">
           <div class="stat-left">
