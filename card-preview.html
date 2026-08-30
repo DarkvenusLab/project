@@ -53,7 +53,7 @@
       align-items: flex-start;
       position: relative;
       min-height: 65px;
-      padding-right: 90px; /* Space for floating rank badge */
+      padding-right: 90px;
     }
     .ea-title-area {
       display: flex;
@@ -129,7 +129,7 @@
       text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
     }
 
-    /* --- MIDDLE SECTION (Holographic Frame) --- */
+    /* --- MIDDLE SECTION (Holographic frame_SS.png) --- */
     .art-frame {
       position: relative;
       height: 220px;
@@ -172,33 +172,19 @@
       z-index: 2;
     }
 
-    /* --- SKILL BANNER SECTION --- */
+    /* --- SKILL BANNER SECTION (Using user's real frame_Skill.png) --- */
     .skill-banner-container {
       position: relative;
-      background: linear-gradient(180deg, #3B0764 0%, #1E1B4B 100%);
-      border: 2px solid #D97706;
-      border-radius: 8px;
-      padding: 14px 10px 8px 10px;
-      text-align: center;
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.8), 0 4px 10px rgba(0,0,0,0.6);
-      margin-top: 5px;
-    }
-    .skill-badge-header {
-      position: absolute;
-      top: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: linear-gradient(135deg, #DC2626 0%, #991B1B 100%);
-      border: 1 border solid #FBBF24;
-      color: #FFF;
-      font-family: 'Outfit', sans-serif;
-      font-weight: 900;
-      font-style: italic;
-      font-size: 0.75rem;
-      letter-spacing: 2px;
-      padding: 2px 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.8);
+      height: 76px;
+      background-image: url('images/CardDesignParts/Frame/frame_Skill.png');
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 22px 20px 8px 20px; /* Offset for the embedded SKILL header */
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.7));
     }
     .skill-tags-text {
       color: #FFF;
@@ -206,20 +192,23 @@
       font-style: italic;
       font-size: 0.95rem;
       letter-spacing: 1px;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
+      text-align: center;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.9);
+      line-height: 1.2;
     }
 
-    /* --- BOTTOM STATS BOX (Ornate Gold Frame) --- */
+    /* --- BOTTOM STATS BOX (Using user's real frame_Under.png) --- */
     .stats-frame {
-      background: linear-gradient(180deg, #090D16 0%, #0F172A 100%);
-      border: 3px solid #D97706;
-      border-radius: 10px;
-      padding: 12px 14px;
+      position: relative;
+      background-image: url('images/CardDesignParts/Frame/frame_Under.png');
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      background-position: center;
+      padding: 16px 20px 14px 24px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.8), inset 0 0 15px rgba(217, 119, 6, 0.15);
-      position: relative;
+      gap: 7px;
+      filter: drop-shadow(0 5px 12px rgba(0,0,0,0.8));
     }
     
     .stat-row {
@@ -325,8 +314,8 @@
 </head>
 <body>
 
-  <h1><i class="fa-solid fa-layer-group"></i> Ultimate TCG Card Component Preview</h1>
-  <p class="subtitle">新仕様書（100点満点評価 ＆ SKILLバナー ＆ 豪華ステータス枠）完全再現版</p>
+  <h1><i class="fa-solid fa-layer-group"></i> Real Custom Assets TCG Card Preview</h1>
+  <p class="subtitle">自作パーツ（『frame_SS.png』『frame_Skill.png』『frame_Under.png』）完全統合版</p>
 
   <div style="display:flex; flex-direction:column; align-items:center;">
 
@@ -350,7 +339,7 @@
         </div>
       </div>
 
-      <!-- MIDDLE SECTION (Holographic frame_SS.png) -->
+      <!-- MIDDLE SECTION (Real frame_SS.png) -->
       <div class="art-frame">
         <!-- Floating EA Thumbnail -->
         <img src="https://images.unsplash.com/photo-1614729939124-03290b55c9ce?auto=format&fit=crop&q=80&w=300" class="ea-thumbnail" alt="EA Thumbnail">
@@ -361,13 +350,12 @@
         </div>
       </div>
 
-      <!-- SKILL BANNER SECTION -->
+      <!-- SKILL BANNER SECTION (Real frame_Skill.png) -->
       <div class="skill-banner-container">
-        <div class="skill-badge-header">SKILL</div>
         <div class="skill-tags-text">逆張り / ナンピン / スキャルピング /</div>
       </div>
 
-      <!-- BOTTOM SECTION (Ornate Gold Stats Frame) -->
+      <!-- BOTTOM SECTION (Real frame_Under.png) -->
       <div class="stats-frame">
         <div class="stat-row">
           <div class="stat-left">
