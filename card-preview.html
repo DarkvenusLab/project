@@ -25,72 +25,76 @@
     h1 { font-family: 'Outfit', sans-serif; font-size: 2rem; margin-bottom: 10px; text-align: center; color: #38BDF8; text-transform: uppercase; letter-spacing: 1px; }
     p.subtitle { color: #94A3B8; margin-bottom: 40px; text-align: center; font-size: 0.95rem; }
 
-    .card-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 50px;
-      justify-content: center;
-      max-width: 1200px;
-    }
-
     /* -------------------------------------------
        The Physical Card Container
     ------------------------------------------- */
     .tcg-card {
       position: relative;
-      background-color: #0f172a;
-      border-radius: 14px;
+      background-color: #05070B;
+      border-radius: 16px;
       border: 3px solid #38BDF8;
-      box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.8), 0 0 20px rgba(56, 189, 248, 0.2);
-      width: 380px;
+      box-shadow: 0 15px 40px -5px rgba(0, 0, 0, 0.9), 0 0 25px rgba(56, 189, 248, 0.25);
+      width: 400px;
       padding: 16px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .tcg-card:hover {
       transform: translateY(-6px) scale(1.01);
-      box-shadow: 0 25px 45px -5px rgba(56, 189, 248, 0.4);
+      box-shadow: 0 25px 50px -5px rgba(56, 189, 248, 0.45);
     }
 
-    /* --- TOP SECTION (Name & Giant Rank Badge) --- */
+    /* --- TOP SECTION (Name, TotalScore & Giant Rank Badge) --- */
     .top-section {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
       position: relative;
-      min-height: 55px;
+      min-height: 65px;
+      padding-right: 90px; /* Space for floating rank badge */
     }
     .ea-title-area {
-      flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 2px;
-      padding-top: 2px;
+      gap: 4px;
     }
     .ea-name {
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       font-weight: 900;
       color: #F8FAFC;
       font-family: 'Outfit', sans-serif;
       font-style: italic;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.9);
       line-height: 1.1;
-      max-width: 240px;
     }
-    .ea-overall-stars {
-      color: #FBBF24;
-      font-size: 0.95rem;
-      letter-spacing: 2px;
+    
+    .total-score-box {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-style: italic;
+    }
+    .total-score-label {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: #F8FAFC;
+      letter-spacing: 1px;
       text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
     }
-    .ea-overall-stars .empty { color: #334155; }
+    .total-score-val {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #FFF;
+      text-shadow: 0 0 10px rgba(255,255,255,0.8);
+    }
 
-    /* Floating badge area (Right) using user's real rank_SS.png */
+    /* Floating badge area (Right) */
     .rank-badge-area {
       position: absolute;
-      top: -6px; /* Lowered position as requested */
+      top: -8px;
       right: -8px;
       display: flex;
       flex-direction: column;
@@ -98,7 +102,7 @@
       z-index: 10;
     }
     .rank-ss-logo {
-      width: 90px;
+      width: 95px;
       height: auto;
       filter: drop-shadow(0 4px 8px rgba(0,0,0,0.8));
       transition: transform 0.2s;
@@ -123,16 +127,14 @@
       z-index: 11;
       transform: skewX(-12deg);
       text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
-      position: relative;
     }
 
-    /* --- MIDDLE SECTION (User's Custom Holographic frame_SS.png) --- */
+    /* --- MIDDLE SECTION (Holographic Frame) --- */
     .art-frame {
       position: relative;
-      height: 230px;
+      height: 220px;
       border-radius: 10px;
       box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 6px 16px rgba(0,0,0,0.6);
-      /* Using user's real frame_SS.png */
       background-image: url('images/CardDesignParts/Frame/frame_SS.png');
       background-size: 100% 100%;
       background-repeat: no-repeat;
@@ -143,7 +145,6 @@
       padding: 15px;
     }
 
-    /* Floating EA Thumbnail Image with 3D Tilt Effect */
     .ea-thumbnail {
       width: 140px;
       height: 140px;
@@ -156,11 +157,10 @@
       background-color: #0f172a;
     }
 
-    /* Floating Radar Chart */
     .radar-circle {
       width: 135px;
       height: 135px;
-      background: rgba(9, 13, 22, 0.85);
+      background: rgba(9, 13, 22, 0.88);
       backdrop-filter: blur(6px);
       border: 2px solid rgba(56, 189, 248, 0.5);
       border-radius: 50%;
@@ -172,87 +172,110 @@
       z-index: 2;
     }
 
-    /* Floating Pair/Type Badges inside Art Frame (Bottom Right) */
-    .art-badges {
+    /* --- SKILL BANNER SECTION --- */
+    .skill-banner-container {
+      position: relative;
+      background: linear-gradient(180deg, #3B0764 0%, #1E1B4B 100%);
+      border: 2px solid #D97706;
+      border-radius: 8px;
+      padding: 14px 10px 8px 10px;
+      text-align: center;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.8), 0 4px 10px rgba(0,0,0,0.6);
+      margin-top: 5px;
+    }
+    .skill-badge-header {
       position: absolute;
-      bottom: 12px;
-      right: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      align-items: flex-end;
-      z-index: 3;
-    }
-    .art-badge {
-      background: linear-gradient(90deg, #0F172A, #1E293B);
-      border: 1px solid #38BDF8;
-      color: #38BDF8;
-      font-size: 0.7rem;
-      font-weight: 800;
-      padding: 4px 12px;
-      border-radius: 5px;
-      font-family: 'Outfit', sans-serif;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.7);
-    }
-
-    /* --- BOTTOM SECTION (Stats Grid) --- */
-    .stats-container {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .stat-row {
-      display: flex;
-      align-items: center;
-      background: rgba(30, 41, 59, 0.5);
-      border-radius: 4px;
-      height: 30px;
-    }
-
-    .stat-label-box {
-      background: #1E293B;
-      color: #94A3B8;
-      font-weight: 700;
-      font-size: 0.75rem;
-      font-style: italic;
-      height: 100%;
-      width: 115px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
-      border-left: 3px solid #38BDF8;
-    }
-
-    .stat-stars {
-      flex: 1;
-      color: #FBBF24;
-      font-size: 0.8rem;
-      padding-left: 10px;
-      letter-spacing: 2px;
-    }
-    .stat-stars .empty { color: #334155; }
-
-    .stat-value {
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #DC2626 0%, #991B1B 100%);
+      border: 1 border solid #FBBF24;
+      color: #FFF;
       font-family: 'Outfit', sans-serif;
       font-weight: 900;
       font-style: italic;
-      font-size: 1.1rem;
-      color: #F8FAFC;
-      padding-right: 12px;
-      text-align: right;
-      width: 80px;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      padding: 2px 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.8);
     }
-    .val-positive { color: #34D399; }
-    .val-danger { color: #F87171; }
+    .skill-tags-text {
+      color: #FFF;
+      font-weight: 900;
+      font-style: italic;
+      font-size: 0.95rem;
+      letter-spacing: 1px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
+    }
+
+    /* --- BOTTOM STATS BOX (Ornate Gold Frame) --- */
+    .stats-frame {
+      background: linear-gradient(180deg, #090D16 0%, #0F172A 100%);
+      border: 3px solid #D97706;
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.8), inset 0 0 15px rgba(217, 119, 6, 0.15);
+      position: relative;
+    }
+    
+    .stat-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-style: italic;
+    }
+
+    .stat-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 140px;
+    }
+    .stat-icon {
+      font-size: 1rem;
+      width: 20px;
+      text-align: center;
+      color: #FBBF24;
+      filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.6));
+    }
+    .stat-name {
+      font-weight: 900;
+      font-size: 0.9rem;
+      color: #FFF;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.9);
+    }
+
+    .stat-points {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 900;
+      font-size: 1rem;
+      color: #F8FAFC;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.9);
+      width: 70px;
+      text-align: center;
+    }
+
+    .stat-raw-value {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 900;
+      font-size: 1.15rem;
+      color: #FBBF24;
+      text-decoration: underline;
+      text-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
+      width: 90px;
+      text-align: right;
+    }
 
     /* Outside Card Actions (Price & Get EA Button) */
     .card-actions {
       display: flex;
       gap: 10px;
       align-items: stretch;
-      width: 380px;
+      width: 400px;
       margin-top: 15px;
     }
     .price-box {
@@ -302,8 +325,8 @@
 </head>
 <body>
 
-  <h1><i class="fa-solid fa-layer-group"></i> Real Asset TCG Card Preview</h1>
-  <p class="subtitle">自作の『rank_SS.png』および『frame_SS.png』を実装着込み版</p>
+  <h1><i class="fa-solid fa-layer-group"></i> Ultimate TCG Card Component Preview</h1>
+  <p class="subtitle">新仕様書（100点満点評価 ＆ SKILLバナー ＆ 豪華ステータス枠）完全再現版</p>
 
   <div style="display:flex; flex-direction:column; align-items:center;">
 
@@ -314,64 +337,90 @@
       <div class="top-section">
         <div class="ea-title-area">
           <div class="ea-name">SlopeRider Grid</div>
-          <div class="ea-overall-stars">★★★★<span class="empty">★</span></div>
+          <div class="total-score-box">
+            <span class="total-score-label">TotalScore</span>
+            <span class="total-score-val">81 / 100</span>
+          </div>
         </div>
         
-        <!-- User's Real rank_SS.png -->
+        <!-- Floating Rank Badge & Date -->
         <div class="rank-badge-area">
           <img src="images/CardDesignParts/Rank/rank_SS.png" class="rank-ss-logo" alt="SS Rank Logo">
           <div class="date-badge">2026.07</div>
         </div>
       </div>
 
-      <!-- MIDDLE SECTION (User's Real frame_SS.png Background) -->
+      <!-- MIDDLE SECTION (Holographic frame_SS.png) -->
       <div class="art-frame">
-        <!-- Floating EA Logo/Thumbnail (Reliable Unsplash Cyberpunk image) -->
+        <!-- Floating EA Thumbnail -->
         <img src="https://images.unsplash.com/photo-1614729939124-03290b55c9ce?auto=format&fit=crop&q=80&w=300" class="ea-thumbnail" alt="EA Thumbnail">
         
         <!-- Radar Chart inside black circle -->
         <div class="radar-circle">
           <canvas id="chart-sloperider"></canvas>
         </div>
-
-        <!-- Floating Badges -->
-        <div class="art-badges">
-          <div class="art-badge">M15 / Grid</div>
-          <div class="art-badge">NZDCAD</div>
-        </div>
       </div>
 
-      <!-- BOTTOM SECTION (Slanted Stats) -->
-      <div class="stats-container">
+      <!-- SKILL BANNER SECTION -->
+      <div class="skill-banner-container">
+        <div class="skill-badge-header">SKILL</div>
+        <div class="skill-tags-text">逆張り / ナンピン / スキャルピング /</div>
+      </div>
+
+      <!-- BOTTOM SECTION (Ornate Gold Stats Frame) -->
+      <div class="stats-frame">
         <div class="stat-row">
-          <div class="stat-label-box">攻撃(月利)</div>
-          <div class="stat-stars">★★★<span class="empty">★★</span></div>
-          <div class="stat-value val-positive">+12.4%</div>
+          <div class="stat-left">
+            <i class="fa-solid fa-hand-fist stat-icon"></i>
+            <span class="stat-name">月間収益率</span>
+          </div>
+          <div class="stat-points">18 / 20</div>
+          <div class="stat-raw-value">+16.4%</div>
         </div>
+
         <div class="stat-row">
-          <div class="stat-label-box">防御(最大DD)</div>
-          <div class="stat-stars">★★★★★</div>
-          <div class="stat-value val-danger">15.1%</div>
+          <div class="stat-left">
+            <i class="fa-solid fa-coins stat-icon"></i>
+            <span class="stat-name">PF</span>
+          </div>
+          <div class="stat-points">16 / 20</div>
+          <div class="stat-raw-value">1.4</div>
         </div>
+
         <div class="stat-row">
-          <div class="stat-label-box">収益性(PF)</div>
-          <div class="stat-stars">★★★★<span class="empty">★</span></div>
-          <div class="stat-value">1.85</div>
+          <div class="stat-left">
+            <i class="fa-solid fa-feather-pointed stat-icon"></i>
+            <span class="stat-name">RF</span>
+          </div>
+          <div class="stat-points">16 / 20</div>
+          <div class="stat-raw-value">6.12</div>
         </div>
+
         <div class="stat-row">
-          <div class="stat-label-box">資金効率(RF)</div>
-          <div class="stat-stars">★★★★<span class="empty">★</span></div>
-          <div class="stat-value">14.30</div>
+          <div class="stat-left">
+            <i class="fa-solid fa-shield-halved stat-icon"></i>
+            <span class="stat-name">DD</span>
+          </div>
+          <div class="stat-points">14 / 15</div>
+          <div class="stat-raw-value">5.15</div>
         </div>
+
         <div class="stat-row">
-          <div class="stat-label-box">信頼(運用)</div>
-          <div class="stat-stars">★★★★<span class="empty">★</span></div>
-          <div class="stat-value">38週</div>
+          <div class="stat-left">
+            <i class="fa-solid fa-hourglass-half stat-icon"></i>
+            <span class="stat-name">稼働期間</span>
+          </div>
+          <div class="stat-points">11 / 15</div>
+          <div class="stat-raw-value">2.3年</div>
         </div>
+
         <div class="stat-row">
-          <div class="stat-label-box">手頃(推奨)</div>
-          <div class="stat-stars">★★★★<span class="empty">★</span></div>
-          <div class="stat-value">$300</div>
+          <div class="stat-left">
+            <i class="fa-solid fa-heart stat-icon"></i>
+            <span class="stat-name">収益安定性</span>
+          </div>
+          <div class="stat-points">9 / 10</div>
+          <div class="stat-raw-value">11ヵ月</div>
         </div>
       </div>
 
@@ -401,7 +450,7 @@
       new Chart(ctx, {
         type: 'radar',
         data: {
-          labels: ['攻撃', '防御', '収益', '効率', '信頼', '手頃'],
+          labels: ['収益', 'PF', 'RF', 'DD', '期間', '安定'],
           datasets: [{
             data: values,
             backgroundColor: color.bg,
@@ -428,7 +477,7 @@
       });
     }
 
-    createRadar('chart-sloperider', [75, 95, 85, 80, 80, 90], { bg: 'rgba(56, 189, 248, 0.3)', border: '#38BDF8' });
+    createRadar('chart-sloperider', [90, 80, 80, 93, 73, 90], { bg: 'rgba(56, 189, 248, 0.3)', border: '#38BDF8' });
   </script>
 </body>
 </html>
