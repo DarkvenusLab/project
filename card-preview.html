@@ -39,19 +39,19 @@
     .tcg-card {
       position: relative;
       background-color: #0f172a;
-      border-radius: 12px;
-      border: 3px solid #38BDF8; /* Blue border as in mockup */
-      box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.7);
+      border-radius: 14px;
+      border: 3px solid #38BDF8;
+      box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.8), 0 0 20px rgba(56, 189, 248, 0.2);
       width: 380px;
-      padding: 15px;
+      padding: 16px;
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 14px;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .tcg-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 20px 40px -5px rgba(56, 189, 248, 0.4);
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 25px 45px -5px rgba(56, 189, 248, 0.4);
     }
 
     /* --- TOP SECTION (Name & Giant Rank Badge) --- */
@@ -60,136 +60,117 @@
       justify-content: space-between;
       align-items: flex-start;
       position: relative;
-      min-height: 60px;
+      min-height: 55px;
     }
     .ea-title-area {
       flex: 1;
       display: flex;
       flex-direction: column;
       gap: 2px;
+      padding-top: 4px;
     }
     .ea-name {
-      font-size: 1.5rem;
+      font-size: 1.55rem;
       font-weight: 900;
       color: #F8FAFC;
       font-family: 'Outfit', sans-serif;
-      font-style: italic; /* User request: Italic text */
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+      font-style: italic;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
       line-height: 1.1;
     }
     .ea-overall-stars {
       color: #FBBF24;
       font-size: 1rem;
       letter-spacing: 2px;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
     }
     .ea-overall-stars .empty { color: #334155; }
 
-    /* Massive floating badge area (Right) */
+    /* Massive floating badge area (Right) using user's real rank_SS.png */
     .rank-badge-area {
       position: absolute;
-      top: -30px;
-      right: -20px;
+      top: -28px;
+      right: -15px;
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: flex-end;
       z-index: 10;
     }
-    /* Placeholder for the user's PNG SSS/SS image */
-    .rank-badge-img {
-      width: 140px;
-      height: 100px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px dashed #F59E0B;
-      border-radius: 10px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #F59E0B;
-      font-weight: 900;
-      font-family: 'Outfit', sans-serif;
-      font-style: italic;
-      font-size: 2rem;
-      text-shadow: 0 0 10px rgba(245, 158, 11, 0.8);
-      backdrop-filter: blur(5px);
-      /* This box will be replaced by the user's <img> tag later! */
+    .rank-ss-logo {
+      width: 120px;
+      height: auto;
+      filter: drop-shadow(0 5px 10px rgba(0,0,0,0.7));
+      transition: transform 0.2s;
     }
+    .rank-ss-logo:hover {
+      transform: scale(1.08) rotate(2deg);
+    }
+
     .date-badge {
-      background: #DC2626; /* Deep Red */
+      background: #DC2626;
       color: #FFF;
       font-family: 'Outfit', sans-serif;
       font-weight: 900;
       font-size: 0.85rem;
-      padding: 4px 16px;
-      margin-top: -10px; /* Overlap with the badge above */
-      box-shadow: 0 4px 6px rgba(0,0,0,0.6);
-      border: 1px solid #7F1D1D;
+      padding: 3px 14px;
+      margin-top: -12px;
+      margin-right: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.7);
+      border: 1px solid #991B1B;
       z-index: 11;
-      transform: skewX(-10deg);
+      transform: skewX(-12deg);
     }
 
-    /* --- MIDDLE SECTION (Holographic Art Frame) --- */
+    /* --- MIDDLE SECTION (User's Custom Holographic frame_SS.png) --- */
     .art-frame {
       position: relative;
-      height: 220px;
-      border-radius: 12px;
-      border: 2px solid #475569;
-      box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 5px 15px rgba(0,0,0,0.5);
-      background-size: cover;
+      height: 230px;
+      border-radius: 10px;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 6px 16px rgba(0,0,0,0.6);
+      /* Using user's real frame_SS.png */
+      background-image: url('images/CardDesignParts/Frame/frame_SS.png');
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
       background-position: center;
-      overflow: hidden;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px;
-    }
-    
-    /* Simulate holographic background for SSS */
-    .rank-sss .art-frame {
-      /* Placeholder rainbow prism gradient */
-      background: linear-gradient(120deg, rgba(255,0,0,0.5), rgba(0,255,0,0.5), rgba(0,0,255,0.5), rgba(255,255,0,0.5)), 
-                  repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.2) 10px, rgba(255,255,255,0.2) 20px);
-      border-color: #FBBF24;
-    }
-    /* Simulate holographic background for SS */
-    .rank-ss .art-frame {
-      background: linear-gradient(120deg, rgba(245, 158, 11, 0.4), rgba(253, 224, 71, 0.6)), 
-                  repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(255,255,255,0.2) 10px, rgba(255,255,255,0.2) 20px);
-      border-color: #FDE047;
+      padding: 15px;
     }
 
-    /* Floating EA Thumbnail Image */
+    /* Floating EA Thumbnail Image with 3D Tilt Effect */
     .ea-thumbnail {
       width: 140px;
       height: 140px;
-      border-radius: 16px;
-      box-shadow: 10px 10px 20px rgba(0,0,0,0.8), -2px -2px 10px rgba(255,255,255,0.2);
+      border-radius: 18px;
+      box-shadow: 8px 12px 25px rgba(0,0,0,0.85), -2px -2px 10px rgba(255,255,255,0.3);
       object-fit: cover;
-      /* The magic 3D tilt effect! */
       transform: perspective(800px) rotateY(15deg) rotateZ(-5deg) scale(1.05);
       z-index: 2;
+      border: 2px solid rgba(255,255,255,0.4);
     }
 
     /* Floating Radar Chart */
     .radar-circle {
-      width: 130px;
-      height: 130px;
-      background: rgba(0, 0, 0, 0.7);
-      border: 2px solid #334155;
+      width: 135px;
+      height: 135px;
+      background: rgba(9, 13, 22, 0.85);
+      backdrop-filter: blur(6px);
+      border: 2px solid rgba(56, 189, 248, 0.5);
       border-radius: 50%;
-      box-shadow: 0 0 15px rgba(0,0,0,0.8);
+      box-shadow: 0 0 20px rgba(0,0,0,0.9), inset 0 0 10px rgba(56, 189, 248, 0.2);
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 5px;
+      padding: 6px;
       z-index: 2;
     }
 
     /* Floating Pair/Type Badges inside Art Frame (Bottom Right) */
     .art-badges {
       position: absolute;
-      bottom: 10px;
-      right: 10px;
+      bottom: 12px;
+      right: 12px;
       display: flex;
       flex-direction: column;
       gap: 5px;
@@ -197,15 +178,15 @@
       z-index: 3;
     }
     .art-badge {
-      background: linear-gradient(90deg, #1E293B, #0F172A);
+      background: linear-gradient(90deg, #0F172A, #1E293B);
       border: 1px solid #38BDF8;
       color: #38BDF8;
       font-size: 0.7rem;
       font-weight: 800;
       padding: 4px 12px;
-      border-radius: 4px;
+      border-radius: 5px;
       font-family: 'Outfit', sans-serif;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.6);
+      box-shadow: 0 3px 6px rgba(0,0,0,0.7);
     }
 
     /* --- BOTTOM SECTION (Stats Grid) --- */
@@ -217,7 +198,7 @@
     .stat-row {
       display: flex;
       align-items: center;
-      background: rgba(30, 41, 59, 0.4);
+      background: rgba(30, 41, 59, 0.5);
       border-radius: 4px;
       height: 30px;
     }
@@ -227,9 +208,9 @@
       color: #94A3B8;
       font-weight: 700;
       font-size: 0.75rem;
-      font-style: italic; /* User request */
+      font-style: italic;
       height: 100%;
-      width: 110px;
+      width: 115px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -249,7 +230,7 @@
     .stat-value {
       font-family: 'Outfit', sans-serif;
       font-weight: 900;
-      font-style: italic; /* User request */
+      font-style: italic;
       font-size: 1.1rem;
       color: #F8FAFC;
       padding-right: 12px;
@@ -259,41 +240,92 @@
     }
     .val-positive { color: #34D399; }
     .val-danger { color: #F87171; }
+
+    /* Outside Card Actions (Price & Get EA Button) */
+    .card-actions {
+      display: flex;
+      gap: 10px;
+      align-items: stretch;
+      width: 380px;
+      margin-top: 15px;
+    }
+    .price-box {
+      background: #111827;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 10px 15px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .price-label { font-size: 0.65rem; color: #94A3B8; }
+    .price-val { font-size: 1rem; font-weight: 900; color: #F8FAFC; }
     
+    .cta-btn {
+      flex: 1;
+      background: linear-gradient(135deg, #0EA5E9, #0284C7);
+      color: white;
+      text-decoration: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      border-radius: 8px;
+      font-weight: 900;
+      font-size: 1.1rem;
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
+      transition: all 0.2s;
+    }
+    .cta-btn:hover { background: linear-gradient(135deg, #38BDF8, #0EA5E9); transform: translateY(-2px); }
+
+    .btn-detail {
+      background: #1E293B;
+      color: #94A3B8;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 0 15px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-detail:hover { color: white; background: #334155; }
   </style>
 </head>
 <body>
 
-  <h1><i class="fa-solid fa-layer-group"></i> Ultimate EA Battle Card Layout</h1>
-  <p class="subtitle">ユーザー様デザイン案（3Dサムネイル ＆ 巨大ランクバッジ ＆ 斜体フォント）完全再現版</p>
+  <h1><i class="fa-solid fa-layer-group"></i> Real Asset TCG Card Preview</h1>
+  <p class="subtitle">自作の『rank_SS.png』および『frame_SS.png』を実装着込み版</p>
 
-  <div class="card-grid">
+  <div style="display:flex; flex-direction:column; align-items:center;">
 
-    <!-- Card 1: Quantum King (SSS Rank) -->
-    <div class="tcg-card rank-sss">
+    <!-- The TCG Card Container -->
+    <div class="tcg-card rank-ss">
       
       <!-- TOP SECTION -->
       <div class="top-section">
         <div class="ea-title-area">
-          <div class="ea-name">Quantum King</div>
-          <div class="ea-overall-stars">★★★★★</div>
+          <div class="ea-name">SlopeRider Grid</div>
+          <div class="ea-overall-stars">★★★★<span class="empty">★</span></div>
         </div>
         
-        <!-- GIANT RANK BADGE (Waiting for user's PNG!) -->
+        <!-- User's Real rank_SS.png -->
         <div class="rank-badge-area">
-          <div class="rank-badge-img">SSS (PNG)</div> <!-- Replace with <img src="..."> -->
+          <img src="images/CardDesignParts/Rank/rank_SS.png" class="rank-ss-logo" alt="SS Rank Logo">
           <div class="date-badge">2026.07度</div>
         </div>
       </div>
 
-      <!-- MIDDLE SECTION (Art Frame) -->
+      <!-- MIDDLE SECTION (User's Real frame_SS.png Background) -->
       <div class="art-frame">
         <!-- Floating EA Logo/Thumbnail with 3D Tilt -->
         <img src="https://c.mql5.com/31/850/quantum-king-logo-200x200-2646.png" class="ea-thumbnail" alt="EA Thumbnail">
         
         <!-- Radar Chart inside black circle -->
         <div class="radar-circle">
-          <canvas id="chart-quantum"></canvas>
+          <canvas id="chart-sloperider"></canvas>
         </div>
 
         <!-- Floating Badges -->
@@ -307,22 +339,22 @@
       <div class="stats-container">
         <div class="stat-row">
           <div class="stat-label-box">攻撃(月利)</div>
-          <div class="stat-stars">★★★★★</div>
+          <div class="stat-stars">★★★<span class="empty">★★</span></div>
           <div class="stat-value val-positive">+12.4%</div>
         </div>
         <div class="stat-row">
           <div class="stat-label-box">防御(最大DD)</div>
-          <div class="stat-stars">★★★★<span class="empty">★</span></div>
+          <div class="stat-stars">★★★★★</div>
           <div class="stat-value val-danger">15.1%</div>
         </div>
         <div class="stat-row">
           <div class="stat-label-box">収益性(PF)</div>
-          <div class="stat-stars">★★★★★</div>
+          <div class="stat-stars">★★★★<span class="empty">★</span></div>
           <div class="stat-value">1.85</div>
         </div>
         <div class="stat-row">
           <div class="stat-label-box">資金効率(RF)</div>
-          <div class="stat-stars">★★★★★</div>
+          <div class="stat-stars">★★★★<span class="empty">★</span></div>
           <div class="stat-value">14.30</div>
         </div>
         <div class="stat-row">
@@ -338,13 +370,25 @@
       </div>
 
     </div>
-    
+
+    <!-- Outside Card Actions -->
+    <div class="card-actions">
+      <div class="price-box">
+        <span class="price-label">価格</span>
+        <span class="price-val">無料</span>
+      </div>
+      <a href="https://www.mql5.com/ja/signals/2333407" target="_blank" class="cta-btn">
+        <i class="fa-solid fa-bolt"></i> EAを入手
+      </a>
+      <button class="btn-detail" title="詳細スタッツ"><i class="fa-solid fa-chart-bar"></i></button>
+    </div>
+
   </div>
 
   <script>
     Chart.defaults.color = 'rgba(255,255,255,0.7)';
     Chart.defaults.font.family = "'Outfit', sans-serif";
-    Chart.defaults.font.style = 'italic'; // User request
+    Chart.defaults.font.style = 'italic';
 
     function createRadar(canvasId, values, color) {
       const ctx = document.getElementById(canvasId).getContext('2d');
@@ -378,7 +422,7 @@
       });
     }
 
-    createRadar('chart-quantum', [95, 75, 88, 92, 90, 85], { bg: 'rgba(56, 189, 248, 0.3)', border: '#38BDF8' });
+    createRadar('chart-sloperider', [75, 95, 85, 80, 80, 90], { bg: 'rgba(56, 189, 248, 0.3)', border: '#38BDF8' });
   </script>
 </body>
 </html>
