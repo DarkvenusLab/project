@@ -26,7 +26,7 @@
     p.subtitle { color: #94A3B8; margin-bottom: 40px; text-align: center; font-size: 0.95rem; }
 
     /* -------------------------------------------
-       🛠️ 【カード全体の枠・内側余白】
+       The Physical Card Container
     ------------------------------------------- */
     .tcg-card {
       position: relative;
@@ -35,8 +35,6 @@
       border: 3.5px solid #38BDF8;
       box-shadow: 0 15px 40px -5px rgba(0, 0, 0, 0.9), 0 0 25px rgba(56, 189, 248, 0.25);
       width: 400px;
-      /* 👇 [上, 右, 下, 左] の内側余白です！
-            3番目の数値(8px) ➔ 【カード青枠と一番下の金枠とのすき間】（小さくすると縦の長さを詰められます） */
       padding: 10px 8px 8px 8px;
       display: flex;
       flex-direction: column;
@@ -90,11 +88,33 @@
       letter-spacing: 1px;
       text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
     }
+
+    /* -------------------------------------------
+       🛠️ 【TotalScore 点数値のカラー＆発光エフェクト設定】
+    ------------------------------------------- */
     .total-score-val {
       font-size: 1.3rem;
       font-weight: 900;
-      color: #FFF;
-      text-shadow: 0 0 10px rgba(255,255,255,0.8);
+      
+      /* 🌟 1. ホワイト発光 (デフォルト) */
+      color: #FFFFFF;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 2px 2px 4px rgba(0,0,0,0.9);
+
+      /* 🌟 2. ネオンゴールド (SSランク・最高級感) 
+      color: #FBBF24;
+      text-shadow: 0 0 12px rgba(251, 191, 36, 0.85), 2px 2px 4px rgba(0,0,0,0.9); */
+
+      /* 🌟 3. サイバーシアン (サイトブランド同期・未来感) 
+      color: #38BDF8;
+      text-shadow: 0 0 12px rgba(56, 189, 248, 0.85), 2px 2px 4px rgba(0,0,0,0.9); */
+
+      /* 🌟 4. エメラルドグリーン (高勝率・高パフォーマンス) 
+      color: #34D399;
+      text-shadow: 0 0 12px rgba(52, 211, 153, 0.85), 2px 2px 4px rgba(0,0,0,0.9); */
+
+      /* 🌟 5. ミシックルビー・ピンク (クリティカル・レア感) 
+      color: #F43F5E;
+      text-shadow: 0 0 12px rgba(244, 63, 94, 0.85), 2px 2px 4px rgba(0,0,0,0.9); */
     }
 
     /* Floating badge area (Right) */
@@ -229,8 +249,6 @@
       background-size: 100% 100%;
       background-repeat: no-repeat;
       background-position: center;
-      /* 👇 [上, 右, 下, 左] の内側余白の設定です！ 
-            3番目の数値(14px) ➔ 金の枠線の【内側下部余白】（小さくすると縦の長さを詰められます） */
       padding: 19px 34px 14px 28px;
       display: flex;
       flex-direction: column;
@@ -352,7 +370,7 @@
 <body>
 
   <h1><i class="fa-solid fa-layer-group"></i> Real Custom Assets TCG Card Preview</h1>
-  <p class="subtitle">カード最下部余白コンパクト化 ＆ 調整ガイド付き</p>
+  <p class="subtitle">TotalScoreカラー＆オーラ発光カスタマイズプリセット付き</p>
 
   <div style="display:flex; flex-direction:column; align-items:center;">
 
