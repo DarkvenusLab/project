@@ -227,7 +227,7 @@
       background-size: 100% 100%;
       background-repeat: no-repeat;
       background-position: center;
-      padding: 24px 34px 14px 28px;   /* 👈 右側の内側余白を22px→34pxに拡大（実測値の右側余白） */
+      padding: 24px 34px 14px 28px;
       display: flex;
       flex-direction: column;
       gap: 7px;
@@ -241,11 +241,11 @@
       justify-content: space-between;
     }
 
+    /* 🛠️ アイコン・項目名・配点を一列に自然に並べるエリア */
     .stat-left {
       display: flex;
       align-items: center;
-      gap: 10px;
-      min-width: 125px;               /* 👈 幅を固定せず自動調整にして点数を隣に配置 */
+      gap: 12px;                      /* 👈 各要素（アイコン ➔ 項目名 ➔ 配点）の間の一定間隔スペース */
     }
     .stat-icon {
       font-size: 1.15rem;
@@ -266,7 +266,7 @@
       text-shadow: 2px 2px 3px rgba(0,0,0,0.95);
     }
 
-    /* 🛠️ 内訳点数 (18 / 20): 左揃え ＋ 項目名との間隔スペース */
+    /* 🛠️ 内訳点数 (18 / 20): 項目名の文字数に関わらず「常に項目名のすぐ右側」に並ぶ設定 */
     .stat-points {
       font-family: 'Yu Gothic UI', '游ゴシック体', 'Yu Gothic', sans-serif;
       font-weight: 900;
@@ -274,9 +274,7 @@
       font-size: 1.02rem;
       color: #F8FAFC;
       text-shadow: 2px 2px 3px rgba(0,0,0,0.95);
-      text-align: left;              /* 👈 左揃えにして項目名のすぐ右側に配置 */
-      margin-left: 14px;             /* 👈 項目名との間のスペース調整 */
-      flex: 1;                       /* 残りのスペースを埋める */
+      margin-left: 4px;              /* 👈 項目名からの追加スペース調整 */
     }
 
     /* 実際の値 (+16.4%, 1.4 等): HGP創英角ｺﾞｼｯｸUB 太字 斜体 */
@@ -290,7 +288,7 @@
       text-underline-offset: 3px;
       text-shadow: 0 0 8px rgba(251, 191, 36, 0.5), 1px 1px 2px rgba(0,0,0,0.9);
       text-align: right;
-      margin-right: 6px;             /* 👈 右側の黄金枠との余白 */
+      margin-right: 6px;
     }
 
     /* Outside Card Actions (Price & Get EA Button) */
@@ -349,7 +347,7 @@
 <body>
 
   <h1><i class="fa-solid fa-layer-group"></i> Real Custom Assets TCG Card Preview</h1>
-  <p class="subtitle">TotalScore右寄せ ＆ 点数の項目隣配置 ＆ 右側余白拡張版</p>
+  <p class="subtitle">レーダーチャート復旧 ＆ 項目名文字数に連動した自然な配点配置対応版</p>
 
   <div style="display:flex; flex-direction:column; align-items:center;">
 
@@ -398,8 +396,8 @@
           <div class="stat-left">
             <i class="fa-solid fa-hand-fist stat-icon"></i>
             <span class="stat-name">月間収益率</span>
+            <span class="stat-points">18 / 20</span>
           </div>
-          <div class="stat-points">18 / 20</div>
           <div class="stat-raw-value">+16.4%</div>
         </div>
 
@@ -407,8 +405,8 @@
           <div class="stat-left">
             <i class="fa-solid fa-coins stat-icon"></i>
             <span class="stat-name">PF</span>
+            <span class="stat-points">16 / 20</span>
           </div>
-          <div class="stat-points">16 / 20</div>
           <div class="stat-raw-value">1.4</div>
         </div>
 
@@ -416,8 +414,8 @@
           <div class="stat-left">
             <i class="fa-solid fa-feather-pointed stat-icon"></i>
             <span class="stat-name">RF</span>
+            <span class="stat-points">16 / 20</span>
           </div>
-          <div class="stat-points">16 / 20</div>
           <div class="stat-raw-value">6.12</div>
         </div>
 
@@ -425,8 +423,8 @@
           <div class="stat-left">
             <i class="fa-solid fa-shield-halved stat-icon"></i>
             <span class="stat-name">DD</span>
+            <span class="stat-points">14 / 15</span>
           </div>
-          <div class="stat-points">14 / 15</div>
           <div class="stat-raw-value">5.15</div>
         </div>
 
@@ -434,8 +432,8 @@
           <div class="stat-left">
             <i class="fa-solid fa-hourglass-half stat-icon"></i>
             <span class="stat-name">稼働期間</span>
+            <span class="stat-points">11 / 15</span>
           </div>
-          <div class="stat-points">11 / 15</div>
           <div class="stat-raw-value">2.3年</div>
         </div>
 
@@ -443,8 +441,8 @@
           <div class="stat-left">
             <i class="fa-solid fa-heart stat-icon"></i>
             <span class="stat-name">収益安定性</span>
+            <span class="stat-points">9 / 10</span>
           </div>
-          <div class="stat-points">9 / 10</div>
           <div class="stat-raw-value">11ヵ月</div>
         </div>
       </div>
@@ -472,7 +470,6 @@
 
     function createRadar(canvasId, values, color) {
       const ctx = document.getElementById(canvasId).getContext('2d');
-      new Header(ctx);
       new Chart(ctx, {
         type: 'radar',
         data: {
