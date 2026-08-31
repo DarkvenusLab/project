@@ -129,10 +129,14 @@
       text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
     }
 
-    /* --- MIDDLE SECTION --- */
+    /* -------------------------------------------
+       🛠️ 【中枠（サムネイル＆レーダー枠）】サイズと中央揃え
+    ------------------------------------------- */
     .art-frame {
       position: relative;
-      height: 225px;
+      height: 225px;                 /* 👈 高さ */
+      width: 100%;                   /* 👈 横幅 (サイズを小さくする場合は例: 94% や 360px) */
+      align-self: center;            /* 👈 ★幅を小さくしても自動で「左右中央揃え」にする設定 */
       border-radius: 10px;
       box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 6px 16px rgba(0,0,0,0.6);
       background-image: url('images/CardDesignParts/Frame/frame_SS.png');
@@ -143,7 +147,6 @@
       justify-content: space-between;
       align-items: center;
       padding: 15px 15px 35px 15px;
-      width: 100%;
       z-index: 1;
     }
 
@@ -175,13 +178,13 @@
     }
 
     /* -------------------------------------------
-       🛠️ 【微調整エリア①】スキル枠の高さ・横幅・重なり量
+       🛠️ 【スキル枠】サイズと中央揃え
     ------------------------------------------- */
     .skill-banner-container {
       position: relative;
-      height: 84px;                  /* 👈 スキル枠の高さ (例: 80px 〜 90px) */
-      width: 94%;                    /* 👈 スキル枠の横幅 (例: 90% 〜 98%) */
-      align-self: center;            /* 中央揃え */
+      height: 84px;                  /* 👈 スキル枠の高さ */
+      width: 94%;                    /* 👈 スキル枠の横幅 */
+      align-self: center;            /* 👈 ★「左右中央揃え」にする設定 */
       background-image: url('images/CardDesignParts/Frame/frame_Skill.png');
       background-size: 100% 100%;
       background-repeat: no-repeat;
@@ -189,9 +192,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 14px 20px 4px 20px;   /* 上右下左の内側余白 (文字の上下位置調整) */
-      margin-top: -34px;             /* 👈 上のホログラム枠との重なり量 (数字を大きくすると上に食い込みます) */
-      margin-bottom: -18px;          /* 👈 下のステータス枠との重なり量 (数字を大きくすると下に食い込みます) */
+      padding: 14px 20px 4px 20px;
+      margin-top: -34px;             /* 👈 上との重なり量 */
+      margin-bottom: -18px;          /* 👈 下との重なり量 */
       z-index: 5;
       filter: drop-shadow(0 6px 14px rgba(0,0,0,0.95));
     }
@@ -200,8 +203,8 @@
       color: #FFF;
       font-weight: bold;
       font-style: italic;
-      font-family: 'Yu Gothic UI', '游ゴシック体', 'Yu Gothic', sans-serif; /* 👈 スキル文章のフォント */
-      font-size: 0.96rem;            /* 👈 スキル文字の大きさ */
+      font-family: 'Yu Gothic UI', '游ゴシック体', 'Yu Gothic', sans-serif;
+      font-size: 0.96rem;
       letter-spacing: 0.5px;
       text-align: center;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.95), 0 0 8px rgba(255,255,255,0.25);
@@ -209,19 +212,21 @@
     }
 
     /* -------------------------------------------
-       🛠️ 【微調整エリア②】ステータス枠 ＆ フォント設定
+       🛠️ 【下枠（ステータス枠）】サイズと中央揃え
     ------------------------------------------- */
     .stats-frame {
       position: relative;
-      width: 100%;
+      height: auto;                  /* 👈 高さ（自動） */
+      width: 100%;                   /* 👈 横幅 (サイズを小さくする場合は例: 96% や 360px) */
+      align-self: center;            /* 👈 ★幅を小さくしても自動で「左右中央揃え」にする設定 */
       background-image: url('images/CardDesignParts/Frame/frame_Under.png');
       background-size: 100% 100%;
       background-repeat: no-repeat;
       background-position: center;
-      padding: 24px 22px 14px 26px; /* 上・右・下・左の内側余白 */
+      padding: 24px 22px 14px 26px;
       display: flex;
       flex-direction: column;
-      gap: 7px;                    /* 各行の間隔 */
+      gap: 7px;
       z-index: 2;
       filter: drop-shadow(0 5px 12px rgba(0,0,0,0.8));
     }
@@ -246,35 +251,35 @@
       filter: drop-shadow(0 0 5px rgba(251, 191, 36, 0.7));
     }
 
-    /* 👈 指標名（月間収益率, PF 等）: 游ゴシック 太字 斜体 */
+    /* 指標名（月間収益率, PF 等）: 游ゴシック 太字 斜体 */
     .stat-name {
       font-family: 'Yu Gothic UI', '游ゴシック体', 'Yu Gothic', sans-serif;
       font-weight: bold;
       font-style: italic;
-      font-size: 1.02rem;            /* 👈 指標名の文字サイズ */
+      font-size: 1.02rem;
       color: #F8FAFC;
       letter-spacing: 0.5px;
       text-shadow: 2px 2px 3px rgba(0,0,0,0.95);
     }
 
-    /* 👈 内訳点数 (18 / 20) の文字サイズ・フォント */
+    /* 内訳点数 (18 / 20) */
     .stat-points {
       font-family: 'Outfit', sans-serif;
       font-weight: 900;
       font-style: italic;
-      font-size: 1.12rem;            /* 👈 点数の文字サイズ */
+      font-size: 1.12rem;
       color: #F8FAFC;
       text-shadow: 2px 2px 3px rgba(0,0,0,0.95);
       width: 75px;
       text-align: center;
     }
 
-    /* 👈 実際の値 (+16.4%, 1.4 等): HGP創英角ｺﾞｼｯｸUB 太字 斜体 */
+    /* 実際の値 (+16.4%, 1.4 等): HGP創英角ｺﾞｼｯｸUB 太字 斜体 */
     .stat-raw-value {
       font-family: 'HGP創英角ｺﾞｼｯｸUB', 'HGPSoeiKakugothicUB', 'HG創英角ｺﾞｼｯｸUB', 'HGS創英角ｺﾞｼｯｸUB', 'Meiryo', sans-serif;
       font-weight: bold;
       font-style: italic;
-      font-size: 1.22rem;            /* 👈 実際の値の文字サイズ */
+      font-size: 1.22rem;
       color: #FBBF24;
       text-decoration: underline;
       text-underline-offset: 3px;
@@ -339,7 +344,7 @@
 <body>
 
   <h1><i class="fa-solid fa-layer-group"></i> Real Custom Assets TCG Card Preview</h1>
-  <p class="subtitle">游ゴシック ＆ HGP創英角ｺﾞｼｯｸUB（太字・斜体）適用 ＋ 微調整用コメント追加版</p>
+  <p class="subtitle">全フレーム「align-self: center; (左右中央揃え)」自動補正対応版</p>
 
   <div style="display:flex; flex-direction:column; align-items:center;">
 
