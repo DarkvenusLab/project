@@ -71,15 +71,15 @@
       line-height: 1.1;
     }
     
-    /* 🛠️ TotalScoreの文字位置調整 */
+    /* TotalScoreの文字位置調整 */
     .total-score-box {
       display: flex;
       align-items: baseline;
       gap: 8px;
       font-family: 'Outfit', sans-serif;
       font-style: italic;
-      align-self: flex-end;           /* 👈 右側（ランクマーク寄り）に寄せる設定 */
-      margin-right: 10px;             /* 👈 ランクマークとの距離調整 */
+      align-self: flex-end;           /* 右側（ランクマーク寄り）に寄せる設定 */
+      margin-right: 10px;             /* ランクマークとの距離調整 */
     }
     .total-score-label {
       font-size: 1.1rem;
@@ -216,7 +216,7 @@
     }
 
     /* -------------------------------------------
-       🛠️ 【下枠（ステータス枠）】
+       🛠️ 【下枠（ステータス枠）】余白・調整箇所
     ------------------------------------------- */
     .stats-frame {
       position: relative;
@@ -227,6 +227,9 @@
       background-size: 100% 100%;
       background-repeat: no-repeat;
       background-position: center;
+      /* 👇 [上, 右, 下, 左] の内側余白の設定です！ 
+            3番目の数値(14px) ➔ 【枠下の余白】（例: 20px や 24px に広げられます）
+            4番目の数値(28px) ➔ 【枠左の内側余白】（例: 34px にすると全体が右へ寄ります） */
       padding: 24px 34px 14px 28px;
       display: flex;
       flex-direction: column;
@@ -241,11 +244,12 @@
       justify-content: space-between;
     }
 
-    /* 🛠️ アイコン・項目名・配点を一列に自然に並べるエリア */
+    /* 🛠️ アイコン ＋ 項目名 ＋ 配点 エリア */
     .stat-left {
       display: flex;
       align-items: center;
-      gap: 12px;                      /* 👈 各要素（アイコン ➔ 項目名 ➔ 配点）の間の一定間隔スペース */
+      gap: 12px;
+      margin-left: 0px;               /* 👈 ★ここを `margin-left: 6px;` 等に設定するとアイコンと項目名だけを右に寄せられます！ */
     }
     .stat-icon {
       font-size: 1.15rem;
@@ -266,7 +270,7 @@
       text-shadow: 2px 2px 3px rgba(0,0,0,0.95);
     }
 
-    /* 🛠️ 内訳点数 (18 / 20): 項目名の文字数に関わらず「常に項目名のすぐ右側」に並ぶ設定 */
+    /* 内訳点数 (18 / 20) */
     .stat-points {
       font-family: 'Yu Gothic UI', '游ゴシック体', 'Yu Gothic', sans-serif;
       font-weight: 900;
@@ -274,7 +278,7 @@
       font-size: 1.02rem;
       color: #F8FAFC;
       text-shadow: 2px 2px 3px rgba(0,0,0,0.95);
-      margin-left: 4px;              /* 👈 項目名からの追加スペース調整 */
+      margin-left: 4px;
     }
 
     /* 実際の値 (+16.4%, 1.4 等): HGP創英角ｺﾞｼｯｸUB 太字 斜体 */
@@ -282,13 +286,13 @@
       font-family: 'HGP創英角ｺﾞｼｯｸUB', 'HGPSoeiKakugothicUB', 'HG創英角ｺﾞｼｯｸUB', 'HGS創英角ｺﾞｼｯｸUB', 'Meiryo', sans-serif;
       font-weight: bold;
       font-style: italic;
-      font-size: 1.02rem;
+      font-size: 0.9rem;
       color: #FBBF24;
       text-decoration: underline;
       text-underline-offset: 3px;
       text-shadow: 0 0 8px rgba(251, 191, 36, 0.5), 1px 1px 2px rgba(0,0,0,0.9);
       text-align: right;
-      margin-right: 6px;
+      margin-right: 2px;
     }
 
     /* Outside Card Actions (Price & Get EA Button) */
@@ -347,7 +351,7 @@
 <body>
 
   <h1><i class="fa-solid fa-layer-group"></i> Real Custom Assets TCG Card Preview</h1>
-  <p class="subtitle">レーダーチャート復旧 ＆ 項目名文字数に連動した自然な配点配置対応版</p>
+  <p class="subtitle">ステータス枠下の余白 ＆ アイコン・項目名の右寄せ微調整コメント追加版</p>
 
   <div style="display:flex; flex-direction:column; align-items:center;">
 
