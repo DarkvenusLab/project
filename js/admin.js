@@ -202,6 +202,7 @@ async function registerNewEA() {
     
     total_score: totalScore,
     rank_badge: rankBadge,
+    target_month: document.getElementById("new-target-month") ? document.getElementById("new-target-month").value.trim() : '2026.08',
     score_monthly_return: parseInt(document.getElementById("score-return").value) || 0,
     raw_monthly_return: document.getElementById("raw-return").value.trim() || '0%',
     score_pf: parseInt(document.getElementById("score-pf").value) || 0,
