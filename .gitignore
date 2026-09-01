@@ -1,5 +1,3 @@
-/tools/
-/setFile/
-/picture/
+# ローカル専用非公開フォルダを丸ごと除外
+/_local_assets/
 /.tmp.driveupload/
-/columnsource/
