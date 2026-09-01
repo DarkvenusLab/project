@@ -3,39 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DVLab EA 管理ダッシュボード</title>
+  <title>DVLab EA 管理ダッシュボード v4.0</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Zen+Maru+Gothic:wght@400;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&family=Yu+Gothic+UI:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
   <style>
-    body { background-color: #0F172A; color: #F8FAFC; }
-    .admin-container { max-width: 1200px; margin: 40px auto; padding: 20px; }
-    .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #334155; padding-bottom: 20px; }
-    .admin-card { background: #1E293B; border-radius: 12px; padding: 25px; margin-bottom: 30px; border: 1px solid #334155; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+    body { background-color: #0F172A; color: #F8FAFC; font-family: 'Yu Gothic UI', sans-serif; }
+    .admin-container { max-width: 1280px; margin: 30px auto; padding: 0 20px; }
+    .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid #334155; padding-bottom: 15px; }
+    .admin-card { background: #1E293B; border-radius: 12px; padding: 25px; margin-bottom: 30px; border: 1px solid #334155; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3); }
+    .section-title { font-size: 1.1rem; font-weight: 800; color: #38BDF8; margin-bottom: 15px; border-left: 4px solid #38BDF8; padding-left: 10px; display: flex; align-items: center; gap: 8px; }
+    
     .form-group { margin-bottom: 15px; }
-    .form-group label { display: block; font-size: 0.9rem; font-weight: 700; color: #94A3B8; margin-bottom: 5px; }
-    .form-control { width: 100%; padding: 10px 15px; background: #0F172A; border: 1px solid #334155; border-radius: 6px; color: #F8FAFC; font-family: inherit; }
-    .form-control:focus { outline: none; border-color: #0EA5E9; }
+    .form-group label { display: block; font-size: 0.85rem; font-weight: 700; color: #94A3B8; margin-bottom: 6px; }
+    .form-control { width: 100%; padding: 9px 13px; background: #0F172A; border: 1px solid #334155; border-radius: 6px; color: #F8FAFC; font-family: inherit; font-size: 0.9rem; }
+    .form-control:focus { outline: none; border-color: #0EA5E9; box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.2); }
     .form-row { display: flex; gap: 15px; }
     .form-row .form-group { flex: 1; }
-    .btn { padding: 10px 20px; border-radius: 6px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+    
+    .btn { padding: 9px 18px; border-radius: 6px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; }
     .btn-primary { background: #0EA5E9; color: white; }
     .btn-primary:hover { background: #0284C7; }
+    .btn-success { background: #10B981; color: white; }
+    .btn-success:hover { background: #059669; }
     .btn-secondary { background: #334155; color: white; }
     .btn-secondary:hover { background: #475569; }
-    .btn-danger { background: #EF4444; color: white; }
-    .btn-danger:hover { background: #DC2626; }
     
-    .ea-list-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.9rem; }
-    .ea-list-table th, .ea-list-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #334155; }
+    /* Tag Checklist Grid */
+    .tag-category-block { background: #0F172A; border: 1px solid #334155; border-radius: 8px; padding: 12px 15px; margin-bottom: 12px; }
+    .tag-category-title { font-size: 0.85rem; font-weight: 800; color: #FBBF24; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+    .tag-checkbox-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; }
+    .checkbox-label { display: flex; align-items: center; gap: 6px; font-size: 0.85rem; color: #E2E8F0; cursor: pointer; user-select: none; }
+    .checkbox-label input[type="checkbox"] { width: 16px; height: 16px; accent-color: #0EA5E9; cursor: pointer; }
+
+    /* Stats Grid */
+    .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; background: #0F172A; border: 1px solid #334155; border-radius: 8px; padding: 15px; margin-bottom: 15px; }
+    .stat-input-pair { display: flex; gap: 8px; }
+
+    /* Table */
+    .ea-list-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.85rem; }
+    .ea-list-table th, .ea-list-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #334155; }
     .ea-list-table th { color: #94A3B8; font-weight: 700; background: #0F172A; }
     .ea-list-table tr:hover { background: #243447; }
-    .ea-list-table input { background: transparent; border: 1px solid transparent; color: #F8FAFC; padding: 5px; width: 100%; border-radius: 4px; }
-    .ea-list-table input:hover, .ea-list-table input:focus { border-color: #0EA5E9; background: #0F172A; }
-    
-    .status-msg { padding: 10px 15px; border-radius: 6px; margin-bottom: 20px; display: none; }
+
+    .status-msg { padding: 12px 16px; border-radius: 8px; margin-bottom: 20px; display: none; font-weight: 700; }
     .status-success { background: rgba(16, 185, 129, 0.2); color: #34D399; border: 1px solid #10B981; }
     .status-error { background: rgba(239, 68, 68, 0.2); color: #F87171; border: 1px solid #EF4444; }
 
@@ -46,99 +59,246 @@
 </head>
 <body>
 
-  <!-- 簡易パスワード保護オーバーレイ (セキュリティ強化のため) -->
+  <!-- Password Login Overlay -->
   <div id="login-overlay">
     <div class="login-box">
-      <h2 style="margin-bottom: 20px;"><i class="fa-solid fa-lock" style="color: #0EA5E9;"></i> Admin Login</h2>
+      <h2 style="margin-bottom: 20px; color:#38BDF8;"><i class="fa-solid fa-shield-halved"></i> DVLab Admin</h2>
       <div class="form-group">
-        <input type="password" id="admin-pass" class="form-control" placeholder="パスワードを入力">
+        <input type="password" id="admin-pass" class="form-control" placeholder="パスワードを入力" onkeydown="if(event.key==='Enter')checkPassword()">
       </div>
-      <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="checkPassword()">ログイン</button>
+      <button class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="checkPassword()">ログイン</button>
       <p id="login-error" style="color: #EF4444; margin-top: 10px; font-size: 0.85rem; display: none;">パスワードが間違っています</p>
     </div>
   </div>
 
   <div class="admin-container">
     <div class="admin-header">
-      <h2><i class="fa-solid fa-gear" style="color: #0EA5E9;"></i> EA管理ダッシュボード</h2>
+      <h2><i class="fa-solid fa-sliders" style="color: #0EA5E9;"></i> EAマスター管理ダッシュボード v4.0</h2>
       <a href="index.html" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> サイトに戻る</a>
     </div>
 
     <!-- Notification Area -->
     <div id="notification" class="status-msg"></div>
 
-    <!-- 新規登録フォーム -->
+    <!-- 新規EA登録フォーム -->
     <div class="admin-card">
-      <h3 style="margin-bottom: 20px; border-bottom: 1px solid #334155; padding-bottom: 10px;"><i class="fa-solid fa-plus-circle"></i> 新規EAの登録</h3>
-      
+      <h3 style="margin-bottom: 20px; border-bottom: 1px solid #334155; padding-bottom: 10px; font-size: 1.25rem;">
+        <i class="fa-solid fa-plus-circle" style="color: #34D399;"></i> 新規EAマスター登録
+      </h3>
+
+      <!-- 1. 基本スペック -->
+      <div class="section-title"><i class="fa-solid fa-cube"></i> 1. 基本スペック</div>
       <div class="form-row">
         <div class="form-group" style="flex: 2;">
-          <label>myfxbook URL (ポートフォリオURL)</label>
-          <input type="text" id="new-url" class="form-control" placeholder="https://www.myfxbook.com/portfolio/...">
-        </div>
-        <div class="form-group" style="flex: 1; display: flex; align-items: flex-end;">
-          <button class="btn btn-secondary" style="width: 100%; justify-content: center;" onclick="autoFetchMyfxbook()">
-            <i class="fa-solid fa-wand-magic-sparkles"></i> 情報自動取得
-          </button>
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label>EA名 (表示名)</label>
+          <label>EA名 (表示名) *</label>
           <input type="text" id="new-name" class="form-control" placeholder="例: SlopeRider Grid">
         </div>
-        <div class="form-group">
-          <label>識別キー (英数字ハイフンのみ)</label>
+        <div class="form-group" style="flex: 1.5;">
+          <label>識別キー (ea_key / 英数字ハイフン) *</label>
           <input type="text" id="new-key" class="form-control" placeholder="例: sloperider-grid">
+        </div>
+        <div class="form-group" style="flex: 1;">
+          <label>プラットフォーム *</label>
+          <div style="display:flex; gap:15px; padding-top:8px;">
+            <label class="checkbox-label"><input type="checkbox" name="platform" value="MT4" checked> MT4</label>
+            <label class="checkbox-label"><input type="checkbox" name="platform" value="MT5"> MT5</label>
+          </div>
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group">
           <label>通貨ペア</label>
-          <input type="text" id="new-pair" class="form-control" placeholder="例: EURUSD">
+          <input type="text" id="new-pair" class="form-control" placeholder="例: EURUSD / GOLD / NZDCAD">
         </div>
         <div class="form-group">
           <label>時間足</label>
-          <input type="text" id="new-timeframe" class="form-control" placeholder="例: H1">
+          <input type="text" id="new-timeframe" class="form-control" placeholder="例: H1 / M5">
         </div>
         <div class="form-group">
           <label>ブローカー</label>
-          <input type="text" id="new-broker" class="form-control" placeholder="例: Axiory">
+          <input type="text" id="new-broker" class="form-control" placeholder="例: Axiory / Exness">
+        </div>
+      </div>
+
+      <!-- 2. URL ＆ 画像情報 -->
+      <div class="section-title" style="margin-top: 20px;"><i class="fa-solid fa-link"></i> 2. URL ＆ 画像メディア</div>
+      <div class="form-row">
+        <div class="form-group" style="flex: 1.5;">
+          <label>EA商品・紹介ページURL (入手先) *</label>
+          <input type="text" id="new-product-url" class="form-control" placeholder="https://www.mql5.com/ja/market/product/...">
+        </div>
+        <div class="form-group" style="flex: 1.5;">
+          <label>フォワードテストURL (myfxbook / MQL5 Signal)</label>
+          <input type="text" id="new-forward-url" class="form-control" placeholder="https://www.mql5.com/ja/signals/...">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group" style="flex: 2;">
+          <label>EAサムネイル画像 (外部URL貼付 ➔ 自動ストレージ保存)</label>
+          <input type="text" id="new-image-url" class="form-control" placeholder="https://c.mql5.com/31/... または Supabase画像URL">
+        </div>
+        <div class="form-group" style="flex: 1; display: flex; align-items: flex-end;">
+          <button class="btn btn-secondary" style="width: 100%; justify-content: center;" onclick="autoUploadImageFromUrl()">
+            <i class="fa-solid fa-cloud-arrow-up"></i> 画像をストレージ保存
+          </button>
+        </div>
+      </div>
+
+      <!-- 3. スキルタグ (21項目) -->
+      <div class="section-title" style="margin-top: 20px;"><i class="fa-solid fa-tags"></i> 3. スキルタグ分類 (全21種類から選択)</div>
+      
+      <div class="tag-category-block">
+        <div class="tag-category-title"><i class="fa-solid fa-chess-knight"></i> 戦略 (8種)</div>
+        <div class="tag-checkbox-grid">
+          <label class="checkbox-label"><input type="checkbox" class="skill-tag" value="トレンドフォロー"> トレンドフォロー</label>
+          <label class="checkbox-label"><input type="checkbox" class="skill-tag" value="逆張り・平均回帰"> 逆張り・平均回帰</label>
+          <label class="checkbox-label"><input type="checkbox" class="skill-tag" value="ブレイクアウト"> ブレイクアウト</label>
+          <label class="checkbox-label"><input type="checkbox" class="skill-tag" value="モメンタム"> モメンタム</label>
+          <label class="checkbox-label"><input type="checkbox" class="skill-tag" value="レンジ"> レンジ</label>
+          <label class="checkbox-label"><input type="checkbox" class="skill-tag" value="ニュース"> ニュース</label>
+          <label class="checkbox-label"><input type="checkbox" class="skill-tag" value="アービトラージ"> アービトラージ</label>
+          <label class="checkbox-label"><input type="checkbox" class="skill-tag" value="マルチ戦略"> マルチ戦略</label>
+        </div>
+      </div>
+
+      <div class="tag-category-block">
+        <div class="tag-category-title"><i class="fa-solid fa-clock"></i> 取引スタイル (5種)</div>
+        <div class="tag-checkbox-grid">
+          <label class="checkbox-label"><input type="checkbox" class="skill-tag" value="スキャルピング"> スキャルピング</label>
+          <label class="checkbox-label"><input type="checkbox" class="skill-tag" value="デイトレード"> デイトレード</label>
+          <label class="checkbox-label"><input type="checkbox" class="skill-tag" value="スイング"> スイング</label>
+          <label class="checkbox-label"><input type="checkbox" class="skill-tag" value="ポジショントレード"> ポジショントレード</label>
+          <label class="checkbox-label"><input type="checkbox" class="skill-tag" value="マルチタイムフレーム"> マルチタイムフレーム</label>
+        </div>
+      </div>
+
+      <div class="tag-category-block">
+        <div class="tag-category-title"><i class="fa-solid fa-layer-group"></i> ポジション管理 (8種)</div>
+        <div class="tag-checkbox-grid">
+          <label class="checkbox-label"><input type="checkbox" class="skill-tag" value="単発エントリー"> 単発エントリー</label>
+          <label class="checkbox-label"><input type="checkbox" class="skill-tag" value="複数ポジション"> 複数ポジション</label>
+          <label class="checkbox-label"><input type="checkbox" class="skill-tag" value="グリッド"> グリッド</label>
+          <label class="checkbox-label"><input type="checkbox" class="skill-tag" value="ナンピン"> ナンピン</label>
+          <label class="checkbox-label"><input type="checkbox" class="skill-tag" value="マーチンゲール"> マーチンゲール</label>
+          <label class="checkbox-label"><input type="checkbox" class="skill-tag" value="ピラミッディング"> ピラミッディング</label>
+          <label class="checkbox-label"><input type="checkbox" class="skill-tag" value="ヘッジ"> ヘッジ</label>
+          <label class="checkbox-label"><input type="checkbox" class="skill-tag" value="トレーリング"> トレーリング</label>
+        </div>
+      </div>
+
+      <!-- 4. 6軸評価スタッツ ＆ スコア -->
+      <div class="section-title" style="margin-top: 20px;"><i class="fa-solid fa-chart-pie"></i> 4. 6軸評価スタッツ ＆ 実数値データ</div>
+      <div class="stats-grid">
+        <div class="form-group">
+          <label>月間収益率 (点数: 0-20 / 実数値)</label>
+          <div class="stat-input-pair">
+            <input type="number" id="score-return" class="form-control" placeholder="18" min="0" max="20" oninput="calculateTotalScore()">
+            <input type="text" id="raw-return" class="form-control" placeholder="+16.4%">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>プロフィットファクター PF (点数: 0-20 / 実数値)</label>
+          <div class="stat-input-pair">
+            <input type="number" id="score-pf" class="form-control" placeholder="16" min="0" max="20" oninput="calculateTotalScore()">
+            <input type="text" id="raw-pf" class="form-control" placeholder="1.4">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>リカバリーファクター RF (点数: 0-20 / 実数値)</label>
+          <div class="stat-input-pair">
+            <input type="number" id="score-rf" class="form-control" placeholder="16" min="0" max="20" oninput="calculateTotalScore()">
+            <input type="text" id="raw-rf" class="form-control" placeholder="6.12">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>最大ドローダウン DD (点数: 0-15 / 実数値)</label>
+          <div class="stat-input-pair">
+            <input type="number" id="score-dd" class="form-control" placeholder="14" min="0" max="15" oninput="calculateTotalScore()">
+            <input type="text" id="raw-dd" class="form-control" placeholder="5.15%">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>稼働期間 (点数: 0-15 / 実数値)</label>
+          <div class="stat-input-pair">
+            <input type="number" id="score-period" class="form-control" placeholder="11" min="0" max="15" oninput="calculateTotalScore()">
+            <input type="text" id="raw-period" class="form-control" placeholder="2.3年">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>収益安定性 (点数: 0-10 / 実数値)</label>
+          <div class="stat-input-pair">
+            <input type="number" id="score-stability" class="form-control" placeholder="9" min="0" max="10" oninput="calculateTotalScore()">
+            <input type="text" id="raw-stability" class="form-control" placeholder="11ヵ月">
+          </div>
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group">
-          <label>ロジックタイプ</label>
-          <input type="text" id="new-logic" class="form-control" placeholder="例: トレンド順張り / グリッド">
+          <label>TotalScore (0-100点: 自動算出)</label>
+          <input type="number" id="new-total-score" class="form-control" style="font-weight:900; color:#38BDF8; font-size:1.1rem;" placeholder="81" readonly>
         </div>
+        <div class="form-group">
+          <label>総合ランク (自動判定)</label>
+          <input type="text" id="new-rank" class="form-control" style="font-weight:900; color:#FBBF24; font-size:1.1rem;" placeholder="SS" readonly>
+        </div>
+        <div class="form-group">
+          <label>推奨証拠金</label>
+          <input type="text" id="new-rec-margin" class="form-control" placeholder="例: 10万円〜 / $1,000〜">
+        </div>
+      </div>
+
+      <!-- 5. 価格 ＆ 公開設定 -->
+      <div class="section-title" style="margin-top: 20px;"><i class="fa-solid fa-coins"></i> 5. 価格 ＆ 公開設定</div>
+      <div class="form-row">
         <div class="form-group">
           <label>表示価格テキスト</label>
-          <input type="text" id="new-price-text" class="form-control" placeholder="例: ¥19,800 (税込)" value="無料 (オープンソース)">
+          <input type="text" id="new-price-text" class="form-control" value="無料 (オープンソース)" placeholder="例: 無料 / ¥19,800">
         </div>
         <div class="form-group">
-          <label>数値価格 (評価用)</label>
-          <input type="number" id="new-price-val" class="form-control" placeholder="例: 19800" value="0">
+          <label>数値価格 (評価順用)</label>
+          <input type="number" id="new-price-val" class="form-control" value="0" placeholder="0">
         </div>
+        <div class="form-group">
+          <label>公開ステータス</label>
+          <select id="new-is-active" class="form-control">
+            <option value="true">公開 (Active)</option>
+            <option value="false">非公開・下書き (Draft)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 6. フリーテキスト評価 ＆ メモ -->
+      <div class="section-title" style="margin-top: 20px;"><i class="fa-solid fa-comment-dots"></i> 6. フリーテキスト解説 ＆ 注意事項メモ</div>
+      <div class="form-group">
+        <label>管理人評価コメント (レビュー文)</label>
+        <textarea id="new-description" class="form-control" rows="3" placeholder="EAの特徴、強み、おすすめユーザー層についての解説文章を入力..."></textarea>
       </div>
 
       <div class="form-group">
-        <label>アフィリエイトURL / 入手ページURL</label>
-        <input type="text" id="new-affiliate" class="form-control" placeholder="https://...">
+        <label>運用注意事項・メモ</label>
+        <textarea id="new-notes" class="form-control" rows="2" placeholder="例: ※経済指標発表時の停止推奨 / 特定口座限定など"></textarea>
       </div>
 
-      <div style="text-align: right; margin-top: 20px;">
-        <button class="btn btn-primary" onclick="registerNewEA()"><i class="fa-solid fa-database"></i> データベースへ登録</button>
+      <div style="text-align: right; margin-top: 25px;">
+        <button class="btn btn-success" style="font-size: 1rem; padding: 12px 30px;" onclick="registerNewEA()">
+          <i class="fa-solid fa-database"></i> データベースへ完全登録
+        </button>
       </div>
     </div>
 
     <!-- 登録済みEA一覧リスト -->
     <div class="admin-card">
-      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; padding-bottom: 10px; margin-bottom: 20px;">
-        <h3 style="margin: 0;"><i class="fa-solid fa-list"></i> 登録済み EA一覧 & クイック編集</h3>
-        <button class="btn btn-secondary" onclick="loadEAList()" style="padding: 5px 15px; font-size: 0.8rem;"><i class="fa-solid fa-rotate"></i> 更新</button>
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; padding-bottom: 10px; margin-bottom: 15px;">
+        <h3 style="margin: 0; font-size: 1.15rem;"><i class="fa-solid fa-list"></i> 登録済み EA一覧 ＆ クイック管理</h3>
+        <button class="btn btn-secondary" onclick="loadEAList()" style="padding: 6px 14px; font-size: 0.8rem;"><i class="fa-solid fa-rotate"></i> 最新状態に更新</button>
       </div>
       
       <div style="overflow-x: auto;">
@@ -146,15 +306,16 @@
           <thead>
             <tr>
               <th>ID</th>
-              <th>EA名</th>
-              <th>表示価格 (編集可)</th>
-              <th>アフィリエイトURL (編集可)</th>
+              <th>EA名 / キー</th>
+              <th>PF</th>
+              <th>Score / Rank</th>
+              <th>表示価格</th>
               <th>状態</th>
               <th>操作</th>
             </tr>
           </thead>
           <tbody id="ea-list-body">
-            <tr><td colspan="6" style="text-align: center;">読み込み中...</td></tr>
+            <tr><td colspan="7" style="text-align: center;">読み込み中...</td></tr>
           </tbody>
         </table>
       </div>
