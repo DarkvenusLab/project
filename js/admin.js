@@ -263,3 +263,65 @@ async function registerNewEA() {
     showNotification("登録エラー: " + err.message, true);
   }
 }
+
+// MQL5 / myfxbook コピペ文面からのスマート自動抽出解析機能
+function smartParseStatsText() {
+  const inputEl = document.getElementById("smart-parse-input");
+  const text = inputEl ? inputEl.value.trim() : '';
+
+  if (!text) {
+    showNotification("解析する文面をペーストしてください", true);
+    return;
+  }
+
+  let extractedCount = 0;
+
+  // 1. Profit Factor (例: "Profit Factor: 2.91" や "PF: 1.8")
+  const pfMatch = text.match(/(?:Profit\s*Factor|PF)[:\s]*([\d\.]+)/i);
+  if (pfMatch && pfMatch[1]) {
+    document.getElementById("raw-pf").value = pfMatch[1];
+    const pfVal = parseFloat(pfMatch[1]);
+    document.getElementById("score-pf").value = pfVal >= 2.0 ? 20 : (pfVal >= 1.5 ? 16 : 10);
+    extractedCount++;
+  }
+
+  // 2. Recovery Factor (例: "Recovery Factor: 6.47" や "RF: 5.1")
+  const rfMatch = text.match(/(?:Recovery\s*Factor|RF)[:\s]*([\d\.]+)/i);
+  if (rfMatch && rfMatch[1]) {
+    document.getElementById("raw-rf").value = rfMatch[1];
+    const rfVal = parseFloat(rfMatch[1]);
+    document.getElementById("score-rf").value = rfVal >= 5.0 ? 20 : (rfVal >= 3.0 ? 15 : 10);
+    extractedCount++;
+  }
+
+  // 3. Maximum Drawdown (例: "Maximum Drawdown: 10.6%" や "Max DD: 5.2%")
+  const ddMatch = text.match(/(?:Maximum\s*Drawdown|Max\s*DD|ドローダウン)[:\s]*([\d\.]+%?)/i);
+  if (ddMatch && ddMatch[1]) {
+    let ddStr = ddMatch[1];
+    if (!ddStr.includes('%')) ddStr += '%';
+    document.getElementById("raw-dd").value = ddStr;
+    const ddVal = parseFloat(ddStr);
+    document.getElementById("score-dd").value = ddVal <= 10.0 ? 15 : (ddVal <= 20.0 ? 10 : 5);
+    extractedCount++;
+  }
+
+  // 4. Monthly Return / Growth (例: "Growth: +88.2%" や "収益率: 15.4%")
+  const returnMatch = text.match(/(?:Growth|Return|月間収益率|収益率)[:\s]*([+\-]?[\d\.]+%?)/i);
+  if (returnMatch && returnMatch[1]) {
+    let retStr = returnMatch[1];
+    if (!retStr.includes('%')) retStr += '%';
+    document.getElementById("raw-return").value = retStr;
+    const retVal = parseFloat(retStr);
+    document.getElementById("score-return").value = retVal >= 20.0 ? 20 : (retVal >= 10.0 ? 16 : 10);
+    extractedCount++;
+  }
+
+  // 自動スコア再計算
+  calculateTotalScore();
+
+  if (extractedCount > 0) {
+    showNotification(`✨ 文面から ${extractedCount} 項目のデータを自動抽出して反映しました！`);
+  } else {
+    showNotification("文面から数値を自動検出できませんでした。数値（PF, RF, DD等）が含まれているかご確認ください。", true);
+  }
+}
