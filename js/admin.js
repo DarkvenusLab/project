@@ -220,6 +220,11 @@ async function registerNewEA() {
     forward_url: document.getElementById("new-forward-url").value.trim() || '',
     image_url: document.getElementById("new-image-url").value.trim() || '',
     
+    // 旧カラムとの後方互換性フォールバック
+    myfxbook_url: document.getElementById("new-forward-url").value.trim() || productUrl,
+    logic_type: selectedTags.length > 0 ? selectedTags.join(', ') : 'グリッド',
+    affiliate_url: productUrl,
+    
     tags: selectedTags,
     
     total_score: totalScore,
