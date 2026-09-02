@@ -3,20 +3,47 @@
 -- Supabase PostgreSQL Schema Definition
 -- ========================================================
 
--- 1. EA Master Table (EA基本情報)
+-- 1. EA Master Table (EA基本情報 ＆ 6軸スタッツマスター)
 CREATE TABLE IF NOT EXISTS public.eas (
     id SERIAL PRIMARY KEY,
     ea_key VARCHAR(100) NOT NULL UNIQUE,
     name VARCHAR(150) NOT NULL,
-    myfxbook_url TEXT NOT NULL,
-    currency_pair VARCHAR(20) DEFAULT 'EURUSD',
-    timeframe VARCHAR(20) DEFAULT 'H1',
-    logic_type VARCHAR(100) DEFAULT 'グリッド',
-    broker VARCHAR(100) DEFAULT 'Axiory Nano',
+    platform text[] DEFAULT '{MT4}',
+    currency_pair VARCHAR(50) DEFAULT 'EURUSD',
+    timeframe VARCHAR(50) DEFAULT 'H1',
+    broker VARCHAR(100) DEFAULT '',
+    
+    product_url TEXT DEFAULT '',
+    forward_url TEXT DEFAULT '',
+    image_url TEXT DEFAULT '',
+    
+    tags text[] DEFAULT '{}',
+    
+    total_score INT DEFAULT 0,
+    rank_badge VARCHAR(10) DEFAULT 'D',
+    target_month VARCHAR(10) DEFAULT '2026.08',
+    
+    score_monthly_return INT DEFAULT 0,
+    raw_monthly_return VARCHAR(50) DEFAULT '0%',
+    score_pf INT DEFAULT 0,
+    raw_pf VARCHAR(50) DEFAULT '0.0',
+    score_rf INT DEFAULT 0,
+    raw_rf VARCHAR(50) DEFAULT '0.0',
+    score_dd INT DEFAULT 0,
+    raw_dd VARCHAR(50) DEFAULT '0%',
+    score_period INT DEFAULT 0,
+    raw_period VARCHAR(50) DEFAULT '0ヶ月',
+    score_stability INT DEFAULT 0,
+    raw_stability VARCHAR(50) DEFAULT '0ヶ月',
+    recommended_margin VARCHAR(100) DEFAULT '',
+    
     price_text VARCHAR(100) DEFAULT '無料 (オープンソース)',
     price_value NUMERIC(10, 2) DEFAULT 0,
-    affiliate_url TEXT DEFAULT '',
     is_active BOOLEAN DEFAULT TRUE,
+    
+    description TEXT DEFAULT '',
+    notes TEXT DEFAULT '',
+    
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
