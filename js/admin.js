@@ -4,12 +4,18 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 // Initialize Supabase Client
 const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// Simple password protection
-const ADMIN_PASSWORD = "admin";
+// SHA-256 Hashed Password Check (No plaintext password in JS)
+const MASTER_PASSWORD_HASH = "a9036443eaf49997e49b091751051b9c435cd48745de8a331b0c74e048a57a82";
 
-function checkPassword() {
+async function checkPassword() {
   const pass = document.getElementById("admin-pass").value;
-  if (pass === ADMIN_PASSWORD || pass === "dvlab") {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(pass);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+  if (hashHex === MASTER_PASSWORD_HASH) {
     document.getElementById("login-overlay").style.display = "none";
     loadEAList();
   } else {
