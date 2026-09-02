@@ -180,6 +180,22 @@ async function registerNewEA() {
     return;
   }
 
+  // 1. 識別キー ＆ EA名の二重登録事前チェック
+  try {
+    const { data: existing } = await _supabase
+      .from('eas')
+      .select('id, name, ea_key')
+      .or(`ea_key.eq.${key},name.eq.${name}`);
+
+    if (existing && existing.length > 0) {
+      const dup = existing[0];
+      showNotification(`⚠️ 二重登録エラー: 「${dup.name}」（識別キー: ${dup.ea_key}）は既に登録されています！(ID:${dup.id})`, true);
+      return;
+    }
+  } catch (checkErr) {
+    console.warn("Duplicate check warning:", checkErr);
+  }
+
   // プラットフォームチェックボックス取得
   const platforms = Array.from(document.querySelectorAll('input[name="platform"]:checked')).map(cb => cb.value);
   if (platforms.length === 0) platforms.push('MT4');
