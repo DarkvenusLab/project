@@ -44,6 +44,7 @@ function formatMonthLabel(ym) {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
+  initCriteriaModal();
   await fetchEADetailData();
 });
 
@@ -479,9 +480,6 @@ function renderBreakdownTable(ea, rankBadge) {
         <td>
           <span class="raw-val-detail">${a.raw}</span>
         </td>
-        <td>
-          <span class="criteria-text">${a.criteria}</span>
-        </td>
       </tr>
     `;
   }).join('');
@@ -610,3 +608,38 @@ function renderAllHistory(ea) {
     `;
   }).join('');
 }
+
+function initCriteriaModal() {
+  const modal = document.getElementById("criteria-modal");
+  const openBtn = document.getElementById("btn-open-criteria");
+  const closeBtn = document.getElementById("modal-close-btn");
+  const closeBottomBtn = document.getElementById("modal-close-bottom-btn");
+
+  if (!modal || !openBtn) return;
+
+  const openModal = (e) => {
+    if (e) e.preventDefault();
+    modal.style.display = "flex";
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeModal = () => {
+    modal.style.display = "none";
+    document.body.style.overflow = "";
+  };
+
+  openBtn.addEventListener("click", openModal);
+  if (closeBtn) closeBtn.addEventListener("click", closeModal);
+  if (closeBottomBtn) closeBottomBtn.addEventListener("click", closeModal);
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal.style.display === "flex") {
+      closeModal();
+    }
+  });
+}
+

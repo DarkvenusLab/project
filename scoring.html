@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>独自AI客観的採点マトリクス ＆ 評価基準ガイド | Dark Venus ラボ</title>
+  <meta name="description" content="MQL5公式フォワード実績データに基づく6軸100点満点の客観的AI採点アルゴリズムおよびランク判定基準（SSS〜D）の配点マトリクス一覧。">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Zen+Maru+Gothic:wght@400;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      background: #090D16;
+      color: #F8FAFC;
+      font-family: 'Inter', 'Yu Gothic UI', sans-serif;
+      line-height: 1.7;
+    }
+    .container-scoring {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 30px 20px 80px 20px;
+    }
+    .back-btn-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(14, 165, 233, 0.15);
+      border: 1px solid rgba(14, 165, 233, 0.4);
+      color: #38BDF8;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .btn-back:hover {
+      background: rgba(14, 165, 233, 0.3);
+      color: #FFF;
+      transform: translateX(-2px);
+    }
+    .hero-box {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .hero-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #F8FAFC;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+    .hero-title span {
+      color: #38BDF8;
+      text-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+    }
+    .hero-desc {
+      color: #94A3B8;
+      font-size: 0.95rem;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    /* 6軸一覧サマリーカード */
+    .axes-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    .axis-summary-item {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .axis-icon-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: #38BDF8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+    .axis-info-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #FFF;
+    }
+    .axis-info-points {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.82rem;
+      color: #FBBF24;
+      font-weight: 700;
+    }
+
+    /* 各配点テーブル */
+    .criteria-section {
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 28px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+    .criteria-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid rgba(56, 189, 248, 0.25);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+    .criteria-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #F8FAFC;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .criteria-title i {
+      color: #38BDF8;
+    }
+    .criteria-points-pill {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: rgba(245, 158, 11, 0.2);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: #FCD34D;
+    }
+
+    .matrix-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .matrix-table th {
+      background: rgba(30, 41, 59, 0.7);
+      color: #94A3B8;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .matrix-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 0.88rem;
+    }
+    .matrix-table tr:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .matrix-val {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      color: #F8FAFC;
+    }
+    .matrix-score {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      color: #38BDF8;
+    }
+    .matrix-score.max {
+      color: #F59E0B;
+    }
+
+    /* ランク判定バナー */
+    .rank-matrix-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(115px, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .rank-matrix-item {
+      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 12px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .rank-badge-tag {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 900;
+      font-size: 1.1rem;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+    .rank-bg-sss { background: #DC2626; color: #FFF; }
+    .rank-bg-ss  { background: #D97706; color: #FFF; }
+    .rank-bg-s   { background: #FBBF24; color: #000; }
+    .rank-bg-a   { background: #0284C7; color: #FFF; }
+    .rank-bg-b   { background: #475569; color: #FFF; }
+    .rank-bg-c   { background: #334155; color: #94A3B8; }
+    .rank-bg-d   { background: #1E293B; color: #64748B; }
+
+    .rank-points-range {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.8rem;
+      color: #CBD5E1;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="index.html" class="logo">
+        <span class="logo-badge">検証アーカイブ</span>
+        <span class="logo-text">Dark Venus<span class="highlight"> ラボ</span></span>
+      </a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html"><i class="fa-solid fa-house"></i> ホーム</a></li>
+          <li><a href="ranking.html"><i class="fa-solid fa-trophy"></i> 総合ランキング</a></li>
+          <li><a href="tools/setfiles.html"><i class="fa-solid fa-folder-open"></i> 検証済み.set一覧</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container-scoring">
+    <div class="back-btn-row">
+      <a href="javascript:history.back()" class="btn-back">
+        <i class="fa-solid fa-arrow-left"></i> 前の画面に戻る
+      </a>
+      <a href="ranking.html" class="btn-back" style="background: rgba(245, 158, 11, 0.15); border-color: rgba(245, 158, 11, 0.4); color: #FCD34D;">
+        <i class="fa-solid fa-trophy"></i> 総合ランキング一覧へ
+      </a>
+    </div>
+
+    <div class="hero-box">
+      <h1 class="hero-title">独自AI客観的採点マトリクス ＆ <span>配点基準ガイド</span></h1>
+      <p class="hero-desc">
+        MQL5公式フォワードテスト成績に基づき、収益性・低リスク性・長期運用の信頼性を公平に評価するための「6軸100点満点」の自動採点アルゴリズムおよびランク判定基準です。
+      </p>
+    </div>
+
+    <!-- 6軸概要サマリー -->
+    <div class="axes-summary-grid">
+      <div class="axis-summary-item">
+        <div class="axis-icon-circle"><i class="fa-solid fa-hand-fist"></i></div>
+        <div>
+          <div class="axis-info-title">月間収益率</div>
+          <div class="axis-info-points">配点: 20点満点 (高いほど高評価)</div>
+        </div>
+      </div>
+
+      <div class="axis-summary-item">
+        <div class="axis-icon-circle"><i class="fa-solid fa-coins"></i></div>
+        <div>
+          <div class="axis-info-title">プロフィットファクター (PF)</div>
+          <div class="axis-info-points">配点: 20点満点 (高いほど高評価)</div>
+        </div>
+      </div>
+
+      <div class="axis-summary-item">
+        <div class="axis-icon-circle"><i class="fa-solid fa-feather-pointed"></i></div>
+        <div>
+          <div class="axis-info-title">リカバリーファクター (RF)</div>
+          <div class="axis-info-points">配点: 20点満点 (高いほど高評価)</div>
+        </div>
+      </div>
+
+      <div class="axis-summary-item">
+        <div class="axis-icon-circle"><i class="fa-solid fa-shield-halved"></i></div>
+        <div>
+          <div class="axis-info-title">最大ドローダウン (DD)</div>
+          <div class="axis-info-points">配点: 15点満点 (小さいほど高評価)</div>
+        </div>
+      </div>
+
+      <div class="axis-summary-item">
+        <div class="axis-icon-circle"><i class="fa-solid fa-hourglass-half"></i></div>
+        <div>
+          <div class="axis-info-title">稼働期間 (運用トラック)</div>
+          <div class="axis-info-points">配点: 15点満点 (長いほど高評価)</div>
+        </div>
+      </div>
+
+      <div class="axis-summary-item">
+        <div class="axis-icon-circle"><i class="fa-solid fa-heart"></i></div>
+        <div>
+          <div class="axis-info-title">収益安定性 (月別勝率)</div>
+          <div class="axis-info-points">配点: 10点満点 (直近12ヶ月プラス月数)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 総合ランク判定 (SSS〜D) -->
+    <div class="criteria-section">
+      <div class="criteria-header">
+        <h2 class="criteria-title"><i class="fa-solid fa-award"></i> 総合ランク判定基準 (100点満点)</h2>
+        <span class="criteria-points-pill">SSS 〜 D ランク</span>
+      </div>
+      <p style="font-size: 0.85rem; color: #94A3B8; margin-bottom: 12px;">
+        6つの評価軸の合計スコア（0〜100点）に基づき、各EAに専用の総合ランクおよびカード装飾を付与します。
+      </p>
+      <div class="rank-matrix-grid">
+        <div class="rank-matrix-item">
+          <span class="rank-badge-tag rank-bg-sss">SSS</span>
+          <span class="rank-points-range">90 〜 100点</span>
+          <span style="font-size:0.7rem; color:#94A3B8;">神級・最高峰</span>
+        </div>
+        <div class="rank-matrix-item">
+          <span class="rank-badge-tag rank-bg-ss">SS</span>
+          <span class="rank-points-range">80 〜 89点</span>
+          <span style="font-size:0.7rem; color:#94A3B8;">超ハイパフォーマー</span>
+        </div>
+        <div class="rank-matrix-item">
+          <span class="rank-badge-tag rank-bg-s">S</span>
+          <span class="rank-points-range">70 〜 79点</span>
+          <span style="font-size:0.7rem; color:#94A3B8;">極めて優秀</span>
+        </div>
+        <div class="rank-matrix-item">
+          <span class="rank-badge-tag rank-bg-a">A</span>
+          <span class="rank-points-range">60 〜 69点</span>
+          <span style="font-size:0.7rem; color:#94A3B8;">安定実力派</span>
+        </div>
+        <div class="rank-matrix-item">
+          <span class="rank-badge-tag rank-bg-b">B</span>
+          <span class="rank-points-range">50 〜 59点</span>
+          <span style="font-size:0.7rem; color:#94A3B8;">標準水準</span>
+        </div>
+        <div class="rank-matrix-item">
+          <span class="rank-badge-tag rank-bg-c">C</span>
+          <span class="rank-points-range">40 〜 49点</span>
+          <span style="font-size:0.7rem; color:#94A3B8;">運用注意</span>
+        </div>
+        <div class="rank-matrix-item">
+          <span class="rank-badge-tag rank-bg-d">D</span>
+          <span class="rank-points-range">0 〜 39点</span>
+          <span style="font-size:0.7rem; color:#94A3B8;">リスク高・不調</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3.1 月間収益率 -->
+    <div class="criteria-section">
+      <div class="criteria-header">
+        <h2 class="criteria-title"><i class="fa-solid fa-hand-fist"></i> 1. 月間収益率（配点: 20点）</h2>
+        <span class="criteria-points-pill">直近確定月の月利（%）</span>
+      </div>
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th>月間収益率範囲</th>
+            <th style="width: 25%;">配点点数</th>
+            <th>判定・備考</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="matrix-val">20.00% 以上</td><td class="matrix-score max">20点 (満点)</td><td>驚異的な月利パフォーマンス</td></tr>
+          <tr><td class="matrix-val">15.00 〜 19.99%</td><td class="matrix-score">18点</td><td>極めて高い収益率</td></tr>
+          <tr><td class="matrix-val">10.00 〜 14.99%</td><td class="matrix-score">16点</td><td>優秀な月間成長</td></tr>
+          <tr><td class="matrix-val">7.00 〜 9.99%</td><td class="matrix-score">14点</td><td>良好な収益水準</td></tr>
+          <tr><td class="matrix-val">5.00 〜 6.99%</td><td class="matrix-score">12点</td><td>標準的な安定リターン</td></tr>
+          <tr><td class="matrix-val">3.00 〜 4.99%</td><td class="matrix-score">9点</td><td>堅実なプラス推移</td></tr>
+          <tr><td class="matrix-val">1.00 〜 2.99%</td><td class="matrix-score">5点</td><td>微増・低ボラティリティ</td></tr>
+          <tr><td class="matrix-val">0.00 〜 0.99%</td><td class="matrix-score">2点</td><td>わずかなプラス維持</td></tr>
+          <tr><td class="matrix-val">0.00% 未満 (マイナス)</td><td class="matrix-score" style="color:#F87171;">0点</td><td>ドローダウン発生月</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 3.2 プロフィットファクター (PF) -->
+    <div class="criteria-section">
+      <div class="criteria-header">
+        <h2 class="criteria-title"><i class="fa-solid fa-coins"></i> 2. プロフィットファクター（PF：配点: 20点）</h2>
+        <span class="criteria-points-pill">総利益 ÷ 総損失</span>
+      </div>
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th>PF値</th>
+            <th style="width: 25%;">配点点数</th>
+            <th>判定・備考</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="matrix-val">2.00 以上</td><td class="matrix-score max">20点 (満点)</td><td>圧倒的な損益効率</td></tr>
+          <tr><td class="matrix-val">1.80 〜 1.99</td><td class="matrix-score">18点</td><td>極めて高水準の利益率</td></tr>
+          <tr><td class="matrix-val">1.60 〜 1.79</td><td class="matrix-score">16点</td><td>非常に優秀</td></tr>
+          <tr><td class="matrix-val">1.50 〜 1.59</td><td class="matrix-score">14点</td><td>実用的なプロ水準</td></tr>
+          <tr><td class="matrix-val">1.40 〜 1.49</td><td class="matrix-score">12点</td><td>良好なエッジ</td></tr>
+          <tr><td class="matrix-val">1.30 〜 1.39</td><td class="matrix-score">9点</td><td>標準的</td></tr>
+          <tr><td class="matrix-val">1.20 〜 1.29</td><td class="matrix-score">6点</td><td>薄利傾向</td></tr>
+          <tr><td class="matrix-val">1.10 〜 1.19</td><td class="matrix-score">3点</td><td>スプレッド負け注意</td></tr>
+          <tr><td class="matrix-val">1.10 未満</td><td class="matrix-score" style="color:#F87171;">0点</td><td>損失リスク大</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 3.3 リカバリーファクター (RF) -->
+    <div class="criteria-section">
+      <div class="criteria-header">
+        <h2 class="criteria-title"><i class="fa-solid fa-feather-pointed"></i> 3. リカバリーファクター（RF：配点: 20点）</h2>
+        <span class="criteria-points-pill">累積純利益 ÷ 最大ドローダウン額</span>
+      </div>
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th>RF値</th>
+            <th style="width: 25%;">配点点数</th>
+            <th>判定・備考</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="matrix-val">10.00 以上</td><td class="matrix-score max">20点 (満点)</td><td>驚異的なリカバリー能力</td></tr>
+          <tr><td class="matrix-val">7.00 〜 9.99</td><td class="matrix-score">18点</td><td>非常に高い回復力</td></tr>
+          <tr><td class="matrix-val">5.00 〜 6.99</td><td class="matrix-score">16点</td><td>優秀な回復力</td></tr>
+          <tr><td class="matrix-val">4.00 〜 4.99</td><td class="matrix-score">14点</td><td>良好</td></tr>
+          <tr><td class="matrix-val">3.00 〜 3.99</td><td class="matrix-score">12点</td><td>標準水準</td></tr>
+          <tr><td class="matrix-val">2.00 〜 2.99</td><td class="matrix-score">9点</td><td>回復にやや時間を要する</td></tr>
+          <tr><td class="matrix-val">1.50 〜 1.99</td><td class="matrix-score">6点</td><td>注意が必要</td></tr>
+          <tr><td class="matrix-val">1.00 〜 1.49</td><td class="matrix-score">3点</td><td>回復が遅い</td></tr>
+          <tr><td class="matrix-val">1.00 未満</td><td class="matrix-score" style="color:#F87171;">0点</td><td>ドローダウン過大</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 3.4 最大ドローダウン (DD) -->
+    <div class="criteria-section">
+      <div class="criteria-header">
+        <h2 class="criteria-title"><i class="fa-solid fa-shield-halved"></i> 4. 最大ドローダウン（DD：配点: 15点）</h2>
+        <span class="criteria-points-pill">資産最大下落率（%）</span>
+      </div>
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th>最大DD（%）</th>
+            <th style="width: 25%;">配点点数</th>
+            <th>判定・備考</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="matrix-val">5.00% 未満</td><td class="matrix-score max">15点 (満点)</td><td>超低リスク・鉄壁の資産防衛</td></tr>
+          <tr><td class="matrix-val">5.00 〜 9.99%</td><td class="matrix-score">14点</td><td>極めて低いドローダウン</td></tr>
+          <tr><td class="matrix-val">10.00 〜 14.99%</td><td class="matrix-score">12点</td><td>安定運用の推奨水準</td></tr>
+          <tr><td class="matrix-val">15.00 〜 19.99%</td><td class="matrix-score">10点</td><td>許容範囲内</td></tr>
+          <tr><td class="matrix-val">20.00 〜 29.99%</td><td class="matrix-score">7点</td><td>中程度のリスクあり</td></tr>
+          <tr><td class="matrix-val">30.00 〜 39.99%</td><td class="matrix-score">4点</td><td>ハイリスク傾向</td></tr>
+          <tr><td class="matrix-val">40.00 〜 49.99%</td><td class="matrix-score">2点</td><td>資金管理に警戒要</td></tr>
+          <tr><td class="matrix-val">50.00% 以上</td><td class="matrix-score" style="color:#F87171;">0点</td><td>破綻リスク極めて大</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 3.5 稼働期間 -->
+    <div class="criteria-section">
+      <div class="criteria-header">
+        <h2 class="criteria-title"><i class="fa-solid fa-hourglass-half"></i> 5. 稼働期間（配点: 15点）</h2>
+        <span class="criteria-points-pill">累積フォワード運用期間</span>
+      </div>
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th>累積運用期間</th>
+            <th style="width: 25%;">配点点数</th>
+            <th>判定・備考</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="matrix-val">5 年以上</td><td class="matrix-score max">15点 (満点)</td><td>長年の市場変化を耐え抜いた伝説的信頼性</td></tr>
+          <tr><td class="matrix-val">4 年以上 〜 5 年未満</td><td class="matrix-score">14点</td><td>極めて長期の実績</td></tr>
+          <tr><td class="matrix-val">3 年以上 〜 4 年未満</td><td class="matrix-score">13点</td><td>高い再現性・信頼性</td></tr>
+          <tr><td class="matrix-val">2 年以上 〜 3 年未満</td><td class="matrix-score">11点</td><td>十分なフォワード蓄積</td></tr>
+          <tr><td class="matrix-val">1 年以上 〜 2 年未満</td><td class="matrix-score">8点</td><td>四季・相場サイクルを一巡</td></tr>
+          <tr><td class="matrix-val">6 か月以上 〜 1 年未満</td><td class="matrix-score">5点</td><td>検証段階（半年経過）</td></tr>
+          <tr><td class="matrix-val">3 か月以上 〜 6 か月未満</td><td class="matrix-score">2点</td><td>初期トラックレコード</td></tr>
+          <tr><td class="matrix-val">3 か月未満</td><td class="matrix-score" style="color:#F87171;">0点</td><td>実績蓄積待ち</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 3.6 収益安定性 -->
+    <div class="criteria-section">
+      <div class="criteria-header">
+        <h2 class="criteria-title"><i class="fa-solid fa-heart"></i> 6. 収益安定性（配点: 10点）</h2>
+        <span class="criteria-points-pill">直近12か月のプラス月数</span>
+      </div>
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th>直近12か月のプラス月数</th>
+            <th style="width: 25%;">配点点数</th>
+            <th>判定・備考</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="matrix-val">12 か月 (全勝)</td><td class="matrix-score max">10点 (満点)</td><td>1年間完全無敗・最高の安定性</td></tr>
+          <tr><td class="matrix-val">11 か月</td><td class="matrix-score">9点</td><td>極めて高い勝率</td></tr>
+          <tr><td class="matrix-val">10 か月</td><td class="matrix-score">8点</td><td>非常に優秀</td></tr>
+          <tr><td class="matrix-val">9 か月</td><td class="matrix-score">7点</td><td>安定</td></tr>
+          <tr><td class="matrix-val">8 か月</td><td class="matrix-score">6点</td><td>標準水準 (3ヶ月に1回損失程度)</td></tr>
+          <tr><td class="matrix-val">7 か月</td><td class="matrix-score">5点</td><td>やや波あり</td></tr>
+          <tr><td class="matrix-val">6 か月</td><td class="matrix-score">4点</td><td>勝率50%水準</td></tr>
+          <tr><td class="matrix-val">5 か月</td><td class="matrix-score">3点</td><td>損失月が先行</td></tr>
+          <tr><td class="matrix-val">4 か月</td><td class="matrix-score">2点</td><td>不安定</td></tr>
+          <tr><td class="matrix-val">3 か月</td><td class="matrix-score">1点</td><td>厳しい相場環境</td></tr>
+          <tr><td class="matrix-val">0 〜 2 か月</td><td class="matrix-score" style="color:#F87171;">0点</td><td>長期不調</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px;">
+      <a href="ranking.html" class="btn-back" style="padding: 12px 28px; font-size: 1rem; background: linear-gradient(135deg, #0284C7, #0EA5E9); color: #FFF; border: none;">
+        <i class="fa-solid fa-trophy"></i> 総合ランキング一覧を見る
+      </a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-content" style="text-align: center; padding: 40px 0; color: #64748B; font-size: 0.85rem;">
+      <p>&copy; 2026 Dark Venus ラボ. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
