@@ -6,7 +6,7 @@ SUPABASE_URL = "https://tskpfaqxqiqegwezovce.supabase.co"
 SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRza3BmYXF4cWiqZWd3ZXpvdmNlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODczNjc0OTMsImV4cCI6MjEwMjk0MzQ5M30.-jIXmMNhbkOVb60FVhyPb4iSFSC9vj-7ieQxXFCH24k"
 
 req = urllib.request.Request(
-    f"{SUPABASE_URL}/rest/v1/eas",
+    f"{SUPABASE_URL}/rest/v1/ea_master",
     headers={
         "apikey": SUPABASE_KEY.strip(),
         "Authorization": f"Bearer {SUPABASE_KEY.strip()}",

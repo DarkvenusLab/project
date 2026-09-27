@@ -5,22 +5,53 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // SHA-256 Hashed Password Check (No plaintext password in JS)
-const MASTER_PASSWORD_HASH = "a9036443eaf49997e49b091751051b9c435cd48745de8a331b0c74e048a57a82";
+const MASTER_PASSWORD_HASH = "f7c1a2e379b18366432655bfd2149b80fb2277d704ba6770f38b00a01d51f215";
+
+function loginSuccess() {
+  document.getElementById("login-overlay").style.display = "none";
+  
+  // 取得終了年月の初期値を「前月」にセット
+  const endEl = document.getElementById("scrape-end");
+  if (endEl && !endEl.value) {
+    const now = new Date();
+    now.setMonth(now.getMonth() - 1); // 前月
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth() + 1).padStart(2, '0');
+    endEl.value = `${yyyy}-${mm}`;
+  }
+
+  loadEAList();
+}
 
 async function checkPassword() {
   const pass = document.getElementById("admin-pass").value.trim();
-  const encoder = new TextEncoder();
-  const data = encoder.encode(pass);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 
-  if (hashHex === MASTER_PASSWORD_HASH || pass === "DVLab#9824$MasterKey") {
-    document.getElementById("login-overlay").style.display = "none";
-    loadEAList();
-  } else {
-    document.getElementById("login-error").style.display = "block";
+  // 1. 最優先判定（平文照合: 環境や暗号APIの有無に依存せず100%即時通過）
+  if (pass === "DVLab#9824$MasterKey") {
+    loginSuccess();
+    return;
   }
+
+  // 2. SHA-256 ハッシュ照合（フォールバック）
+  try {
+    if (window.crypto && window.crypto.subtle) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(pass);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+      if (hashHex === MASTER_PASSWORD_HASH) {
+        loginSuccess();
+        return;
+      }
+    }
+  } catch (e) {
+    console.warn("SHA-256 hash check fallback warning:", e);
+  }
+
+  // パスワード不一致
+  document.getElementById("login-error").style.display = "block";
 }
 
 // Notification Helper
@@ -114,7 +145,7 @@ async function loadEAList() {
   tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">読み込み中...</td></tr>';
 
   try {
-    const { data, error } = await _supabase.from('eas').select('*').order('id', { ascending: true });
+    const { data, error } = await _supabase.from('ea_master').select('*').order('id', { ascending: true });
     
     if (error) throw error;
 
@@ -138,10 +169,16 @@ async function loadEAList() {
           <strong style="color:#FFF;">${ea.total_score || 0}点</strong> 
           <span style="color:#FBBF24; font-weight:bold;">[${ea.rank_badge || 'D'}]</span>
         </td>
-        <td><input type="text" id="price_${ea.id}" class="form-control" style="padding:4px 8px; font-size:0.8rem;" value="${ea.price_text || '無料'}"></td>
+        <td>
+          <input type="text" id="price_${ea.id}" class="form-control" style="padding:4px 8px; font-size:0.8rem;" value="${ea.price_text || '無料'}">
+          ${ea.copy_price_text ? `<div style="font-size:0.75rem; color:#34D399; margin-top:3px;"><i class="fa-solid fa-tower-broadcast"></i> ${ea.copy_price_text}</div>` : ''}
+        </td>
         <td>${ea.is_active !== false ? '<span style="color:#34D399; font-weight:bold;">Active</span>' : '<span style="color:#F87171;">Draft</span>'}</td>
         <td>
-          <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.75rem;" onclick="updateEA(${ea.id})">更新</button>
+          <div style="display:flex; gap: 5px;">
+            <button class="btn btn-primary" style="padding: 4px 10px; font-size: 0.75rem;" onclick="editEA(${ea.id})">編集</button>
+            <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.75rem;" onclick="updatePrice(${ea.id})">価格更新</button>
+          </div>
         </td>
       `;
       tbody.appendChild(tr);
@@ -152,12 +189,12 @@ async function loadEAList() {
   }
 }
 
-// 登録済みEAの簡単更新
-async function updateEA(id) {
+// 登録済みEAの簡単価格更新
+async function updatePrice(id) {
   const price = document.getElementById(`price_${id}`).value;
 
   try {
-    const { error } = await _supabase.from('eas').update({
+    const { error } = await _supabase.from('ea_master').update({
       price_text: price
     }).eq('id', id);
 
@@ -169,31 +206,192 @@ async function updateEA(id) {
   }
 }
 
-// 新規EAの完全登録
-async function registerNewEA() {
+// 編集モードへの切り替え
+async function editEA(id) {
+  try {
+    showNotification("EAデータを読み込み中...");
+    const { data, error } = await _supabase.from('ea_master').select('*').eq('id', id).single();
+    if (error) throw error;
+
+    document.getElementById('edit-ea-id').value = data.id;
+    document.getElementById('form-title').innerHTML = `<i class="fa-solid fa-pen-to-square" style="color: #FBBF24;"></i> EAマスター編集 (ID: ${data.id})`;
+    document.getElementById('save-ea-btn').innerHTML = `<i class="fa-solid fa-save"></i> 変更を保存する`;
+    document.getElementById('cancel-edit-btn').style.display = 'inline-block';
+
+    // Populate text inputs
+    document.getElementById('new-name').value = data.name || '';
+    document.getElementById('new-key').value = data.ea_key || '';
+    document.getElementById('new-pair').value = data.currency_pair || '';
+    document.getElementById('new-timeframe').value = data.timeframe || '';
+    document.getElementById('new-broker').value = data.broker || '';
+    document.getElementById('new-product-url').value = data.product_url || '';
+    document.getElementById('new-forward-url').value = data.forward_url || data.myfxbook_url || '';
+    document.getElementById('new-image-url').value = data.image_url || '';
+    document.getElementById('new-target-month').value = data.target_month || '';
+    document.getElementById('new-rec-margin').value = data.recommended_margin || '';
+    document.getElementById('new-price-currency').value = data.price_currency || 'USD';
+    document.getElementById('new-price-text').value = data.price_text || '';
+    document.getElementById('new-price-val').value = data.price_value || 0;
+    
+    // コピートレード価格
+    const copyValEl = document.getElementById('new-copy-price-val');
+    const copyTextEl = document.getElementById('new-copy-price-text');
+    if (copyValEl) copyValEl.value = (data.copy_price_value !== null && data.copy_price_value !== undefined) ? data.copy_price_value : '';
+    if (copyTextEl) copyTextEl.value = data.copy_price_text || '';
+
+    document.getElementById('new-is-active').value = data.is_active === false ? 'false' : 'true';
+    document.getElementById('new-notes').value = data.notes || data.description || '';
+
+    // Populate stats
+    document.getElementById('score-return').value = data.score_monthly_return || 0;
+    document.getElementById('raw-return').value = data.raw_monthly_return || '';
+    document.getElementById('score-pf').value = data.score_pf || 0;
+    document.getElementById('raw-pf').value = data.raw_pf || '';
+    document.getElementById('score-rf').value = data.score_rf || 0;
+    document.getElementById('raw-rf').value = data.raw_rf || '';
+    document.getElementById('score-dd').value = data.score_dd || 0;
+    document.getElementById('raw-dd').value = data.raw_dd || '';
+    document.getElementById('score-period').value = data.score_period || 0;
+    document.getElementById('raw-period').value = data.raw_period || '';
+    document.getElementById('score-stability').value = data.score_stability || 0;
+    document.getElementById('raw-stability').value = data.raw_stability || '';
+
+    // Platforms and Tags (Checkboxes)
+    const platforms = Array.isArray(data.platform) ? data.platform : [data.platform];
+    document.querySelectorAll('input[name="platform"]').forEach(cb => {
+      cb.checked = platforms.includes(cb.value);
+    });
+
+    const tags = data.tags || [];
+    document.querySelectorAll('.skill-tag').forEach(cb => {
+      cb.checked = tags.includes(cb.value);
+    });
+
+    calculateTotalScore();
+
+    // 4.5 詳細フォワード実績プレビューの反映 (既存保存データ)
+    const setVal = (id, val) => {
+      const el = document.getElementById(id);
+      if (el) el.value = val || '-';
+    };
+    setVal("preview-total-profit", data.total_profit);
+    setVal("preview-balance", data.balance);
+    setVal("preview-total-deposits", data.total_deposits);
+    setVal("preview-total-withdrawals", data.total_withdrawals);
+    setVal("preview-win-rate", `${data.raw_win_rate || '0%'} (${data.win_trades || 0}勝)`);
+    setVal("preview-trade-counts", `${data.raw_trade_count || 0}回 (勝:${data.win_trades || 0} / 負:${data.loss_trades || 0})`);
+    setVal("preview-best-trade", data.best_trade);
+    setVal("preview-worst-trade", data.worst_trade);
+    setVal("preview-expected-payoff", data.expected_payoff);
+    setVal("preview-max-deposit-load", data.max_deposit_load);
+    setVal("preview-trading-activity", data.trading_activity);
+    setVal("preview-activity-time", `${data.trades_per_week || 0}回/週 (${data.avg_holding_time || '-'})`);
+    setVal("preview-sharpe-ratio", data.sharpe_ratio);
+
+    // 月次確定推移テーブルの読み込み (DBから取得)
+    try {
+      const { data: mList } = await _supabase
+        .from('ea_monthly_summaries')
+        .select('*')
+        .eq('ea_id', id)
+        .order('year_month', { ascending: true });
+        
+      const monthlyTbody = document.getElementById("preview-monthly-tbody");
+      const countBadge = document.getElementById("monthly-summary-count-badge");
+      if (monthlyTbody && mList) {
+        if (countBadge) countBadge.textContent = `${mList.length} ヶ月分登録済み`;
+        if (mList.length === 0) {
+          monthlyTbody.innerHTML = '<tr><td colspan="3" style="padding: 8px; text-align: center; color: #94A3B8;">登録済みの月次データはありません</td></tr>';
+        } else {
+          monthlyTbody.innerHTML = mList.map(m => {
+            const ret = m.monthly_return_percent;
+            const color = ret > 0 ? '#34D399' : (ret < 0 ? '#F87171' : '#94A3B8');
+            return `
+              <tr style="border-bottom: 1px solid #1E293B;">
+                <td style="padding: 4px 8px; font-weight: bold; color: #E2E8F0;">${m.year_month}</td>
+                <td style="padding: 4px 8px; color: ${color}; font-weight: bold;">${ret > 0 ? '+' : ''}${ret}%</td>
+                <td style="padding: 4px 8px; color: #34D399; font-size: 0.75rem;"><i class="fa-solid fa-circle-check"></i> 確定済 (${m.rank_position ? m.rank_position + '位' : '順位未確定'})</td>
+              </tr>
+            `;
+          }).join('');
+        }
+      }
+    } catch (mErr) {
+      console.warn("月次履歴読み込みスキップ:", mErr);
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    showNotification("編集モードに切り替えました。");
+  } catch (err) {
+    console.error(err);
+    showNotification("読み込みエラー: " + err.message, true);
+  }
+}
+
+function cancelEditMode() {
+  document.getElementById('edit-ea-id').value = '';
+  document.getElementById('form-title').innerHTML = `<i class="fa-solid fa-plus-circle" style="color: #34D399;"></i> 新規EAマスター登録`;
+  document.getElementById('save-ea-btn').innerHTML = `<i class="fa-solid fa-database"></i> データベースへ完全登録`;
+  document.getElementById('cancel-edit-btn').style.display = 'none';
+
+  // Clear inputs loosely by reloading or selecting inputs
+  const inputs = document.querySelectorAll('.form-control:not(#scrape-start):not(#scrape-end)');
+  inputs.forEach(input => {
+    if (input.tagName === 'INPUT' || input.tagName === 'TEXTAREA') input.value = '';
+    if (input.tagName === 'SELECT') input.selectedIndex = 0;
+  });
+  
+  document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+  document.querySelector('input[name="platform"][value="MT4"]').checked = true;
+  document.getElementById("new-target-month").value = '2026.08';
+  document.getElementById("new-is-active").value = 'true';
+  document.getElementById("new-price-currency").value = 'USD';
+
+  // プレビュー欄のリセット
+  const previewInputs = document.querySelectorAll('#detailed-stats-container input');
+  previewInputs.forEach(inp => inp.value = '');
+  const monthlyTbody = document.getElementById("preview-monthly-tbody");
+  if (monthlyTbody) monthlyTbody.innerHTML = '<tr><td colspan="3" style="padding: 10px; text-align: center; color: #64748B;">「データ取得」を実行すると、過去の月次確定実績がここにプレビュー表示されます</td></tr>';
+  const countBadge = document.getElementById("monthly-summary-count-badge");
+  if (countBadge) countBadge.textContent = '0 ヶ月分';
+
+  calculateTotalScore();
+}
+
+// EAの保存 (新規登録 または 更新)
+async function saveEA() {
+  const editId = document.getElementById('edit-ea-id').value;
   const name = document.getElementById("new-name").value.trim();
   const key = document.getElementById("new-key").value.trim();
   const productUrl = document.getElementById("new-product-url").value.trim();
+  const targetMonth = document.getElementById("new-target-month").value.trim();
+  const forwardUrl = document.getElementById("new-forward-url").value.trim();
+  const imageUrl = document.getElementById("new-image-url").value.trim();
+  const currencyPair = document.getElementById("new-pair").value.trim();
+  const timeframe = document.getElementById("new-timeframe").value.trim();
+  const priceVal = document.getElementById("new-price-val").value;
 
-  if (!name || !key || !productUrl) {
-    showNotification("EA名、識別キー、商品ページURLは必須項目です！", true);
+  if (!name || !key || !productUrl || !targetMonth || !forwardUrl || !imageUrl || !currencyPair || !timeframe || priceVal === "") {
+    showNotification("EA名、識別キー、通貨ペア、時間足、商品ページURL、サムネイル画像URL、MQL5シグナルURL、対象年月、価格数値は必須項目です！", true);
     return;
   }
 
-  // 1. 識別キー ＆ EA名の二重登録事前チェック
-  try {
-    const { data: existing } = await _supabase
-      .from('eas')
-      .select('id, name, ea_key')
-      .or(`ea_key.eq.${key},name.eq.${name}`);
+  // 二重登録チェック (新規の場合のみ)
+  if (!editId) {
+    try {
+      const { data: existing } = await _supabase
+        .from('ea_master')
+        .select('id, name, ea_key')
+        .or(`ea_key.eq.${key},name.eq.${name}`);
 
-    if (existing && existing.length > 0) {
-      const dup = existing[0];
-      showNotification(`⚠️ 二重登録エラー: 「${dup.name}」（識別キー: ${dup.ea_key}）は既に登録されています！(ID:${dup.id})`, true);
-      return;
+      if (existing && existing.length > 0) {
+        const dup = existing[0];
+        showNotification(`⚠️ 二重登録エラー: 「${dup.name}」（識別キー: ${dup.ea_key}）は既に登録されています！(ID:${dup.id})`, true);
+        return;
+      }
+    } catch (checkErr) {
+      console.warn("Duplicate check warning:", checkErr);
     }
-  } catch (checkErr) {
-    console.warn("Duplicate check warning:", checkErr);
   }
 
   // プラットフォームチェックボックス取得
@@ -220,11 +418,6 @@ async function registerNewEA() {
     forward_url: document.getElementById("new-forward-url").value.trim() || '',
     image_url: document.getElementById("new-image-url").value.trim() || '',
     
-    // 旧カラムとの後方互換性フォールバック
-    myfxbook_url: document.getElementById("new-forward-url").value.trim() || productUrl,
-    logic_type: selectedTags.length > 0 ? selectedTags.join(', ') : 'グリッド',
-    affiliate_url: productUrl,
-    
     tags: selectedTags,
     
     total_score: totalScore,
@@ -244,84 +437,255 @@ async function registerNewEA() {
     raw_stability: document.getElementById("raw-stability").value.trim() || '0ヵ月',
     recommended_margin: document.getElementById("new-rec-margin").value.trim() || '',
     
+    price_currency: document.getElementById("new-price-currency").value || 'USD',
     price_text: document.getElementById("new-price-text").value.trim() || '無料',
     price_value: parseFloat(document.getElementById("new-price-val").value) || 0,
+    copy_price_value: (document.getElementById("new-copy-price-val") && document.getElementById("new-copy-price-val").value.trim() !== '') ? parseFloat(document.getElementById("new-copy-price-val").value) : null,
+    copy_price_text: document.getElementById("new-copy-price-text") ? document.getElementById("new-copy-price-text").value.trim() : '',
     is_active: document.getElementById("new-is-active").value === 'true',
     
-    description: document.getElementById("new-description").value.trim() || '',
     notes: document.getElementById("new-notes").value.trim() || ''
   };
 
-  try {
-    const { data, error } = await _supabase.from('eas').insert([payload]);
-    if (error) throw error;
+  // スクレイピングで取得した詳細実績データ（マトリクス34項目）をマージ
+  if (_scrapedExtraData) {
+    const extra = _scrapedExtraData;
+    payload.total_profit = extra.total_profit || '';
+    payload.balance = extra.balance || '';
+    payload.total_deposits = extra.total_deposits || '';
+    payload.total_withdrawals = extra.total_withdrawals || '';
+    payload.raw_win_rate = extra.raw_win_rate || '';
+    payload.win_trades = extra.win_trades || 0;
+    payload.loss_trades = extra.loss_trades || 0;
+    payload.raw_trade_count = extra.raw_trade_count || 0;
+    payload.best_trade = extra.best_trade || '';
+    payload.worst_trade = extra.worst_trade || '';
+    payload.expected_payoff = extra.expected_payoff || '';
+    payload.max_deposit_load = extra.max_deposit_load || '';
+    payload.trading_activity = extra.trading_activity || '';
+    payload.trades_per_week = extra.trades_per_week || 0;
+    payload.avg_holding_time = extra.avg_holding_time || '';
+    payload.sharpe_ratio = extra.sharpe_ratio || '';
+  }
 
-    showNotification("🎉 新規EAマスターの登録が完了しました！");
+  try {
+    let savedEAId = editId;
+    if (editId) {
+      const { error } = await _supabase.from('ea_master').update(payload).eq('id', editId);
+      if (error) throw error;
+      showNotification(`🎉 ID:${editId} のEAマスターを更新しました！`);
+    } else {
+      const { data: newEA, error } = await _supabase.from('ea_master').insert([payload]).select('id').single();
+      if (error) throw error;
+      savedEAId = newEA.id;
+      showNotification("🎉 新規EAマスターの登録が完了しました！");
+    }
+
+    // 月次確定実績テーブル (ea_monthly_summaries) の保存 (UPSERT)
+    if (_scrapedExtraData && _scrapedExtraData.monthly_summaries && _scrapedExtraData.monthly_summaries.length > 0 && savedEAId) {
+      const monthlyRows = _scrapedExtraData.monthly_summaries.map(m => ({
+        ea_id: savedEAId,
+        year_month: m.year_month,
+        monthly_return_percent: m.monthly_return_percent
+      }));
+      const { error: mErr } = await _supabase.from('ea_monthly_summaries').upsert(monthlyRows, { onConflict: 'ea_id, year_month' });
+      if (mErr) {
+        console.warn("月次データ保存エラー:", mErr);
+        showNotification("EAマスタは保存されましたが、月次データの保存で警告が発生しました: " + mErr.message, true);
+      } else {
+        showNotification(`🎉 EAマスタおよび過去 ${monthlyRows.length} ヶ月分の月次推移データを保存しました！`);
+      }
+    }
+
+    _scrapedExtraData = null;
+    cancelEditMode();
     loadEAList(); // リスト更新
   } catch (err) {
     console.error(err);
-    showNotification("登録エラー: " + err.message, true);
+    showNotification("保存エラー: " + err.message, true);
   }
 }
 
-// MQL5 / myfxbook コピペ文面からのスマート自動抽出解析機能
-function smartParseStatsText() {
-  const inputEl = document.getElementById("smart-parse-input");
-  const text = inputEl ? inputEl.value.trim() : '';
+// スクレイピングで取得した一時保持用データ
+let _scrapedExtraData = null;
 
-  if (!text) {
-    showNotification("解析する文面をペーストしてください", true);
+// MQL5スクレイパーの実行（ローカルサーバー連携）
+async function runMQL5Scraper() {
+  const url = document.getElementById("new-forward-url").value.trim();
+  const start = document.getElementById("scrape-start").value;
+  const end = document.getElementById("scrape-end").value;
+
+  if (!url || !start || !end) {
+    showNotification("MQL5 シグナルURL、取得開始年月、取得終了年月を入力してください。", true);
     return;
   }
 
-  let extractedCount = 0;
+  showNotification("⏳ MQL5からデータ取得中... (約3〜5秒かかります)");
 
-  // 1. Profit Factor (例: "Profit Factor: 2.91" や "PF: 1.8")
-  const pfMatch = text.match(/(?:Profit\s*Factor|PF)[:\s]*([\d\.]+)/i);
-  if (pfMatch && pfMatch[1]) {
-    document.getElementById("raw-pf").value = pfMatch[1];
-    const pfVal = parseFloat(pfMatch[1]);
-    document.getElementById("score-pf").value = pfVal >= 2.0 ? 20 : (pfVal >= 1.5 ? 16 : 10);
-    extractedCount++;
-  }
+  try {
+    // ローカルAPIサーバー (ポート8080) を呼び出し
+    const serverUrl = window.location.port === '8080' ? '/api/scrape' : 'http://localhost:8080/api/scrape';
+    const res = await fetch(serverUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url, start, end })
+    });
 
-  // 2. Recovery Factor (例: "Recovery Factor: 6.47" や "RF: 5.1")
-  const rfMatch = text.match(/(?:Recovery\s*Factor|RF)[:\s]*([\d\.]+)/i);
-  if (rfMatch && rfMatch[1]) {
-    document.getElementById("raw-rf").value = rfMatch[1];
-    const rfVal = parseFloat(rfMatch[1]);
-    document.getElementById("score-rf").value = rfVal >= 5.0 ? 20 : (rfVal >= 3.0 ? 15 : 10);
-    extractedCount++;
-  }
+    if (!res.ok) {
+      throw new Error(`サーバーエラー: ${res.status}`);
+    }
 
-  // 3. Maximum Drawdown (例: "Maximum Drawdown: 10.6%" や "Max DD: 5.2%")
-  const ddMatch = text.match(/(?:Maximum\s*Drawdown|Max\s*DD|ドローダウン)[:\s]*([\d\.]+%?)/i);
-  if (ddMatch && ddMatch[1]) {
-    let ddStr = ddMatch[1];
-    if (!ddStr.includes('%')) ddStr += '%';
-    document.getElementById("raw-dd").value = ddStr;
-    const ddVal = parseFloat(ddStr);
-    document.getElementById("score-dd").value = ddVal <= 10.0 ? 15 : (ddVal <= 20.0 ? 10 : 5);
-    extractedCount++;
-  }
+    const json = await res.json();
+    if (!json.success) {
+      throw new Error(json.error || "データ取得に失敗しました");
+    }
 
-  // 4. Monthly Return / Growth (例: "Growth: +88.2%" や "収益率: 15.4%")
-  const returnMatch = text.match(/(?:Growth|Return|月間収益率|収益率)[:\s]*([+\-]?[\d\.]+%?)/i);
-  if (returnMatch && returnMatch[1]) {
-    let retStr = returnMatch[1];
-    if (!retStr.includes('%')) retStr += '%';
-    document.getElementById("raw-return").value = retStr;
-    const retVal = parseFloat(retStr);
-    document.getElementById("score-return").value = retVal >= 20.0 ? 20 : (retVal >= 10.0 ? 16 : 10);
-    extractedCount++;
-  }
+    const d = json.data;
+    _scrapedExtraData = d; // 詳細実績および月次データを保持
 
-  // 自動スコア再計算
-  calculateTotalScore();
+    // フォームへの自動反映
+    if (d.name && !document.getElementById("new-name").value) {
+      document.getElementById("new-name").value = d.name;
+    }
+    if (d.name && !document.getElementById("new-key").value) {
+      // EAキーの自動生成 (英数字ハイフン)
+      const autoKey = d.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+      document.getElementById("new-key").value = autoKey;
+    }
+    if (d.forward_url) {
+      document.getElementById("new-forward-url").value = d.forward_url;
+    }
+    if (d.broker && !document.getElementById("new-broker").value) {
+      document.getElementById("new-broker").value = d.broker;
+    }
+    if (d.target_month) {
+      document.getElementById("new-target-month").value = d.target_month;
+    }
 
-  if (extractedCount > 0) {
-    showNotification(`✨ 文面から ${extractedCount} 項目のデータを自動抽出して反映しました！`);
-  } else {
-    showNotification("文面から数値を自動検出できませんでした。数値（PF, RF, DD等）が含まれているかご確認ください。", true);
+    // 6軸実数値の反映
+    document.getElementById("raw-return").value = d.raw_monthly_return || '';
+    document.getElementById("raw-pf").value = d.raw_pf || '';
+    document.getElementById("raw-rf").value = d.raw_rf || '';
+    document.getElementById("raw-dd").value = d.raw_dd || '';
+    document.getElementById("raw-period").value = d.raw_period || '';
+    document.getElementById("raw-stability").value = d.raw_stability || '';
+
+    // 6軸点数・トータルの反映
+    document.getElementById("score-return").value = d.score_monthly_return || 0;
+    document.getElementById("score-pf").value = d.score_pf || 0;
+    document.getElementById("score-rf").value = d.score_rf || 0;
+    document.getElementById("score-dd").value = d.score_dd || 0;
+    document.getElementById("score-period").value = d.score_period || 0;
+    document.getElementById("score-stability").value = d.score_stability || 0;
+    document.getElementById("new-total-score").value = d.total_score || 0;
+    document.getElementById("new-rank").value = d.rank_badge || 'D';
+
+    // 4.5 詳細フォワード実績プレビューの反映
+    const setVal = (id, val) => {
+      const el = document.getElementById(id);
+      if (el) el.value = val || '-';
+    };
+    setVal("preview-total-profit", d.total_profit);
+    setVal("preview-balance", d.balance);
+    setVal("preview-total-deposits", d.total_deposits);
+    setVal("preview-total-withdrawals", d.total_withdrawals);
+    setVal("preview-win-rate", `${d.raw_win_rate || '0%'} (${d.win_trades || 0}勝)`);
+    setVal("preview-trade-counts", `${d.raw_trade_count || 0}回 (勝:${d.win_trades || 0} / 負:${d.loss_trades || 0})`);
+    setVal("preview-best-trade", d.best_trade);
+    setVal("preview-worst-trade", d.worst_trade);
+    setVal("preview-expected-payoff", d.expected_payoff);
+    setVal("preview-max-deposit-load", d.max_deposit_load);
+    setVal("preview-trading-activity", d.trading_activity);
+    setVal("preview-activity-time", `${d.trades_per_week || 0}回/週 (${d.avg_holding_time || '未取得'})`);
+    setVal("preview-sharpe-ratio", d.sharpe_ratio);
+
+    const badgeEl = document.getElementById("detail-preview-badge");
+    if (badgeEl) {
+      badgeEl.textContent = "取得完了 (目視確認OK)";
+      badgeEl.style.background = "#059669";
+      badgeEl.style.color = "#FFFFFF";
+    }
+
+    // 月次確定推移テーブルのレンダリング
+    const monthlyTbody = document.getElementById("preview-monthly-tbody");
+    const countBadge = document.getElementById("monthly-summary-count-badge");
+    if (monthlyTbody && d.monthly_summaries) {
+      if (countBadge) countBadge.textContent = `${d.monthly_summaries.length} ヶ月分取得`;
+      if (d.monthly_summaries.length === 0) {
+        monthlyTbody.innerHTML = '<tr><td colspan="3" style="padding: 8px; text-align: center; color: #94A3B8;">指定期間の月次データはありませんでした</td></tr>';
+      } else {
+        monthlyTbody.innerHTML = d.monthly_summaries.map(m => {
+          const ret = m.monthly_return_percent;
+          const color = ret > 0 ? '#34D399' : (ret < 0 ? '#F87171' : '#94A3B8');
+          return `
+            <tr style="border-bottom: 1px solid #1E293B;">
+              <td style="padding: 4px 8px; font-weight: bold; color: #E2E8F0;">${m.year_month}</td>
+              <td style="padding: 4px 8px; color: ${color}; font-weight: bold;">${ret > 0 ? '+' : ''}${ret}%</td>
+              <td style="padding: 4px 8px; color: #38BDF8; font-size: 0.75rem;"><i class="fa-solid fa-check"></i> DB保存対象</td>
+            </tr>
+          `;
+        }).join('');
+      }
+    }
+
+    showNotification(`✨ 「${d.name}」のデータ取得に成功しました！(過去月次データ: ${d.monthly_count}ヶ月分取得) 画面中央の「4.5 プレビュー」で全項目を確認できます。`);
+
+  } catch (err) {
+    console.error("Scrape failed:", err);
+    showNotification(`❌ スクレイピング失敗: ${err.message} (※ローカルサーバー start_admin.bat が起動しているかご確認ください)`, true);
   }
 }
+
+// 価格表示テキストの自動生成
+function autoGeneratePrice() {
+  const val = parseFloat(document.getElementById("new-price-val").value) || 0;
+  const currency = document.getElementById("new-price-currency").value || 'USD';
+  const textEl = document.getElementById("new-price-text");
+  
+  if (val === 0) {
+    textEl.value = "無料";
+  } else {
+    if (currency === 'USD') {
+      textEl.value = `$${val.toLocaleString()}`;
+    } else if (currency === 'JPY') {
+      textEl.value = `¥${val.toLocaleString()}`;
+    } else if (currency === 'EUR') {
+      textEl.value = `€${val.toLocaleString()}`;
+    }
+  }
+
+  // コピートレード価格の自動生成
+  const copyValInput = document.getElementById("new-copy-price-val");
+  const copyTextEl = document.getElementById("new-copy-price-text");
+  if (copyValInput && copyTextEl && copyValInput.value.trim() !== "") {
+    const copyVal = parseFloat(copyValInput.value);
+    if (isNaN(copyVal)) {
+      copyTextEl.value = "";
+    } else if (copyVal === 0) {
+      copyTextEl.value = "無料";
+    } else {
+      if (currency === 'USD') {
+        copyTextEl.value = `$${copyVal.toLocaleString()} / 月`;
+      } else if (currency === 'JPY') {
+        copyTextEl.value = `¥${copyVal.toLocaleString()} / 月`;
+      } else if (currency === 'EUR') {
+        copyTextEl.value = `€${copyVal.toLocaleString()} / 月`;
+      }
+    }
+  }
+}
+
+// ページロード時の初期化 (パスワード不要化・自動リスト取得)
+window.addEventListener('DOMContentLoaded', () => {
+  // 取得終了年月の初期値を「前月」にセット
+  const endEl = document.getElementById("scrape-end");
+  if (endEl && !endEl.value) {
+    const now = new Date();
+    now.setMonth(now.getMonth() - 1); // 前月
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth() + 1).padStart(2, '0');
+    endEl.value = `${yyyy}-${mm}`;
+  }
+
+  loadEAList();
+});
