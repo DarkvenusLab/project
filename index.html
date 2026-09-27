@@ -33,6 +33,448 @@
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8628151059114036"
     crossorigin="anonymous"></script>
+
+  <style>
+    /* -------------------------------------------
+       リアル稼働EA 総合ランキング ピックアップセクション
+    ------------------------------------------- */
+    .ranking-showcase-section {
+      padding: 30px 0 10px 0;
+    }
+    .ranking-showcase-card {
+      background: linear-gradient(145deg, #090D16 0%, #0F172A 50%, #111827 100%);
+      border: 2px solid rgba(56, 189, 248, 0.4);
+      border-radius: 24px;
+      padding: 36px 32px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(56, 189, 248, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+    .ranking-showcase-card::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .ranking-showcase-card::after {
+      content: '';
+      position: absolute;
+      bottom: -100px;
+      left: -100px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .showcase-header {
+      text-align: center;
+      margin-bottom: 36px;
+      position: relative;
+      z-index: 2;
+    }
+    .showcase-badges {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .badge-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(220, 38, 38, 0.2);
+      border: 1px solid #EF4444;
+      color: #FCA5A5;
+      font-size: 0.78rem;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .badge-live i {
+      color: #EF4444;
+      animation: pulse-dot 1.5s infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+    .badge-month {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: #FCD34D;
+      font-size: 0.78rem;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .badge-matrix {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #38BDF8;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .showcase-title {
+      font-family: 'Outfit', 'Zen Maru Gothic', sans-serif;
+      font-size: 2.1rem;
+      font-weight: 900;
+      color: #FFF;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+    }
+    .showcase-title .trophy-icon {
+      color: #F59E0B;
+      filter: drop-shadow(0 0 12px rgba(245, 158, 11, 0.6));
+    }
+    .showcase-desc {
+      color: #94A3B8;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    /* TOP3 ポディウムグリッド */
+    .top3-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 2;
+    }
+    .podium-card {
+      background: rgba(15, 23, 42, 0.85);
+      border-radius: 16px;
+      padding: 22px 20px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+    .podium-card:hover {
+      transform: translateY(-6px);
+    }
+    .podium-card.rank-1-card {
+      border: 2px solid #F59E0B;
+      box-shadow: 0 12px 35px rgba(245, 158, 11, 0.25), 0 0 15px rgba(245, 158, 11, 0.15);
+      background: linear-gradient(180deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.95) 100%);
+    }
+    .podium-card.rank-2-card {
+      border: 1.5px solid #94A3B8;
+      box-shadow: 0 10px 25px rgba(148, 163, 184, 0.15);
+    }
+    .podium-card.rank-3-card {
+      border: 1.5px solid #D97706;
+      box-shadow: 0 10px 25px rgba(217, 119, 6, 0.15);
+    }
+
+    .podium-crown {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      font-weight: 900;
+      font-family: 'Outfit', sans-serif;
+      padding: 5px 14px;
+      border-radius: 20px;
+      width: fit-content;
+      margin-bottom: 14px;
+      letter-spacing: 0.5px;
+    }
+    .podium-crown.gold {
+      background: linear-gradient(135deg, #F59E0B, #D97706);
+      color: #FFF;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+    }
+    .podium-crown.silver {
+      background: linear-gradient(135deg, #94A3B8, #64748B);
+      color: #FFF;
+      box-shadow: 0 4px 12px rgba(148, 163, 184, 0.4);
+    }
+    .podium-crown.bronze {
+      background: linear-gradient(135deg, #B45309, #78350F);
+      color: #FFF;
+      box-shadow: 0 4px 12px rgba(180, 83, 9, 0.4);
+    }
+
+    .podium-ea-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .podium-thumb {
+      width: 58px;
+      height: 58px;
+      border-radius: 12px;
+      object-fit: cover;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      background: #0F172A;
+      flex-shrink: 0;
+    }
+    .podium-ea-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .podium-rank-badge {
+      display: inline-block;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 900;
+      font-size: 0.72rem;
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-bottom: 4px;
+    }
+    .podium-rank-badge.sss { background: #DC2626; color: #FFF; }
+    .podium-rank-badge.ss  { background: #D97706; color: #FFF; }
+    .podium-rank-badge.s   { background: #FBBF24; color: #000; }
+
+    .podium-ea-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: #FFF;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.2;
+    }
+    .podium-pair-tag {
+      font-size: 0.75rem;
+      color: #38BDF8;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .podium-score-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 8px 12px;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 14px;
+    }
+    .podium-score-label {
+      font-size: 0.8rem;
+      color: #94A3B8;
+      font-weight: 700;
+    }
+    .podium-score-val {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 900;
+    }
+    .podium-score-val.gold { color: #F59E0B; text-shadow: 0 0 10px rgba(245, 158, 11, 0.5); }
+    .podium-score-val.silver { color: #38BDF8; text-shadow: 0 0 10px rgba(56, 189, 248, 0.5); }
+    .podium-score-val.bronze { color: #FCD34D; }
+    .podium-score-val .max-pts {
+      font-size: 0.75rem;
+      color: #64748B;
+      font-weight: normal;
+    }
+
+    .podium-stats-mini {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .mini-stat {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 6px;
+      padding: 6px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .mini-label {
+      font-size: 0.72rem;
+      color: #94A3B8;
+      font-weight: 600;
+    }
+    .mini-val {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #FFF;
+    }
+    .mini-val.green { color: #34D399; }
+
+    .btn-podium-action {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 9px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      text-decoration: none;
+      transition: all 0.2s;
+      margin-top: auto;
+    }
+    .btn-podium-action.gold {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.3));
+      border: 1px solid #F59E0B;
+      color: #FCD34D;
+    }
+    .btn-podium-action.gold:hover {
+      background: linear-gradient(135deg, #F59E0B, #D97706);
+      color: #FFF;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+    }
+    .btn-podium-action.silver,
+    .btn-podium-action.bronze {
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #38BDF8;
+    }
+    .btn-podium-action.silver:hover,
+    .btn-podium-action.bronze:hover {
+      background: rgba(56, 189, 248, 0.3);
+      color: #FFF;
+      box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
+    }
+
+    /* 3大ポリシーバナー */
+    .showcase-policies {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 2;
+    }
+    .policy-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .policy-item i {
+      font-size: 1.4rem;
+      color: #38BDF8;
+      width: 26px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .policy-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #F8FAFC;
+      margin-bottom: 2px;
+    }
+    .policy-desc {
+      font-size: 0.72rem;
+      color: #94A3B8;
+      line-height: 1.4;
+    }
+
+    /* アクションボタン行 */
+    .showcase-action-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+    }
+    .btn-showcase-main {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+      color: #FFF;
+      font-weight: 900;
+      font-size: 1.1rem;
+      padding: 14px 32px;
+      border-radius: 50px;
+      border: none;
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.45);
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .btn-showcase-main:hover {
+      background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 12px 35px rgba(245, 158, 11, 0.6);
+      color: #FFF;
+    }
+    .btn-showcase-sub {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(14, 165, 233, 0.15);
+      border: 1.5px solid rgba(14, 165, 233, 0.45);
+      color: #38BDF8;
+      font-weight: 800;
+      font-size: 0.92rem;
+      padding: 13px 24px;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .btn-showcase-sub:hover {
+      background: rgba(14, 165, 233, 0.3);
+      color: #FFF;
+      border-color: #38BDF8;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 900px) {
+      .top3-grid {
+        grid-template-columns: 1fr;
+      }
+      .showcase-policies {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .showcase-title {
+        font-size: 1.6rem;
+      }
+      .ranking-showcase-card {
+        padding: 24px 18px;
+      }
+      .btn-showcase-main {
+        width: 100%;
+        justify-content: center;
+        font-size: 0.98rem;
+        padding: 12px 20px;
+      }
+      .btn-showcase-sub {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -47,6 +489,7 @@
       <nav class="main-nav">
         <ul>
           <li><a href="index.html" class="active"><i class="fa-solid fa-house"></i> ホーム</a></li>
+          <li><a href="ranking.html" style="color: #F59E0B; font-weight: 800;"><i class="fa-solid fa-trophy"></i> 総合ランキング <span style="font-size: 0.7rem; background: linear-gradient(135deg, #EF4444, #F59E0B); color: #FFF; padding: 2px 6px; border-radius: 10px; margin-left: 2px; font-weight: 900;">HOT</span></a></li>
           <li><a href="ea/forward-test.html" style="color: #0EA5E9; font-weight: 800;"><i class="fa-solid fa-vial"></i> フォワード検証 <span style="font-size: 0.7rem; background: #0EA5E9; color: #FFF; padding: 2px 6px; border-radius: 10px; margin-left: 2px;">NEW</span></a></li>
           <li><a href="tools/backtest-analyzer.html" style="color: #0EA5E9; font-weight: 800;"><i class="fa-solid fa-chart-line"></i> 分析ツール</a></li>
           <li><a href="tools/setfiles.html"><i class="fa-solid fa-folder-open"></i> 検証済み.set一覧</a></li>
@@ -73,7 +516,8 @@
           勝手に置いてるだけなので、必要な人は勝手に持っていってください〜<br>（※動作保証も責任も一切ナシ！）
         </p>
         <div class="hero-buttons" style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px;">
-          <a href="tools/backtest-analyzer.html" class="btn btn-bounce" style="background: #0EA5E9; color: #FFF; border: 2px solid var(--text-main); box-shadow: 4px 4px 0 var(--text-main); font-weight: 800; border-radius: var(--radius-md); text-decoration: none; padding: 12px 20px;"><i class="fa-solid fa-chart-pie"></i> 高度バックテスト分析ツールを見る (無料)</a>
+          <a href="ranking.html" class="btn btn-bounce" style="background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); color: #FFF; border: 2px solid var(--text-main); box-shadow: 4px 4px 0 var(--text-main); font-weight: 900; border-radius: var(--radius-md); text-decoration: none; padding: 12px 22px; font-size: 1.05rem;"><i class="fa-solid fa-trophy"></i> リアル稼働EA総合ランキングを見る <span style="font-size: 0.75rem; background: rgba(0,0,0,0.25); padding: 2px 8px; border-radius: 12px; margin-left: 4px;">2026.08確定</span></a>
+          <a href="tools/backtest-analyzer.html" class="btn" style="background: #0EA5E9; color: #FFF; border: 2px solid var(--text-main); box-shadow: 4px 4px 0 var(--text-main); font-weight: 800; border-radius: var(--radius-md); text-decoration: none; padding: 12px 20px;"><i class="fa-solid fa-chart-pie"></i> 高度バックテスト分析ツールを見る (無料)</a>
           <a href="#presets" class="btn btn-primary"><i class="fa-solid fa-download"></i>
             拾い物.setファイル一覧を見る</a>
         </div>
@@ -97,6 +541,195 @@
           <span class="tag">#暇つぶし検証</span>
           <span class="tag">#ゆるく更新中</span>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Real Forward EA Comprehensive Ranking Showcase Section -->
+  <section id="ea-ranking-showcase" class="section ranking-showcase-section">
+    <div class="container">
+      <div class="ranking-showcase-card">
+        <!-- Showcase Header -->
+        <div class="showcase-header">
+          <div class="showcase-badges">
+            <span class="badge-live"><i class="fa-solid fa-circle"></i> REAL FORWARD LEADERBOARD</span>
+            <span class="badge-month"><i class="fa-regular fa-calendar-check" style="margin-right: 5px;"></i> 2026年8月度 確定月次データ</span>
+            <span class="badge-matrix"><i class="fa-solid fa-brain"></i> 独自AI 6軸客観採点</span>
+          </div>
+          <h2 class="showcase-title">
+            <i class="fa-solid fa-trophy trophy-icon"></i> リアル稼働EA 総合ランキング
+          </h2>
+          <p class="showcase-desc">
+            MQL5公式リアル口座フォワード履歴データに基づく客観評価。過大広告やバックテストの嘘を排除し、実運用での利回り・最大ドローダウン・プロフィットファクターを多角的に採点した最新TOP 3速報。
+          </p>
+        </div>
+
+        <!-- Top 3 Podium Cards -->
+        <div class="top3-grid">
+
+          <!-- #1 The Gold Reaper -->
+          <div class="podium-card rank-1-card">
+            <div class="podium-crown gold">
+              <i class="fa-solid fa-crown"></i> 総合第1位 (SSランク)
+            </div>
+            <div class="podium-ea-header">
+              <img src="https://c.mql5.com/31/894/the-gold-reaper-logo-200x200-7212.png" alt="The Gold Reaper" class="podium-thumb" onerror="this.src='images/administrator.png'">
+              <div class="podium-ea-info">
+                <span class="podium-rank-badge ss">SS RANK</span>
+                <div class="podium-ea-name" title="The Gold Reaper">The Gold Reaper</div>
+                <div class="podium-pair-tag"><i class="fa-solid fa-coins"></i> XAUUSD (GOLD) / M15</div>
+              </div>
+            </div>
+            <div class="podium-score-row">
+              <span class="podium-score-label">総合AIスコア</span>
+              <span class="podium-score-val gold">86 <span class="max-pts">/ 100 pt</span></span>
+            </div>
+            <div class="podium-stats-mini">
+              <div class="mini-stat">
+                <span class="mini-label">当月利回り</span>
+                <span class="mini-val green">+31.52%</span>
+              </div>
+              <div class="mini-stat">
+                <span class="mini-label">最大DD</span>
+                <span class="mini-val">12.40%</span>
+              </div>
+              <div class="mini-stat">
+                <span class="mini-label">PF</span>
+                <span class="mini-val">2.18</span>
+              </div>
+              <div class="mini-stat">
+                <span class="mini-label">勝率</span>
+                <span class="mini-val">74.2%</span>
+              </div>
+            </div>
+            <a href="detail.html?ea=the-gold-reaper&month=2026-08" class="btn-podium-action gold">
+              <span>詳細検証データを見る</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+
+          <!-- #2 Dark Venus Real -->
+          <div class="podium-card rank-2-card">
+            <div class="podium-crown silver">
+              <i class="fa-solid fa-medal"></i> 総合第2位 (SSランク)
+            </div>
+            <div class="podium-ea-header">
+              <img src="images/ea_darkvenus.png" alt="Dark Venus Real" class="podium-thumb" onerror="this.src='images/administrator.png'">
+              <div class="podium-ea-info">
+                <span class="podium-rank-badge ss">SS RANK</span>
+                <div class="podium-ea-name" title="Dark Venus Real">Dark Venus Real</div>
+                <div class="podium-pair-tag"><i class="fa-solid fa-chart-line"></i> EURUSD / M5</div>
+              </div>
+            </div>
+            <div class="podium-score-row">
+              <span class="podium-score-label">総合AIスコア</span>
+              <span class="podium-score-val silver">84 <span class="max-pts">/ 100 pt</span></span>
+            </div>
+            <div class="podium-stats-mini">
+              <div class="mini-stat">
+                <span class="mini-label">当月利回り</span>
+                <span class="mini-val green">+14.80%</span>
+              </div>
+              <div class="mini-stat">
+                <span class="mini-label">最大DD</span>
+                <span class="mini-val">8.20%</span>
+              </div>
+              <div class="mini-stat">
+                <span class="mini-label">PF</span>
+                <span class="mini-val">2.35</span>
+              </div>
+              <div class="mini-stat">
+                <span class="mini-label">勝率</span>
+                <span class="mini-val">78.5%</span>
+              </div>
+            </div>
+            <a href="detail.html?ea=dark-venus-real&month=2026-08" class="btn-podium-action silver">
+              <span>詳細検証データを見る</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+
+          <!-- #3 Golden Elephant -->
+          <div class="podium-card rank-3-card">
+            <div class="podium-crown bronze">
+              <i class="fa-solid fa-award"></i> 総合第3位 (SSランク)
+            </div>
+            <div class="podium-ea-header">
+              <img src="https://c.mql5.com/31/658/golden-elephant-logo-200x200-5120.png" alt="Golden Elephant" class="podium-thumb" onerror="this.src='images/administrator.png'">
+              <div class="podium-ea-info">
+                <span class="podium-rank-badge ss">SS RANK</span>
+                <div class="podium-ea-name" title="Golden Elephant">Golden Elephant</div>
+                <div class="podium-pair-tag"><i class="fa-solid fa-coins"></i> XAUUSD (GOLD) / M15</div>
+              </div>
+            </div>
+            <div class="podium-score-row">
+              <span class="podium-score-label">総合AIスコア</span>
+              <span class="podium-score-val bronze">82 <span class="max-pts">/ 100 pt</span></span>
+            </div>
+            <div class="podium-stats-mini">
+              <div class="mini-stat">
+                <span class="mini-label">当月利回り</span>
+                <span class="mini-val green">+18.40%</span>
+              </div>
+              <div class="mini-stat">
+                <span class="mini-label">最大DD</span>
+                <span class="mini-val">14.10%</span>
+              </div>
+              <div class="mini-stat">
+                <span class="mini-label">PF</span>
+                <span class="mini-val">1.95</span>
+              </div>
+              <div class="mini-stat">
+                <span class="mini-label">勝率</span>
+                <span class="mini-val">71.0%</span>
+              </div>
+            </div>
+            <a href="detail.html?ea=golden-elephant&month=2026-08" class="btn-podium-action bronze">
+              <span>詳細検証データを見る</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+
+        </div>
+
+        <!-- 3 Trust Policies -->
+        <div class="showcase-policies">
+          <div class="policy-item">
+            <i class="fa-solid fa-shield-halved"></i>
+            <div>
+              <div class="policy-title">MQL5公式シグナル連動</div>
+              <div class="policy-desc">改ざん不可能な公式リアルフォワード実績のみを厳選採用</div>
+            </div>
+          </div>
+          <div class="policy-item">
+            <i class="fa-solid fa-sliders"></i>
+            <div>
+              <div class="policy-title">独自AI客観採点（100点満点）</div>
+              <div class="policy-desc">収益性・DD・PF・勝率・運用実績・相場適応力の6軸多角評価</div>
+            </div>
+          </div>
+          <div class="policy-item">
+            <i class="fa-solid fa-lock"></i>
+            <div>
+              <div class="policy-title">月次スナップショット固定</div>
+              <div class="policy-desc">月末確定値で過去全期間アーカイブ化。公平な時系列推移を完全保証</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Row -->
+        <div class="showcase-action-row">
+          <a href="ranking.html" class="btn-showcase-main">
+            <i class="fa-solid fa-trophy"></i>
+            <span>全30+ EA総合ランキング一覧を見る</span>
+            <i class="fa-solid fa-chevron-right"></i>
+          </a>
+          <a href="scoring.html" class="btn-showcase-sub">
+            <i class="fa-solid fa-brain"></i>
+            <span>AI採点基準・配分ルールを見る</span>
+          </a>
+        </div>
+
       </div>
     </div>
   </section>
