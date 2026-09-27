@@ -107,11 +107,49 @@ async function fetchEADetailData() {
       console.warn("月次推移の取得に失敗しました:", mErr);
     }
 
-    // レンダリング実行
-    renderDetailPage();
+    // 対象年月の特定と月次スコア・ランクの計算
+    const monthParam = urlParams.get('month');
+    let activeYearMonth = '2026-08';
+    if (monthParam) {
+      activeYearMonth = monthParam.replace('.', '-');
+    } else if (monthlyRecords && monthlyRecords.length > 0) {
+      activeYearMonth = monthlyRecords[0].year_month;
+    } else if (currentEA.target_month) {
+      activeYearMonth = currentEA.target_month.replace('.', '-');
+    }
 
+    const selectedMonthlyRec = monthlyRecords.find(m => m.year_month === activeYearMonth);
+
+    // 他の5軸の合計点
+    const otherScores = (currentEA.score_pf || 0) + (currentEA.score_rf || 0) + (currentEA.score_dd || 0) + (currentEA.score_period || 0) + (currentEA.score_stability || 0);
+
+    let activeReturnScore = currentEA.score_monthly_return || 0;
+    let activeReturnRaw = currentEA.raw_monthly_return || '0%';
+    let activeTotalScore = currentEA.total_score || 0;
+    let activeRank = (currentEA.rank_badge || 'C').toUpperCase();
+
+    if (selectedMonthlyRec) {
+      const retVal = parseFloat(selectedMonthlyRec.monthly_return_percent) || 0;
+      activeReturnScore = calcMonthlyReturnScore(retVal);
+      activeReturnRaw = (retVal >= 0 ? '+' : '') + retVal.toFixed(2) + '%';
+      activeTotalScore = otherScores + activeReturnScore;
+      activeRank = calcRankBadge(activeTotalScore);
+    }
+
+    currentEA.active_year_month = activeYearMonth;
+    currentEA.active_month_card = activeYearMonth.replace('-', '.'); // e.g. "2026.08"
+    currentEA.active_month_label = formatMonthLabel(activeYearMonth); // e.g. "2026年8月度"
+    currentEA.active_return_score = activeReturnScore;
+    currentEA.active_return_raw = activeReturnRaw;
+    currentEA.active_total_score = activeTotalScore;
+    currentEA.active_rank = activeRank;
+
+    // 先にDOMコンテナを表示状態にしてからレンダリング（CanvasやChart.jsが幅・高さを正確に計算できるようにする）
     document.getElementById("loading-state").style.display = "none";
     document.getElementById("detail-content").style.display = "block";
+
+    // レンダリング実行
+    renderDetailPage();
 
   } catch (err) {
     console.error("データ取得エラー:", err);
@@ -130,12 +168,12 @@ function showError(msg) {
 
 function renderDetailPage() {
   const ea = currentEA;
-  const rankBadge = (ea.rank_badge || 'C').toUpperCase();
+  const rankBadge = ea.active_rank;
   const isSRankOrHigher = ['S', 'SS', 'SSS'].includes(rankBadge);
 
   // 1. タイトル & メタタグ
-  document.title = `【詳細検証】${ea.name} | リアル稼働EA総合ランキング | Dark Venus ラボ`;
-  document.getElementById("breadcrumb-ea-name").textContent = ea.name;
+  document.title = `【詳細検証】${ea.name}（${ea.active_month_label}確定） | リアル稼働EA総合ランキング | Dark Venus ラボ`;
+  document.getElementById("breadcrumb-ea-name").textContent = `${ea.name} (${ea.active_month_label})`;
   document.getElementById("ea-main-name").textContent = ea.name;
 
   // ヘッダー部スコア・ランク
@@ -149,17 +187,23 @@ function renderDetailPage() {
     else if (rankBadge === 'S') headerRankPill.className = 'rank-badge-pill rank-pill-s';
     else headerRankPill.className = 'rank-badge-pill rank-pill-other';
   }
-  document.getElementById("header-rank-badge-text").textContent = `総合評価ランク: ${rankBadge} (確定)`;
+  document.getElementById("header-rank-badge-text").textContent = `${ea.active_month_label} 総合評価ランク: ${rankBadge} (確定)`;
 
   const headerTotalScore = document.getElementById("header-total-score");
   headerTotalScore.className = `score-main-val ${scoreColorClass}`;
-  headerTotalScore.innerHTML = `★ ${ea.total_score || 0} <span class="score-max-text">/ 100</span>`;
+  headerTotalScore.innerHTML = `★ ${ea.active_total_score} <span class="score-max-text">/ 100</span>`;
+
+  const scoreLabelText = document.getElementById("score-label-text");
+  if (scoreLabelText) {
+    scoreLabelText.textContent = `${ea.active_month_label} 6軸総合評価`;
+  }
 
   document.getElementById("header-rank-letter").textContent = `${rankBadge}ランク`;
 
-  // ヘッダーメタタグ
+  // ヘッダーメタタグ (月度バッジを先頭に目立たせて付与)
   const platformStr = Array.isArray(ea.platform) ? ea.platform.join(', ') : (ea.platform || 'MT4');
   const metaTagsHtml = `
+    <span class="tag-badge month-badge" style="background: rgba(220, 38, 38, 0.2); border: 1.5px solid #EF4444; color: #FCA5A5; font-weight: 800;"><i class="fa-solid fa-calendar-check"></i> ${ea.active_month_label} 確定評価</span>
     <span class="tag-badge currency"><i class="fa-solid fa-coins"></i> ${ea.currency_pair || 'EURUSD'}</span>
     <span class="tag-badge"><i class="fa-solid fa-clock"></i> ${ea.timeframe || 'H1'}</span>
     <span class="tag-badge">${platformStr}</span>
@@ -228,7 +272,7 @@ function renderTCGCard(ea, rankBadge, isSRankOrHigher) {
   const rankIcon = `images/CardDesignParts/Rank/rank_${rankBadge}.png`;
   const frameImagePath = `images/CardDesignParts/Frame/frame_${rankBadge}.png`;
   const artFrameStyle = `background-image: url('${frameImagePath}');`;
-  const targetMonth = ea.target_month || '2026.08';
+  const targetMonth = ea.active_month_card || ea.target_month || '2026.08';
   const thumbnail = ea.image_url || 'images/default-ea.jpg';
 
   let tagsStr = 'N/A';
@@ -269,7 +313,7 @@ function renderTCGCard(ea, rankBadge, isSRankOrHigher) {
           <div class="ea-name">${ea.name || 'Unknown EA'}</div>
           <div class="total-score-box">
             <span class="total-score-label">TotalScore</span>
-            <span class="total-score-val ${scoreColorClass}">${ea.total_score || 0} / 100</span>
+            <span class="total-score-val ${scoreColorClass}">${ea.active_total_score} / 100</span>
           </div>
         </div>
         
@@ -297,9 +341,9 @@ function renderTCGCard(ea, rankBadge, isSRankOrHigher) {
           <div class="stat-left">
             <i class="fa-solid fa-hand-fist stat-icon"></i>
             <span class="stat-name">月間収益率</span>
-            <span class="stat-points">${ea.score_monthly_return || 0} / 20</span>
+            <span class="stat-points">${ea.active_return_score} / 20</span>
           </div>
-          <div class="stat-raw-value">${ea.raw_monthly_return || '0%'}</div>
+          <div class="stat-raw-value">${ea.active_return_raw}</div>
         </div>
 
         <div class="stat-row">
@@ -353,7 +397,7 @@ function renderTCGCard(ea, rankBadge, isSRankOrHigher) {
   // レーダーチャート描画
   setTimeout(() => {
     renderRadarChart('detail-radar-canvas', ea);
-  }, 50);
+  }, 100);
 }
 
 function renderRadarChart(canvasId, ea) {
@@ -365,7 +409,8 @@ function renderRadarChart(canvasId, ea) {
   }
   const ctx = canvas.getContext('2d');
 
-  const valReturn = Math.min(100, Math.round(((ea.score_monthly_return || 0) / 20) * 100));
+  const returnScore = (ea.active_return_score !== undefined) ? ea.active_return_score : (ea.score_monthly_return || 0);
+  const valReturn = Math.min(100, Math.round((returnScore / 20) * 100));
   const valPF = Math.min(100, Math.round(((ea.score_pf || 0) / 20) * 100));
   const valRF = Math.min(100, Math.round(((ea.score_rf || 0) / 20) * 100));
   const valDD = Math.min(100, Math.round(((ea.score_dd || 0) / 15) * 100));
@@ -408,54 +453,52 @@ function renderRadarChart(canvasId, ea) {
 function renderBreakdownTable(ea, rankBadge) {
   const tbody = document.getElementById("breakdown-tbody");
   
+  const returnScore = (ea.active_return_score !== undefined) ? ea.active_return_score : (ea.score_monthly_return || 0);
+  const returnRaw = ea.active_return_raw || ea.raw_monthly_return || '0%';
+  const monthLabel = ea.active_month_label || '直近確定月';
+
   const axes = [
     {
-      name: '月間収益率',
+      name: `月間収益率 (${monthLabel})`,
       icon: 'fa-solid fa-hand-fist',
       maxScore: 20,
-      score: ea.score_monthly_return || 0,
-      raw: ea.raw_monthly_return || '0%',
-      criteria: '直近確定月の月利（%）。20%以上=20点、15%以上=18点、10%以上=16点 … 0%未満=0点'
+      score: returnScore,
+      raw: returnRaw
     },
     {
       name: 'プロフィットファクター (PF)',
       icon: 'fa-solid fa-coins',
       maxScore: 20,
       score: ea.score_pf || 0,
-      raw: ea.raw_pf || '0.0',
-      criteria: '総利益 ÷ 総損失。2.00以上=20点、1.80以上=18点、1.60以上=16点 … 1.10未満=0点'
+      raw: ea.raw_pf || '0.0'
     },
     {
       name: 'リカバリーファクター (RF)',
       icon: 'fa-solid fa-feather-pointed',
       maxScore: 20,
       score: ea.score_rf || 0,
-      raw: ea.raw_rf || '0.0',
-      criteria: '累積純利益 ÷ 最大ドローダウン額。10.0以上=20点、7.0以上=18点、5.0以上=16点 … 1.0未満=0点'
+      raw: ea.raw_rf || '0.0'
     },
     {
       name: '最大ドローダウン (DD)',
       icon: 'fa-solid fa-shield-halved',
       maxScore: 15,
       score: ea.score_dd || 0,
-      raw: ea.raw_dd || '0%',
-      criteria: 'エクイティ基準の資産最大下落率（%）。5%未満=15点、10%未満=14点、15%未満=12点 … 50%以上=0点'
+      raw: ea.raw_dd || '0%'
     },
     {
       name: '稼働期間 (運用トラックレコード)',
       icon: 'fa-solid fa-hourglass-half',
       maxScore: 15,
       score: ea.score_period || 0,
-      raw: ea.raw_period || '0ヶ月',
-      criteria: '累積フォワード期間。5年以上=15点、4年以上=14点、3年以上=13点、1年以上=8点 … 3ヶ月未満=0点'
+      raw: ea.raw_period || '0ヶ月'
     },
     {
       name: '収益安定性',
       icon: 'fa-solid fa-heart',
       maxScore: 10,
       score: ea.score_stability || 0,
-      raw: ea.raw_stability || '0ヶ月',
-      criteria: '直近12か月の月別リターン表でプラスだった月数。12ヶ月=10点、11ヶ月=9点、10ヶ月=8点 … 0〜2ヶ月=0点'
+      raw: ea.raw_stability || '0ヶ月'
     }
   ];
 
@@ -484,8 +527,24 @@ function renderBreakdownTable(ea, rankBadge) {
     `;
   }).join('');
 
-  document.getElementById("breakdown-total-score").textContent = ea.total_score || 0;
-  document.getElementById("breakdown-rank-badge").textContent = `${rankBadge}ランク`;
+  const totalScore = (ea.active_total_score !== undefined) ? ea.active_total_score : (ea.total_score || 0);
+  const activeRank = ea.active_rank || rankBadge;
+
+  document.getElementById("breakdown-total-score").textContent = totalScore;
+  document.getElementById("breakdown-rank-badge").textContent = `${activeRank}ランク`;
+
+  const breakdownPointsLabel = document.getElementById("breakdown-points-label");
+  if (breakdownPointsLabel) {
+    breakdownPointsLabel.textContent = `${monthLabel} 6軸総合スコア合計:`;
+  }
+  const breakdownRankLabel = document.getElementById("breakdown-rank-label");
+  if (breakdownRankLabel) {
+    breakdownRankLabel.textContent = `${monthLabel} 総合ランク判定:`;
+  }
+  const breakdownSubtitle = document.getElementById("breakdown-subtitle");
+  if (breakdownSubtitle) {
+    breakdownSubtitle.textContent = `${monthLabel} 確定フォワード実績データに基づく厳格採点`;
+  }
 }
 
 function renderSpecsGrid(ea) {
@@ -544,8 +603,13 @@ function renderAllHistory(ea) {
     const monthLabel = parts.length > 1 ? `${parts[0]}.${parts[1]}` : m.year_month;
     const arrow = idx < chronoRecords.length - 1 ? '<i class="fa-solid fa-arrow-right timeline-arrow"></i>' : '';
 
+    const isCurrent = (m.year_month === ea.active_year_month);
+    const activeStyle = isCurrent 
+      ? 'style="box-shadow: 0 0 0 2px #38BDF8, 0 0 12px rgba(56, 189, 248, 0.5); border-color: #38BDF8; background: rgba(56, 189, 248, 0.2);"'
+      : '';
+
     return `
-      <div class="timeline-badge-card">
+      <div class="timeline-badge-card" ${activeStyle}>
         <span class="timeline-month">${monthLabel}</span>
         <span class="timeline-rank ${rankClass}">${mRank}</span>
         <span class="timeline-score">${mTotalScore}点</span>
@@ -572,11 +636,16 @@ function renderAllHistory(ea) {
     const barColor = isPositive ? '#10B981' : '#EF4444';
 
     const monthLabel = formatMonthLabel(m.year_month);
+    const isCurrent = (m.year_month === ea.active_year_month);
+    const rowStyle = isCurrent ? 'style="background: rgba(56, 189, 248, 0.08); border-left: 3px solid #38BDF8;"' : '';
+    const currentIndicator = isCurrent 
+      ? '<span style="display:inline-block; margin-left:6px; font-size:0.68rem; color:#38BDF8; background:rgba(56,189,248,0.15); border:1px solid rgba(56,189,248,0.4); padding:1px 6px; border-radius:4px; font-weight:800;">表示中</span>'
+      : `<a href="detail.html?ea=${ea.ea_key || ea.id}&month=${m.year_month}" style="margin-left:6px; font-size:0.68rem; color:#94A3B8; text-decoration:underline;">切替</a>`;
 
     return `
-      <tr>
+      <tr ${rowStyle}>
         <td style="font-weight: 800; color: #F8FAFC; font-family: 'Outfit', sans-serif;">
-          ${monthLabel}
+          ${monthLabel}${currentIndicator}
         </td>
         <td>
           <span style="display: inline-block; padding: 4px 10px; border-radius: 6px; font-weight: 800; font-family: 'Outfit', sans-serif; color: ${retColor}; background: ${retBg}; border: 1px solid ${retBorder};">

@@ -268,207 +268,302 @@
     }
 
     /* -------------------------------------------
-       TCG CARD STYLES (400px x 620px 相当)
+       The Physical Card Container (card-preview.html / ranking.html exact)
     ------------------------------------------- */
     .tcg-card {
-      width: 400px;
-      height: 620px;
-      background-color: #0A0D14;
+      position: relative;
+      background-color: #05070B;
       border-radius: 16px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
-      padding: 12px;
+      border: 3.5px solid #38BDF8;
+      box-shadow: 0 15px 40px -5px rgba(0, 0, 0, 0.9), 0 0 25px rgba(56, 189, 248, 0.25);
+      width: 400px;
+      padding: 10px 8px 8px 8px;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      position: relative;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      font-family: 'Yu Gothic UI', '游ゴシック体', 'Yu Gothic', sans-serif;
-      user-select: none;
+      gap: 0px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
+    .tcg-card:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 25px 50px -5px rgba(56, 189, 248, 0.45);
+    }
+
+    /* --- TOP SECTION --- */
     .top-section {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 4px;
-      padding: 0 2px;
+      position: relative;
+      min-height: 62px;
+      padding: 4px 90px 4px 8px;
     }
     .ea-title-area {
-      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      width: 100%;
     }
     .ea-name {
+      font-size: 1.55rem;
+      font-weight: 900;
+      color: #F8FAFC;
       font-family: 'Outfit', sans-serif;
       font-style: italic;
-      font-weight: 900;
-      font-size: 1.35rem;
-      color: #FFFFFF;
-      letter-spacing: 0.5px;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.9);
+      line-height: 1.1;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: 250px;
     }
+    
     .total-score-box {
       display: flex;
       align-items: baseline;
-      gap: 6px;
-      margin-top: -2px;
+      gap: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-style: italic;
+      align-self: flex-start;
     }
     .total-score-label {
-      font-family: 'Outfit', sans-serif;
-      font-style: italic;
-      font-weight: 700;
-      font-size: 0.85rem;
-      color: #94A3B8;
-    }
-    .total-score-val {
-      font-family: 'Outfit', sans-serif;
-      font-style: italic;
+      font-size: 1.05rem;
       font-weight: 900;
-      font-size: 1.15rem;
+      color: #F8FAFC;
+      letter-spacing: 1px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
     }
+
+    .total-score-val {
+      font-size: 1.3rem;
+      font-weight: 900;
+    }
+    .score-s { 
+      color: #FBBF24;
+      text-shadow: 0 0 12px rgba(251, 191, 36, 0.85), 2px 2px 4px rgba(0,0,0,0.9);
+    }
+    .score-a { 
+      color: #38BDF8;
+      text-shadow: 0 0 12px rgba(56, 189, 248, 0.85), 2px 2px 4px rgba(0,0,0,0.9);
+    }
+    .score-other {
+      color: #FFFFFF;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 2px 2px 4px rgba(0,0,0,0.9);
+    }
+
+    /* Floating badge area (Right) */
     .rank-badge-area {
+      position: absolute;
+      top: -8px;
+      right: 12px;
       display: flex;
       flex-direction: column;
-      align-items: flex-end;
-      position: relative;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
     }
     .rank-ss-logo {
-      width: 72px;
+      max-width: 95px;
+      max-height: 52px;
+      width: auto;
       height: auto;
       object-fit: contain;
-      filter: drop-shadow(0 2px 5px rgba(0,0,0,0.6));
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.8));
+      transition: transform 0.2s;
     }
+    .rank-ss-logo:hover {
+      transform: scale(1.08) rotate(2deg);
+    }
+
     .date-badge {
-      background: #DC2626;
-      color: #FFFFFF;
+      background: linear-gradient(135deg, #DC2626 0%, #991B1B 60%, #450A0A 100%);
+      color: #FFF;
       font-family: 'Outfit', sans-serif;
-      font-weight: 800;
-      font-size: 0.65rem;
-      padding: 1px 7px;
+      font-weight: 900;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      padding: 3px 12px;
+      margin-top: -4px;
+      margin-right: 0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.8), inset 0 1px 1px rgba(255,255,255,0.5);
+      border: 1.5px solid #FCA5A5;
       border-radius: 3px;
-      margin-top: -5px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.5);
-    }
-    .art-frame {
-      width: 376px;
-      height: 200px;
-      margin: 0 auto;
-      border-radius: 8px;
-      background-size: 100% 100%;
-      background-repeat: no-repeat;
-      display: flex;
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    .ea-thumbnail {
-      width: 50%;
-      height: 100%;
-      object-fit: cover;
-      border-top-left-radius: 7px;
-      border-bottom-left-radius: 7px;
-    }
-    .radar-circle {
-      width: 50%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 6px;
-      position: relative;
-    }
-    .radar-circle canvas {
-      max-width: 100% !important;
-      max-height: 100% !important;
-    }
-    .skill-banner-container {
-      width: 376px;
-      height: 38px;
-      margin: 2px auto 0 auto;
-      background-size: 100% 100%;
-      background-repeat: no-repeat;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding-top: 10px;
-    }
-    .skill-tags-text {
-      color: #FFFFFF;
-      font-size: 0.72rem;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+      z-index: 11;
+      transform: skewX(-12deg);
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      padding: 0 8px;
     }
-    .skill-banner-css {
-      background: linear-gradient(90deg, rgba(30, 41, 59, 0.4), rgba(56, 189, 248, 0.25), rgba(30, 41, 59, 0.4));
-      border: 1px solid rgba(56, 189, 248, 0.4);
-      border-radius: 6px;
-      padding-top: 0;
-      height: 32px;
-    }
-    .stats-frame {
-      width: 376px;
-      height: 300px;
-      margin: 0 auto;
+
+    /* -------------------------------------------
+       中枠（サムネイル＆レーダー枠）
+    ------------------------------------------- */
+    .art-frame {
+      position: relative;
+      height: 225px;
+      width: 97%;
+      align-self: center;
+      border-radius: 10px;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 6px 16px rgba(0,0,0,0.6);
       background-size: 100% 100%;
       background-repeat: no-repeat;
+      background-position: center;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 15px 35px 15px;
+      z-index: 1;
+    }
+
+    .ea-thumbnail {
+      width: 145px;
+      height: 145px;
+      border-radius: 18px;
+      box-shadow: 8px 12px 25px rgba(0,0,0,0.85), -2px -2px 10px rgba(255,255,255,0.3);
+      object-fit: cover;
+      transform: perspective(800px) rotateY(15deg) rotateZ(-5deg) scale(1.05);
+      z-index: 2;
+      border: 2px solid rgba(255,255,255,0.4);
+      background-color: #0f172a;
+    }
+
+    .radar-circle {
+      width: 150px;
+      height: 150px;
+      background: rgba(9, 13, 22, 0.88);
+      backdrop-filter: blur(6px);
+      border: 2px solid rgba(56, 189, 248, 0.5);
+      border-radius: 50%;
+      box-shadow: 0 0 20px rgba(0,0,0,0.9), inset 0 0 10px rgba(56, 189, 248, 0.2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 6px;
+      z-index: 2;
+    }
+
+    /* -------------------------------------------
+       スキル枠
+    ------------------------------------------- */
+    .skill-banner-container {
+      position: relative;
+      height: 90px;
+      width: 92%;
+      align-self: center;
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 20px 4px 20px;
+      margin-top: -42px;
+      margin-bottom: -9px;
+      z-index: 5;
+      filter: drop-shadow(0 6px 14px rgba(0,0,0,0.95));
+    }
+    
+    .skill-tags-text {
+      color: #FFF;
+      font-weight: bold;
+      font-style: italic;
+      font-family: 'Yu Gothic UI', '游ゴシック体', 'Yu Gothic', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+      text-align: center;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.95), 0 0 8px rgba(255,255,255,0.25);
+      line-height: 1.25;
+      max-height: 48px;
+      overflow: hidden;
+    }
+
+    /* -------------------------------------------
+       下枠（ステータス枠）
+    ------------------------------------------- */
+    .stats-frame {
+      position: relative;
+      height: auto;
+      width: 97%;
+      align-self: center;
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      background-position: center;
+      padding: 19px 34px 14px 28px;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      padding: 16px 20px 22px 20px;
+      gap: 7px;
+      z-index: 2;
     }
-    .stats-frame-css {
-      background: linear-gradient(180deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 41, 59, 0.95) 100%);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 8px;
-      padding: 14px 18px;
-    }
+
     .stat-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 2.5px 0;
-      border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+      margin: 0;
+      padding: 0;
     }
-    .stat-row:last-child {
-      border-bottom: none;
-    }
+
     .stat-left {
       display: flex;
       align-items: center;
-      gap: 7px;
+      gap: 5px;
     }
+
     .stat-icon {
-      font-size: 0.8rem;
-      width: 15px;
+      font-size: 0.92rem;
+      width: 18px;
       text-align: center;
       color: #FBBF24;
+      filter: drop-shadow(0 0 5px rgba(251, 191, 36, 0.7));
     }
+
     .stat-name {
-      font-weight: 800;
+      font-family: 'Yu Gothic UI', '游ゴシック体', 'Yu Gothic', sans-serif;
+      font-weight: bold;
       font-style: italic;
-      font-size: 0.8rem;
-      color: #E2E8F0;
+      font-size: 1.02rem;
+      color: #F8FAFC;
       letter-spacing: 0.5px;
+      text-shadow: 2px 2px 3px rgba(0,0,0,0.95);
     }
+
     .stat-points {
-      font-family: 'Outfit', sans-serif;
+      font-family: 'Yu Gothic UI', '游ゴシック体', 'Yu Gothic', sans-serif;
+      font-weight: 900;
       font-style: italic;
-      font-size: 0.8rem;
-      color: #94A3B8;
+      font-size: 1.02rem;
+      color: #F8FAFC;
+      text-shadow: 2px 2px 3px rgba(0,0,0,0.95);
       margin-left: 4px;
     }
+
     .stat-raw-value {
-      font-family: 'Outfit', sans-serif;
+      font-family: 'HGP創英角ｺﾞｼｯｸUB', 'HGPSoeiKakugothicUB', 'HG創英角ｺﾞｼｯｸUB', 'HGS創英角ｺﾞｼｯｸUB', 'Meiryo', sans-serif;
+      font-weight: bold;
       font-style: italic;
-      font-weight: 800;
-      font-size: 0.85rem;
+      font-size: 0.92rem;
       color: #FBBF24;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-shadow: 0 0 8px rgba(251, 191, 36, 0.5), 1px 1px 2px rgba(0,0,0,0.9);
       text-align: right;
+      margin-right: 2px;
+    }
+
+    /* Sランク未満用のCSSフォールバック */
+    .skill-banner-css {
+      background: linear-gradient(90deg, #1E293B, #0F172A, #1E293B);
+      border: 1px solid #334155;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+      height: auto;
+      margin-top: -15px;
+      margin-bottom: 5px;
+      padding: 10px 15px;
+    }
+    .stats-frame-css {
+      background: #0F172A;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+      padding: 15px 20px;
     }
 
     /* -------------------------------------------
@@ -1169,7 +1264,7 @@
         <div class="detail-unit-title-row">
           <h1 class="detail-ea-title" id="ea-main-name">EA Name</h1>
           <div class="detail-unit-score">
-            <span class="score-label-text">6軸総合評価</span>
+            <span class="score-label-text" id="score-label-text">6軸総合評価</span>
             <span class="score-main-val" id="header-total-score">★ 86 / 100</span>
             <span class="rank-letter-tag" id="header-rank-letter">SSランク</span>
           </div>
@@ -1255,7 +1350,7 @@
       <section class="section-title-wrap" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 12px;">
         <div>
           <h2 class="section-title"><i class="fa-solid fa-chart-pie"></i> 6軸総合評価ブレイクダウン (100点満点)</h2>
-          <span class="section-subtitle">客観的フォワード実績データに基づく厳格採点</span>
+          <span class="section-subtitle" id="breakdown-subtitle">客観的フォワード実績データに基づく厳格採点</span>
         </div>
         <button type="button" id="btn-open-criteria" class="btn-criteria-pill" title="クリックして採点基準・配点マトリクスを確認">
           <i class="fa-solid fa-calculator"></i> 独自AI客観的採点マトリクス（配点基準を見る ↗）
@@ -1281,12 +1376,12 @@
 
         <div class="breakdown-summary-banner">
           <div class="total-points-display">
-            <span class="total-points-label">6軸総合スコア合計:</span>
+            <span class="total-points-label" id="breakdown-points-label">6軸総合スコア合計:</span>
             <span class="total-points-num" id="breakdown-total-score">86</span>
             <span style="font-size: 1rem; color: #94A3B8;">/ 100 pts</span>
           </div>
           <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="font-size: 0.85rem; color: #94A3B8;">総合ランク判定:</span>
+            <span style="font-size: 0.85rem; color: #94A3B8;" id="breakdown-rank-label">総合ランク判定:</span>
             <span class="rank-letter-tag" id="breakdown-rank-badge" style="font-size: 1.1rem; padding: 4px 14px;">SSランク</span>
           </div>
         </div>

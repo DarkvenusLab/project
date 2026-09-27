@@ -650,7 +650,7 @@ function renderTopCards(topEAs, sortMode = 'score') {
                 <i class="fa-solid fa-chart-line"></i> フォワード検証
               </a>
 
-              <a href="detail.html?ea=${ea.ea_key || ea.id}" class="action-btn btn-detail-site" title="当サイトの個別詳細データへ">
+              <a href="detail.html?ea=${ea.ea_key || ea.id}&month=${selectedMonth}" class="action-btn btn-detail-site" title="当サイトの個別詳細データへ">
                 <i class="fa-solid fa-file-waveform"></i> 当サイト詳細
               </a>
             </div>
@@ -714,7 +714,8 @@ function renderTable(tableEAs, sortMode = 'score') {
           <div style="font-size: 0.85rem; color: #34D399;">Copy: ${copyPriceText}</div>
         </td>
         <td>
-          <div style="display: flex; gap: 6px;">
+          <div style="display: flex; gap: 6px; align-items: center;">
+            <a href="detail.html?ea=${ea.ea_key || ea.id}&month=${selectedMonth}" class="btn-detail" style="background: linear-gradient(135deg, #1E293B, #334155); border: 1px solid #38BDF8; color: #38BDF8;" title="当サイト独自EA詳細検証"><i class="fa-solid fa-file-waveform"></i> 詳細</a>
             <a href="${ea.product_url || '#'}" target="_blank" class="btn-detail" title="EA紹介 (MQL5)">紹介 <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
             <a href="${ea.forward_url || '#'}" target="_blank" class="btn-detail" style="background: #059669; border-color: #10B981; color: #FFF;" title="フォワードテスト (MQL5シグナル)">検証 <i class="fa-solid fa-chart-line"></i></a>
           </div>
