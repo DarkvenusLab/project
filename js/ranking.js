@@ -98,8 +98,9 @@ function updateMonthSelectorUI() {
 
   const headerMonthTag = document.getElementById("header-month-tag");
   if (headerMonthTag) {
-    headerMonthTag.textContent = `【${formatMonthLabel(selectedMonth)}】`;
+    headerMonthTag.textContent = `（${formatMonthLabel(selectedMonth)}）`;
   }
+  document.title = `MQL5ランキング（${formatMonthLabel(selectedMonth)}） | リアル稼働EA評価 | Dark Venus ラボ`;
 
   const monthStatusBadge = document.getElementById("month-status-badge");
   if (monthStatusBadge) {

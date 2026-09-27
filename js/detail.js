@@ -171,8 +171,12 @@ function renderDetailPage() {
   const rankBadge = ea.active_rank;
   const isSRankOrHigher = ['S', 'SS', 'SSS'].includes(rankBadge);
 
-  // 1. タイトル & メタタグ
-  document.title = `【詳細検証】${ea.name}（${ea.active_month_label}確定） | リアル稼働EA総合ランキング | Dark Venus ラボ`;
+  // 1. タイトル & メタタグ (SEO)
+  document.title = `【詳細検証】${ea.name}（${ea.active_month_label}） | MQL5ランキング | Dark Venus ラボ`;
+  let metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) {
+    metaDesc.content = `MQL5公式フォワード実績詳細：${ea.name}の${ea.active_month_label}確定データ。月利、最大ドローダウン、PF、勝率、フォワード取引履歴を完全開示。`;
+  }
   document.getElementById("breadcrumb-ea-name").textContent = `${ea.name} (${ea.active_month_label})`;
   document.getElementById("ea-main-name").textContent = ea.name;
 
