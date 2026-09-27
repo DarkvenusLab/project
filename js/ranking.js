@@ -650,7 +650,7 @@ function renderTopCards(topEAs, sortMode = 'score') {
                 <i class="fa-solid fa-chart-line"></i> フォワード検証
               </a>
 
-              <a href="ea/forward-test.html?ea=${ea.ea_key || ea.id}" class="action-btn btn-detail-site" title="当サイトの個別詳細データへ">
+              <a href="detail.html?ea=${ea.ea_key || ea.id}" class="action-btn btn-detail-site" title="当サイトの個別詳細データへ">
                 <i class="fa-solid fa-file-waveform"></i> 当サイト詳細
               </a>
             </div>

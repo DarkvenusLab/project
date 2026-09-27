@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">EA詳細データ ＆ リアルフォワード検証 | Dark Venus ラボ</title>
+  <meta name="description" id="page-meta-desc" content="MQL5リアル口座フォワードテストから独自AIが算出した総合スコア、TCGカード、詳細取引スペック、および全期間のランク・得点推移を完全公開。">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Zen+Maru+Gothic:wght@400;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Base Site Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Chart.js & Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      background: #090D16;
+      color: #F8FAFC;
+      font-family: 'Inter', 'Yu Gothic UI', '游ゴシック体', sans-serif;
+      line-height: 1.6;
+    }
+
+    .detail-container {
+      max-width: 1350px;
+      margin: 0 auto;
+      padding: 30px 20px 100px 20px;
+    }
+
+    /* -------------------------------------------
+       パンくずリスト & ナビゲーション
+    ------------------------------------------- */
+    .breadcrumb-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .breadcrumb-list {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: #94A3B8;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .breadcrumb-list a {
+      color: #38BDF8;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .breadcrumb-list a:hover {
+      color: #7DD3FC;
+      text-decoration: underline;
+    }
+    .breadcrumb-sep {
+      color: #64748B;
+      font-size: 0.75rem;
+    }
+    .breadcrumb-current {
+      color: #F8FAFC;
+      font-weight: 700;
+    }
+    .btn-return-ranking {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(14, 165, 233, 0.15);
+      border: 1px solid rgba(14, 165, 233, 0.4);
+      color: #38BDF8;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .btn-return-ranking:hover {
+      background: rgba(14, 165, 233, 0.3);
+      color: #FFF;
+      border-color: #38BDF8;
+      transform: translateX(-2px);
+    }
+
+    /* -------------------------------------------
+       セクション共通ヘッダー
+    ------------------------------------------- */
+    .section-title-wrap {
+      margin: 48px 0 24px 0;
+      padding-bottom: 12px;
+      border-bottom: 2px solid rgba(56, 189, 248, 0.2);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: #F8FAFC;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title i {
+      color: #38BDF8;
+    }
+    .section-subtitle {
+      font-size: 0.82rem;
+      color: #94A3B8;
+    }
+
+    /* -------------------------------------------
+       ① 最上段：メインアイキャッチ（2カラム構成）
+    ------------------------------------------- */
+    .detail-item-unit {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(10px);
+      margin-bottom: 30px;
+    }
+    .detail-unit-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 16px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .rank-badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-weight: 800;
+      font-size: 0.88rem;
+    }
+    .rank-pill-ss {
+      background: linear-gradient(135deg, rgba(217, 119, 6, 0.25), rgba(245, 158, 11, 0.35));
+      border: 1.5px solid #F59E0B;
+      color: #FCD34D;
+    }
+    .rank-pill-s {
+      background: linear-gradient(135deg, rgba(234, 179, 8, 0.2), rgba(250, 204, 21, 0.3));
+      border: 1.5px solid #EAB308;
+      color: #FEF08A;
+    }
+    .rank-pill-other {
+      background: rgba(56, 189, 248, 0.15);
+      border: 1.5px solid rgba(56, 189, 248, 0.4);
+      color: #38BDF8;
+    }
+    .header-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .tag-badge {
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: #1E293B;
+      color: #CBD5E1;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-weight: 600;
+    }
+    .tag-badge.currency {
+      color: #38BDF8;
+      border-color: rgba(56, 189, 248, 0.3);
+      background: rgba(56, 189, 248, 0.1);
+    }
+    .tag-badge.broker {
+      color: #34D399;
+      border-color: rgba(52, 211, 153, 0.3);
+      background: rgba(52, 211, 153, 0.1);
+    }
+
+    .detail-unit-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .detail-ea-title {
+      font-size: 1.95rem;
+      font-weight: 900;
+      color: #FFF;
+      font-family: 'Outfit', sans-serif;
+      margin: 0;
+      letter-spacing: 0.5px;
+    }
+    .detail-unit-score {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(0, 0, 0, 0.35);
+      padding: 8px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .score-label-text {
+      font-size: 0.8rem;
+      color: #94A3B8;
+    }
+    .score-main-val {
+      font-size: 1.5rem;
+      font-weight: 900;
+      font-family: 'Outfit', sans-serif;
+    }
+    .score-s { color: #F59E0B; text-shadow: 0 0 10px rgba(245, 158, 11, 0.5); }
+    .score-a { color: #38BDF8; text-shadow: 0 0 10px rgba(56, 189, 248, 0.5); }
+    .score-other { color: #E2E8F0; }
+    .score-max-text {
+      font-size: 0.85rem;
+      color: #64748B;
+      font-weight: normal;
+    }
+    .rank-letter-tag {
+      font-size: 0.85rem;
+      font-weight: 900;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: #F59E0B;
+      color: #000;
+    }
+
+    /* 2カラムレイアウト */
+    .detail-unit-body {
+      display: flex;
+      gap: 28px;
+      align-items: flex-start;
+    }
+    .card-column {
+      flex: 0 0 400px;
+      width: 400px;
+    }
+    .side-action-column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-width: 0;
+    }
+
+    /* -------------------------------------------
+       TCG CARD STYLES (400px x 620px 相当)
+    ------------------------------------------- */
+    .tcg-card {
+      width: 400px;
+      height: 620px;
+      background-color: #0A0D14;
+      border-radius: 16px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      font-family: 'Yu Gothic UI', '游ゴシック体', 'Yu Gothic', sans-serif;
+      user-select: none;
+    }
+    .top-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 4px;
+      padding: 0 2px;
+    }
+    .ea-title-area {
+      flex: 1;
+    }
+    .ea-name {
+      font-family: 'Outfit', sans-serif;
+      font-style: italic;
+      font-weight: 900;
+      font-size: 1.35rem;
+      color: #FFFFFF;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 250px;
+    }
+    .total-score-box {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-top: -2px;
+    }
+    .total-score-label {
+      font-family: 'Outfit', sans-serif;
+      font-style: italic;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #94A3B8;
+    }
+    .total-score-val {
+      font-family: 'Outfit', sans-serif;
+      font-style: italic;
+      font-weight: 900;
+      font-size: 1.15rem;
+    }
+    .rank-badge-area {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      position: relative;
+    }
+    .rank-ss-logo {
+      width: 72px;
+      height: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 5px rgba(0,0,0,0.6));
+    }
+    .date-badge {
+      background: #DC2626;
+      color: #FFFFFF;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 0.65rem;
+      padding: 1px 7px;
+      border-radius: 3px;
+      margin-top: -5px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    }
+    .art-frame {
+      width: 376px;
+      height: 200px;
+      margin: 0 auto;
+      border-radius: 8px;
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      display: flex;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .ea-thumbnail {
+      width: 50%;
+      height: 100%;
+      object-fit: cover;
+      border-top-left-radius: 7px;
+      border-bottom-left-radius: 7px;
+    }
+    .radar-circle {
+      width: 50%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      position: relative;
+    }
+    .radar-circle canvas {
+      max-width: 100% !important;
+      max-height: 100% !important;
+    }
+    .skill-banner-container {
+      width: 376px;
+      height: 38px;
+      margin: 2px auto 0 auto;
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 10px;
+    }
+    .skill-tags-text {
+      color: #FFFFFF;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding: 0 8px;
+    }
+    .skill-banner-css {
+      background: linear-gradient(90deg, rgba(30, 41, 59, 0.4), rgba(56, 189, 248, 0.25), rgba(30, 41, 59, 0.4));
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      border-radius: 6px;
+      padding-top: 0;
+      height: 32px;
+    }
+    .stats-frame {
+      width: 376px;
+      height: 300px;
+      margin: 0 auto;
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 16px 20px 22px 20px;
+    }
+    .stats-frame-css {
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 41, 59, 0.95) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 14px 18px;
+    }
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2.5px 0;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+    }
+    .stat-row:last-child {
+      border-bottom: none;
+    }
+    .stat-left {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .stat-icon {
+      font-size: 0.8rem;
+      width: 15px;
+      text-align: center;
+      color: #FBBF24;
+    }
+    .stat-name {
+      font-weight: 800;
+      font-style: italic;
+      font-size: 0.8rem;
+      color: #E2E8F0;
+      letter-spacing: 0.5px;
+    }
+    .stat-points {
+      font-family: 'Outfit', sans-serif;
+      font-style: italic;
+      font-size: 0.8rem;
+      color: #94A3B8;
+      margin-left: 4px;
+    }
+    .stat-raw-value {
+      font-family: 'Outfit', sans-serif;
+      font-style: italic;
+      font-weight: 800;
+      font-size: 0.85rem;
+      color: #FBBF24;
+      text-align: right;
+    }
+
+    /* -------------------------------------------
+       右カラム：サイド情報パネル
+    ------------------------------------------- */
+    .side-price-card {
+      background: #0F172A;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 12px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .side-price-item {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+    .side-price-item.copy {
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+      padding-left: 16px;
+    }
+    .price-type-text {
+      font-size: 0.78rem;
+      color: #94A3B8;
+      font-weight: 700;
+    }
+    .price-amount-text {
+      font-size: 1.35rem;
+      font-weight: 900;
+      font-family: 'Outfit', sans-serif;
+      color: #F8FAFC;
+    }
+    .side-price-item.copy .price-amount-text {
+      color: #34D399;
+      font-size: 1.25rem;
+    }
+
+    /* 6項目サマリー */
+    .quick-stats-summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 14px 16px;
+    }
+    .summary-item {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .summary-label {
+      font-size: 0.72rem;
+      color: #94A3B8;
+      font-weight: 600;
+    }
+    .summary-val {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #F8FAFC;
+      font-family: 'Outfit', sans-serif;
+    }
+    .summary-val.highlight {
+      color: #38BDF8;
+    }
+
+    /* 管理人ワンポイント解説 */
+    .admin-memo-box {
+      background: rgba(15, 23, 42, 0.85);
+      border-left: 3.5px solid #0EA5E9;
+      border-radius: 0 10px 10px 0;
+      padding: 14px 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      border-right: 1px solid rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .memo-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #FBBF24;
+      font-size: 0.82rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .memo-content {
+      font-size: 0.84rem;
+      color: #CBD5E1;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* 3大アクションボタン */
+    .side-action-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 4px;
+    }
+    .action-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 10px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 0.86rem;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+    }
+    .action-btn i { font-size: 0.95rem; }
+    .btn-mql5 {
+      background: linear-gradient(135deg, #0284C7, #0EA5E9);
+      color: #FFF;
+    }
+    .btn-mql5:hover {
+      background: linear-gradient(135deg, #0EA5E9, #38BDF8);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(14, 165, 233, 0.4);
+    }
+    .btn-forward {
+      background: linear-gradient(135deg, #059669, #10B981);
+      color: #FFF;
+    }
+    .btn-forward:hover {
+      background: linear-gradient(135deg, #10B981, #34D399);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(16, 185, 129, 0.4);
+    }
+    .btn-back-ranking {
+      background: linear-gradient(135deg, #1E293B, #334155);
+      color: #E2E8F0;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .btn-back-ranking:hover {
+      background: linear-gradient(135deg, #334155, #475569);
+      color: #FFF;
+      transform: translateY(-2px);
+    }
+
+    /* -------------------------------------------
+       ② 中段：6軸スコア＆実数値 完全詳細ブレイクダウン表
+    ------------------------------------------- */
+    .breakdown-card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+      margin-bottom: 30px;
+    }
+    .breakdown-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    .breakdown-table th {
+      background: rgba(30, 41, 59, 0.6);
+      color: #94A3B8;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 12px 14px;
+      text-align: left;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    }
+    .breakdown-table td {
+      padding: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 0.88rem;
+    }
+    .breakdown-table tr:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .axis-col {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      color: #F8FAFC;
+    }
+    .axis-col i {
+      color: #FBBF24;
+      font-size: 0.95rem;
+      width: 18px;
+    }
+    .bar-col {
+      width: 25%;
+    }
+    .progress-track {
+      background: rgba(255, 255, 255, 0.1);
+      height: 10px;
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+    }
+    .progress-fill {
+      height: 100%;
+      border-radius: 6px;
+      background: linear-gradient(90deg, #0284C7, #38BDF8);
+      transition: width 0.6s ease;
+    }
+    .score-badge-detail {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 900;
+      font-size: 1.05rem;
+      color: #38BDF8;
+    }
+    .raw-val-detail {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      color: #FBBF24;
+    }
+    .criteria-text {
+      color: #94A3B8;
+      font-size: 0.8rem;
+    }
+
+    .breakdown-summary-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 20px;
+      padding: 16px 20px;
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.95));
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 12px;
+    }
+    .total-points-display {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+    .total-points-label {
+      font-size: 0.9rem;
+      color: #94A3B8;
+      font-weight: 700;
+    }
+    .total-points-num {
+      font-size: 2rem;
+      font-weight: 900;
+      font-family: 'Outfit', sans-serif;
+      color: #F59E0B;
+    }
+
+    /* -------------------------------------------
+       ③ 下段：詳細フォワード実績＆取引スペック（グリッド配置）
+    ------------------------------------------- */
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    .spec-card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 22px;
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-direction: column;
+    }
+    .spec-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #F8FAFC;
+    }
+    .spec-card-header i {
+      color: #38BDF8;
+      font-size: 1.15rem;
+    }
+    .spec-card-header.green i { color: #34D399; }
+    .spec-card-header.amber i { color: #FBBF24; }
+
+    .spec-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .spec-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 8px;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.06);
+    }
+    .spec-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .spec-label {
+      font-size: 0.8rem;
+      color: #94A3B8;
+      font-weight: 600;
+    }
+    .spec-val {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: #F8FAFC;
+      font-family: 'Outfit', sans-serif;
+      text-align: right;
+    }
+    .spec-val.highlight-green { color: #34D399; }
+    .spec-val.highlight-blue { color: #38BDF8; }
+    .spec-val.highlight-gold { color: #FBBF24; }
+    .spec-val.highlight-red { color: #F87171; }
+
+    /* -------------------------------------------
+       ④ 最下段：全期間 確定月次推移 ＆ ランク履歴
+    ------------------------------------------- */
+    .history-section-card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.4);
+      margin-bottom: 40px;
+    }
+
+    /* タイムラインバッジ並び（全履歴） */
+    .timeline-scroll-wrap {
+      overflow-x: auto;
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+    }
+    .timeline-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: max-content;
+      padding: 6px 2px;
+    }
+    .timeline-badge-card {
+      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      padding: 8px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      min-width: 82px;
+      transition: all 0.2s ease;
+    }
+    .timeline-badge-card:hover {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: #38BDF8;
+      transform: translateY(-2px);
+    }
+    .timeline-month {
+      font-size: 0.7rem;
+      color: #94A3B8;
+      font-weight: 700;
+    }
+    .timeline-rank {
+      font-size: 0.8rem;
+      font-weight: 900;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: 'Outfit', sans-serif;
+    }
+    .timeline-score {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: #F8FAFC;
+      font-family: 'Outfit', sans-serif;
+    }
+    .timeline-return {
+      font-size: 0.68rem;
+      font-weight: 700;
+      font-family: 'Outfit', sans-serif;
+    }
+    .timeline-arrow {
+      color: #475569;
+      font-size: 0.8rem;
+    }
+
+    /* ランク色 */
+    .rank-bg-sss { background: #DC2626; color: #FFF; }
+    .rank-bg-ss  { background: #D97706; color: #FFF; }
+    .rank-bg-s   { background: #FBBF24; color: #000; }
+    .rank-bg-a   { background: #0284C7; color: #FFF; }
+    .rank-bg-b   { background: #475569; color: #FFF; }
+    .rank-bg-c   { background: #334155; color: #94A3B8; }
+    .rank-bg-d   { background: #1E293B; color: #64748B; }
+
+    /* 月次バックナンバーテーブル */
+    .monthly-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    .monthly-table th {
+      background: rgba(30, 41, 59, 0.6);
+      color: #94A3B8;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    }
+    .monthly-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 0.88rem;
+    }
+    .monthly-table tr:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .btn-view-month-ranking {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      padding: 5px 10px;
+      border-radius: 6px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: #38BDF8;
+      text-decoration: none;
+      font-weight: 700;
+      transition: all 0.2s ease;
+    }
+    .btn-view-month-ranking:hover {
+      background: rgba(56, 189, 248, 0.25);
+      border-color: #38BDF8;
+      color: #FFF;
+    }
+
+    /* 読み込み中 & エラー */
+    .loading-state-box {
+      text-align: center;
+      padding: 80px 20px;
+      font-size: 1.1rem;
+      color: #38BDF8;
+    }
+    .loading-spinner {
+      font-size: 2.2rem;
+      margin-bottom: 16px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+
+    /* レスポンシブ対応 */
+    @media (max-width: 1024px) {
+      .detail-unit-body {
+        flex-direction: column;
+        align-items: center;
+      }
+      .card-column {
+        width: 100%;
+        max-width: 400px;
+      }
+      .side-action-column {
+        width: 100%;
+      }
+      .specs-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 640px) {
+      .quick-stats-summary {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .side-action-buttons {
+        flex-direction: column;
+      }
+      .side-price-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .side-price-item.copy {
+        border-left: none;
+        padding-left: 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 8px;
+        width: 100%;
+      }
+      .detail-ea-title {
+        font-size: 1.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="index.html" class="logo">
+        <span class="logo-badge">検証アーカイブ</span>
+        <span class="logo-text">Dark Venus<span class="highlight"> ラボ</span></span>
+      </a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html"><i class="fa-solid fa-house"></i> ホーム</a></li>
+          <li><a href="ranking.html" style="color: #38BDF8; font-weight: 800;"><i class="fa-solid fa-trophy"></i> 総合ランキング</a></li>
+          <li><a href="tools/setfiles.html"><i class="fa-solid fa-folder-open"></i> 検証済み.set一覧</a></li>
+          <li><a href="contact.html"><i class="fa-solid fa-envelope"></i> お問い合わせ</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="detail-container">
+    <!-- Breadcrumb & Return button -->
+    <nav class="breadcrumb-nav">
+      <ul class="breadcrumb-list">
+        <li><a href="index.html"><i class="fa-solid fa-house"></i> ホーム</a></li>
+        <li class="breadcrumb-sep"><i class="fa-solid fa-chevron-right"></i></li>
+        <li><a href="ranking.html">リアル稼働EA総合ランキング</a></li>
+        <li class="breadcrumb-sep"><i class="fa-solid fa-chevron-right"></i></li>
+        <li class="breadcrumb-current" id="breadcrumb-ea-name">EA詳細</li>
+      </ul>
+      <a href="ranking.html" class="btn-return-ranking">
+        <i class="fa-solid fa-arrow-left"></i> ランキング一覧に戻る
+      </a>
+    </nav>
+
+    <!-- Loading State -->
+    <div id="loading-state" class="loading-state-box">
+      <div class="loading-spinner"><i class="fa-solid fa-circle-notch"></i></div>
+      <div>EA詳細フォワード実績データを読み込み中...</div>
+    </div>
+
+    <!-- Error State -->
+    <div id="error-state" style="display: none; padding: 40px; text-align: center; color: #EF4444;">
+      <i class="fa-solid fa-triangle-exclamation" style="font-size: 2rem; margin-bottom: 12px;"></i>
+      <div id="error-message" style="font-weight: bold; font-size: 1.1rem;">対象のEAデータが見つかりませんでした。</div>
+      <div style="margin-top: 16px;">
+        <a href="ranking.html" class="btn-return-ranking"><i class="fa-solid fa-arrow-left"></i> ランキングに戻る</a>
+      </div>
+    </div>
+
+    <!-- Main Detail Content (Hidden initially until loaded) -->
+    <div id="detail-content" style="display: none;">
+
+      <!-- ① 最上段：メインアイキャッチ（2カラム構成） -->
+      <section class="detail-item-unit" id="top-card-section">
+        <!-- ヘッダー部 -->
+        <div class="detail-unit-header">
+          <div class="rank-badge-pill" id="header-rank-pill">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span id="header-rank-badge-text">総合ランク判定</span>
+          </div>
+          <div class="header-tags" id="header-meta-tags">
+            <!-- Dynamic tags -->
+          </div>
+        </div>
+
+        <!-- タイトル行 -->
+        <div class="detail-unit-title-row">
+          <h1 class="detail-ea-title" id="ea-main-name">EA Name</h1>
+          <div class="detail-unit-score">
+            <span class="score-label-text">6軸総合評価</span>
+            <span class="score-main-val" id="header-total-score">★ 86 / 100</span>
+            <span class="rank-letter-tag" id="header-rank-letter">SSランク</span>
+          </div>
+        </div>
+
+        <!-- 2カラムコンテンツ -->
+        <div class="detail-unit-body">
+          <!-- 左カラム：TCGカード -->
+          <div class="card-column" id="card-column-container">
+            <!-- Injected via detail.js -->
+          </div>
+
+          <!-- 右カラム：サイド情報パネル -->
+          <div class="side-action-column">
+            <!-- 価格カード -->
+            <div class="side-price-card">
+              <div class="side-price-item">
+                <span class="price-type-text"><i class="fa-solid fa-cart-shopping"></i> 販売価格</span>
+                <span class="price-amount-text" id="detail-price-text">無料</span>
+              </div>
+              <div class="side-price-item copy" id="detail-copy-price-box">
+                <span class="price-type-text"><i class="fa-solid fa-copy"></i> コピートレード</span>
+                <span class="price-amount-text" id="detail-copy-price-text">-</span>
+              </div>
+            </div>
+
+            <!-- クイックサマリー (6項目) -->
+            <div class="quick-stats-summary">
+              <div class="summary-item">
+                <span class="summary-label">月利</span>
+                <span class="summary-val highlight" id="summary-monthly-return">-</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">PF</span>
+                <span class="summary-val" id="summary-pf">-</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">最大DD</span>
+                <span class="summary-val highlight" id="summary-dd">-</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">勝率</span>
+                <span class="summary-val" id="summary-win-rate">-</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">稼働期間</span>
+                <span class="summary-val" id="summary-period">-</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">収益安定性</span>
+                <span class="summary-val" id="summary-stability">-</span>
+              </div>
+            </div>
+
+            <!-- 管理人ワンポイント解説 -->
+            <div class="admin-memo-box">
+              <div class="memo-header">
+                <i class="fa-solid fa-lightbulb"></i>
+                <span>管理人ワンポイント解説</span>
+              </div>
+              <p class="memo-content" id="detail-admin-notes">
+                リアル口座での安定運用実績を継続モニタリング中。
+              </p>
+            </div>
+
+            <!-- 3大アクションボタン -->
+            <div class="side-action-buttons">
+              <a href="#" target="_blank" class="action-btn btn-mql5" id="btn-mql5-link">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i> MQL5公式 EA紹介
+              </a>
+              <a href="#" target="_blank" class="action-btn btn-forward" id="btn-forward-link">
+                <i class="fa-solid fa-chart-line"></i> フォワード検証 (MQL5)
+              </a>
+              <a href="ranking.html" class="action-btn btn-back-ranking">
+                <i class="fa-solid fa-trophy"></i> 総合ランキングへ
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ② 中段：6軸スコア＆実数値 完全詳細ブレイクダウン表 -->
+      <section class="section-title-wrap">
+        <h2 class="section-title"><i class="fa-solid fa-chart-pie"></i> 6軸総合評価ブレイクダウン (100点満点)</h2>
+        <span class="section-subtitle">独自AIアルゴリズムによる客観的採点マトリクス</span>
+      </section>
+
+      <div class="breakdown-card">
+        <div style="overflow-x: auto;">
+          <table class="breakdown-table">
+            <thead>
+              <tr>
+                <th style="width: 22%;">評価軸 (満点配点)</th>
+                <th style="width: 18%;">獲得スコア</th>
+                <th class="bar-col">スコア達成率</th>
+                <th style="width: 20%;">フォワード実数値</th>
+                <th>採点基準・算出根拠</th>
+              </tr>
+            </thead>
+            <tbody id="breakdown-tbody">
+              <!-- Injected dynamically via detail.js -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="breakdown-summary-banner">
+          <div class="total-points-display">
+            <span class="total-points-label">6軸総合スコア合計:</span>
+            <span class="total-points-num" id="breakdown-total-score">86</span>
+            <span style="font-size: 1rem; color: #94A3B8;">/ 100 pts</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 0.85rem; color: #94A3B8;">総合ランク判定:</span>
+            <span class="rank-letter-tag" id="breakdown-rank-badge" style="font-size: 1.1rem; padding: 4px 14px;">SSランク</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ③ 下段：カード化項目以外の詳細フォワード実績 ＆ 取引スペック -->
+      <section class="section-title-wrap">
+        <h2 class="section-title"><i class="fa-solid fa-microchip"></i> 詳細フォワード運用データ ＆ 取引スペック</h2>
+        <span class="section-subtitle">MQL5シグナルから自動収集した詳細な口座・取引・リスク指標</span>
+      </section>
+
+      <div class="specs-grid">
+        <!-- カードA: 口座・資金運用状況 -->
+        <div class="spec-card">
+          <div class="spec-card-header green">
+            <i class="fa-solid fa-vault"></i> 口座 ＆ 資金運用状況
+          </div>
+          <ul class="spec-list">
+            <li class="spec-item">
+              <span class="spec-label">全期間純利益額</span>
+              <span class="spec-val highlight-green" id="spec-total-profit">-</span>
+            </li>
+            <li class="spec-item">
+              <span class="spec-label">現在口座残高</span>
+              <span class="spec-val highlight-blue" id="spec-balance">-</span>
+            </li>
+            <li class="spec-item">
+              <span class="spec-label">総入金額</span>
+              <span class="spec-val" id="spec-total-deposits">-</span>
+            </li>
+            <li class="spec-item">
+              <span class="spec-label">出金総額</span>
+              <span class="spec-val" id="spec-total-withdrawals">-</span>
+            </li>
+            <li class="spec-item">
+              <span class="spec-label">推奨証拠金</span>
+              <span class="spec-val highlight-gold" id="spec-recommended-margin">-</span>
+            </li>
+            <li class="spec-item">
+              <span class="spec-label">稼働ブローカー</span>
+              <span class="spec-val" id="spec-broker">-</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- カードB: トレード勝率・損益比 -->
+        <div class="spec-card">
+          <div class="spec-card-header">
+            <i class="fa-solid fa-crosshairs"></i> 勝率 ＆ トレード損益比
+          </div>
+          <ul class="spec-list">
+            <li class="spec-item">
+              <span class="spec-label">フォワード勝率</span>
+              <span class="spec-val highlight-blue" id="spec-win-rate">-</span>
+            </li>
+            <li class="spec-item">
+              <span class="spec-label">総取引数</span>
+              <span class="spec-val" id="spec-total-trades">-</span>
+            </li>
+            <li class="spec-item">
+              <span class="spec-label">勝ちトレード数</span>
+              <span class="spec-val highlight-green" id="spec-win-trades">-</span>
+            </li>
+            <li class="spec-item">
+              <span class="spec-label">負けトレード数</span>
+              <span class="spec-val highlight-red" id="spec-loss-trades">-</span>
+            </li>
+            <li class="spec-item">
+              <span class="spec-label">ベストトレード (最大利益)</span>
+              <span class="spec-val highlight-green" id="spec-best-trade">-</span>
+            </li>
+            <li class="spec-item">
+              <span class="spec-label">最悪のトレード (最大損失)</span>
+              <span class="spec-val highlight-red" id="spec-worst-trade">-</span>
+            </li>
+            <li class="spec-item">
+              <span class="spec-label">期待されたペイオフ</span>
+              <span class="spec-val" id="spec-expected-payoff">-</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- カードC: リスク・運用負荷・取引ペース -->
+        <div class="spec-card">
+          <div class="spec-card-header amber">
+            <i class="fa-solid fa-shield-cat"></i> リスク ＆ 運用アクティビティ
+          </div>
+          <ul class="spec-list">
+            <li class="spec-item">
+              <span class="spec-label">最大証拠金使用率 (Load)</span>
+              <span class="spec-val highlight-gold" id="spec-max-deposit-load">-</span>
+            </li>
+            <li class="spec-item">
+              <span class="spec-label">取引アクティビティ</span>
+              <span class="spec-val" id="spec-trading-activity">-</span>
+            </li>
+            <li class="spec-item">
+              <span class="spec-label">週間取引頻度</span>
+              <span class="spec-val" id="spec-trades-per-week">-</span>
+            </li>
+            <li class="spec-item">
+              <span class="spec-label">平均ポジション保有時間</span>
+              <span class="spec-val" id="spec-avg-holding-time">-</span>
+            </li>
+            <li class="spec-item">
+              <span class="spec-label">シャープレシオ</span>
+              <span class="spec-val" id="spec-sharpe-ratio">-</span>
+            </li>
+            <li class="spec-item">
+              <span class="spec-label">プラットフォーム</span>
+              <span class="spec-val" id="spec-platform">-</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ④ 最下段：全期間 確定月次推移 ＆ ランク履歴バックナンバー -->
+      <section class="section-title-wrap">
+        <h2 class="section-title"><i class="fa-solid fa-timeline"></i> 全期間 確定月次推移 ＆ ランク履歴バックナンバー</h2>
+        <span class="section-subtitle">稼働開始から現在までの全月次パフォーマンスと、各月ごとの獲得点数・確定ランク履歴</span>
+      </section>
+
+      <div class="history-section-card">
+        <!-- タイムラインバッジ並び（全履歴） -->
+        <div style="font-size: 0.85rem; font-weight: 700; color: #94A3B8; margin-bottom: 10px;">
+          <i class="fa-solid fa-clock-rotate-left"></i> 全期間ランク ＆ 総合スコア推移タイムライン (横スクロール対応)
+        </div>
+        <div class="timeline-scroll-wrap">
+          <div class="timeline-badge-row" id="timeline-badge-container">
+            <!-- Injected via detail.js -->
+          </div>
+        </div>
+
+        <!-- 月次確定実績＆採点一覧テーブル（バックナンバー表） -->
+        <div style="font-size: 0.85rem; font-weight: 700; color: #94A3B8; margin-top: 10px; margin-bottom: 10px;">
+          <i class="fa-solid fa-table-list"></i> 月次パフォーマンス ＆ スコア採点一覧表
+        </div>
+        <div style="overflow-x: auto;">
+          <table class="monthly-table">
+            <thead>
+              <tr>
+                <th style="width: 14%;">対象年月</th>
+                <th style="width: 18%;">月間収益率</th>
+                <th style="width: 14%;">月利獲得点</th>
+                <th style="width: 16%;">月次総合得点</th>
+                <th style="width: 14%;">確定ランク</th>
+                <th style="width: 14%;">収益推移バー</th>
+                <th style="text-align: right;">ランキング閲覧</th>
+              </tr>
+            </thead>
+            <tbody id="monthly-history-tbody">
+              <!-- Injected via detail.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-content" style="text-align: center; padding: 40px 0; color: #64748B; font-size: 0.85rem;">
+      <p style="margin-bottom: 8px;">&copy; 2026 Dark Venus ラボ. All rights reserved.</p>
+      <p style="font-size: 0.75rem; color: #475569;">※本サイトのフォワード成績およびランク判定はMQL5公式データに基づく客観的独自評価であり、将来の運用成果を保証するものではありません。</p>
+    </div>
+  </footer>
+
+  <script src="js/detail.js"></script>
+</body>
+</html>
