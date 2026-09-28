@@ -23,6 +23,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         const sortMode = targetBtn.getAttribute('data-sort');
         currentSortMode = sortMode;
         renderRanking(currentSortMode);
+        if (typeof gtag === 'function') {
+          gtag('event', 'sort_ranking', {
+            sort_mode: sortMode
+          });
+        }
       }
     });
   });
@@ -88,6 +93,18 @@ function switchMonth(newMonth) {
 
   updateMonthSelectorUI();
   renderRanking(currentSortMode);
+
+  // Google Analytics (GA4) 仮想PV & 月選択イベント送信
+  if (typeof gtag === 'function') {
+    gtag('event', 'page_view', {
+      page_title: document.title,
+      page_location: window.location.href,
+      page_path: window.location.pathname + window.location.search
+    });
+    gtag('event', 'select_ranking_month', {
+      selected_month: selectedMonth
+    });
+  }
 }
 
 function updateMonthSelectorUI() {

@@ -180,6 +180,21 @@ function renderDetailPage() {
   document.getElementById("breadcrumb-ea-name").textContent = `${ea.name} (${ea.active_month_label})`;
   document.getElementById("ea-main-name").textContent = ea.name;
 
+  // Google Analytics (GA4) 仮想PV & EA閲覧イベント送信
+  if (typeof gtag === 'function') {
+    gtag('event', 'page_view', {
+      page_title: document.title,
+      page_location: window.location.href,
+      page_path: window.location.pathname + window.location.search
+    });
+    gtag('event', 'view_ea_detail', {
+      ea_id: ea.id,
+      ea_name: ea.name,
+      ea_key: ea.ea_key,
+      rank: rankBadge
+    });
+  }
+
   // ヘッダー部スコア・ランク
   let scoreColorClass = 'score-other';
   if (isSRankOrHigher) scoreColorClass = 'score-s';
