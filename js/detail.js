@@ -7,6 +7,71 @@ let currentEA = null;
 let monthlyRecords = [];
 let chartInstance = null;
 
+// 累積運用期間の月数パース
+function parsePeriodMonths(rawPeriod) {
+  if (!rawPeriod) return 0;
+  const mWeek = rawPeriod.match(/(\d+)\s*週/);
+  if (mWeek) {
+    const weeks = parseInt(mWeek[1], 10);
+    return Math.floor(weeks * 7 / 30.4375);
+  }
+  const mYear = rawPeriod.match(/([\d\.]+)\s*年/);
+  if (mYear) {
+    return Math.floor(parseFloat(mYear[1]) * 12);
+  }
+  const mMonth = rawPeriod.match(/(\d+)\s*か?月/);
+  if (mMonth) {
+    return parseInt(mMonth[1], 10);
+  }
+  return 0;
+}
+
+// 2つの年月の月数差 (ymTo - ymFrom)
+function getMonthDiff(ymFrom, ymTo) {
+  if (!ymFrom || !ymTo) return 0;
+  const [y1, m1] = ymFrom.replace('.', '-').split('-').map(Number);
+  const [y2, m2] = ymTo.replace('.', '-').split('-').map(Number);
+  return (y2 - y1) * 12 + (m2 - m1);
+}
+
+// 稼働期間スコア自動採点 (仕様書 3.5: 15点満点)
+function calcPeriodScore(months) {
+  if (months >= 60) return 15;
+  if (months >= 48) return 14;
+  if (months >= 36) return 13;
+  if (months >= 24) return 11;
+  if (months >= 12) return 8;
+  if (months >= 6) return 5;
+  if (months >= 3) return 2;
+  return 0;
+}
+
+// 稼働期間のテキスト表示
+function formatPeriodText(months) {
+  if (months <= 0) return '0週 (開始月)';
+  const weeks = Math.round(months * 30.4375 / 7);
+  if (months >= 12) {
+    const yrs = (months / 12).toFixed(1);
+    return `${yrs}年 (${weeks}週)`;
+  }
+  return `${weeks}週`;
+}
+
+// 収益安定性スコア自動採点 (仕様書 3.6: 10点満点、直近12ヶ月プラス月数)
+function calcStabilityScore(winMonths) {
+  if (winMonths >= 12) return 10;
+  if (winMonths === 11) return 9;
+  if (winMonths === 10) return 8;
+  if (winMonths === 9) return 7;
+  if (winMonths === 8) return 6;
+  if (winMonths === 7) return 5;
+  if (winMonths === 6) return 4;
+  if (winMonths === 5) return 3;
+  if (winMonths === 4) return 2;
+  if (winMonths === 3) return 1;
+  return 0;
+}
+
 // 月間収益率（%）からのスコア自動採点 (仕様書 3.1: 20点満点)
 function calcMonthlyReturnScore(returnPercent) {
   const r = parseFloat(returnPercent);
@@ -107,7 +172,7 @@ async function fetchEADetailData() {
       console.warn("月次推移の取得に失敗しました:", mErr);
     }
 
-    // 対象年月の特定と月次スコア・ランクの計算
+    // 対象年月の特定と月次スコア・ランクの計算（案1: その月基準）
     const monthParam = urlParams.get('month');
     let activeYearMonth = '2026-08';
     if (monthParam) {
@@ -118,29 +183,52 @@ async function fetchEADetailData() {
       activeYearMonth = currentEA.target_month.replace('.', '-');
     }
 
+    const latestYM = (monthlyRecords.length > 0) ? monthlyRecords[0].year_month : '2026-08';
+    const isLatest = (activeYearMonth === latestYM);
+
+    // 1. 月間収益率
     const selectedMonthlyRec = monthlyRecords.find(m => m.year_month === activeYearMonth);
-
-    // 他の5軸の合計点
-    const otherScores = (currentEA.score_pf || 0) + (currentEA.score_rf || 0) + (currentEA.score_dd || 0) + (currentEA.score_period || 0) + (currentEA.score_stability || 0);
-
     let activeReturnScore = currentEA.score_monthly_return || 0;
     let activeReturnRaw = currentEA.raw_monthly_return || '0%';
-    let activeTotalScore = currentEA.total_score || 0;
-    let activeRank = (currentEA.rank_badge || 'C').toUpperCase();
-
     if (selectedMonthlyRec) {
       const retVal = parseFloat(selectedMonthlyRec.monthly_return_percent) || 0;
       activeReturnScore = calcMonthlyReturnScore(retVal);
       activeReturnRaw = (retVal >= 0 ? '+' : '') + retVal.toFixed(2) + '%';
-      activeTotalScore = otherScores + activeReturnScore;
-      activeRank = calcRankBadge(activeTotalScore);
     }
+
+    // 2. 稼働期間 (15点満点) のその月基準再計算
+    const baseMonths = parsePeriodMonths(currentEA.raw_period);
+    const diffMonths = getMonthDiff(activeYearMonth, latestYM);
+    const elapsedMonths = Math.max(0, baseMonths - diffMonths);
+    const activePeriodScore = calcPeriodScore(elapsedMonths);
+    const activePeriodRaw = isLatest ? (currentEA.raw_period || formatPeriodText(elapsedMonths)) : formatPeriodText(elapsedMonths);
+
+    // 3. 収益安定性 (10点満点) のその月基準再計算（その月から遡って直近最大12ヶ月）
+    const ascRecords = [...monthlyRecords].sort((a, b) => a.year_month.localeCompare(b.year_month));
+    const recordsUpToActive = ascRecords.filter(m => m.year_month <= activeYearMonth);
+    const past12 = recordsUpToActive.slice(-12);
+    const winMonths = past12.filter(m => (parseFloat(m.monthly_return_percent) || 0) > 0).length;
+    const activeStabilityScore = calcStabilityScore(winMonths);
+    const activeStabilityRaw = isLatest ? (currentEA.raw_stability || `${winMonths}勝`) : `${winMonths}勝`;
+
+    // 4. PF (20点), RF (20点), 最大DD (15点) は直近最新値（合意済み仕様）
+    const fixedScores = (currentEA.score_pf || 0) + (currentEA.score_rf || 0) + (currentEA.score_dd || 0);
+
+    // 5. 総合得点の再計算 (100点満点)
+    const activeTotalScore = activeReturnScore + fixedScores + activePeriodScore + activeStabilityScore;
+
+    // 6. 総合ランクバッジの再計算 (SSS〜D)
+    const activeRank = calcRankBadge(activeTotalScore);
 
     currentEA.active_year_month = activeYearMonth;
     currentEA.active_month_card = activeYearMonth.replace('-', '.'); // e.g. "2026.08"
     currentEA.active_month_label = formatMonthLabel(activeYearMonth); // e.g. "2026年8月度"
     currentEA.active_return_score = activeReturnScore;
     currentEA.active_return_raw = activeReturnRaw;
+    currentEA.active_period_score = activePeriodScore;
+    currentEA.active_period_raw = activePeriodRaw;
+    currentEA.active_stability_score = activeStabilityScore;
+    currentEA.active_stability_raw = activeStabilityRaw;
     currentEA.active_total_score = activeTotalScore;
     currentEA.active_rank = activeRank;
 
@@ -247,12 +335,12 @@ function renderDetailPage() {
   }
 
   // クイックサマリー (6項目)
-  document.getElementById("summary-monthly-return").textContent = ea.raw_monthly_return || '0%';
+  document.getElementById("summary-monthly-return").textContent = ea.active_return_raw || ea.raw_monthly_return || '0%';
   document.getElementById("summary-pf").textContent = ea.raw_pf || '0.0';
   document.getElementById("summary-dd").textContent = ea.raw_dd || '0%';
   document.getElementById("summary-win-rate").textContent = ea.raw_win_rate || '-';
-  document.getElementById("summary-period").textContent = ea.raw_period || '0ヶ月';
-  document.getElementById("summary-stability").textContent = ea.raw_stability || '0ヶ月';
+  document.getElementById("summary-period").textContent = ea.active_period_raw || ea.raw_period || '0ヶ月';
+  document.getElementById("summary-stability").textContent = ea.active_stability_raw || ea.raw_stability || '0ヶ月';
 
   // 管理人解説 (notes)
   const notesText = ea.notes && ea.notes.trim() !== ''
@@ -396,18 +484,18 @@ function renderTCGCard(ea, rankBadge, isSRankOrHigher) {
           <div class="stat-left">
             <i class="fa-solid fa-hourglass-half stat-icon"></i>
             <span class="stat-name">稼働期間</span>
-            <span class="stat-points">${ea.score_period || 0} / 15</span>
+            <span class="stat-points">${ea.active_period_score !== undefined ? ea.active_period_score : (ea.score_period || 0)} / 15</span>
           </div>
-          <div class="stat-raw-value">${ea.raw_period || '0ヶ月'}</div>
+          <div class="stat-raw-value">${ea.active_period_raw || ea.raw_period || '0ヶ月'}</div>
         </div>
 
         <div class="stat-row">
           <div class="stat-left">
             <i class="fa-solid fa-heart stat-icon"></i>
             <span class="stat-name">収益安定性</span>
-            <span class="stat-points">${ea.score_stability || 0} / 10</span>
+            <span class="stat-points">${ea.active_stability_score !== undefined ? ea.active_stability_score : (ea.score_stability || 0)} / 10</span>
           </div>
-          <div class="stat-raw-value">${ea.raw_stability || '0ヶ月'}</div>
+          <div class="stat-raw-value">${ea.active_stability_raw || ea.raw_stability || '0ヶ月'}</div>
         </div>
       </div>
     </div>
@@ -429,12 +517,15 @@ function renderRadarChart(canvasId, ea) {
   const ctx = canvas.getContext('2d');
 
   const returnScore = (ea.active_return_score !== undefined) ? ea.active_return_score : (ea.score_monthly_return || 0);
+  const periodScore = (ea.active_period_score !== undefined) ? ea.active_period_score : (ea.score_period || 0);
+  const stabilityScore = (ea.active_stability_score !== undefined) ? ea.active_stability_score : (ea.score_stability || 0);
+
   const valReturn = Math.min(100, Math.round((returnScore / 20) * 100));
   const valPF = Math.min(100, Math.round(((ea.score_pf || 0) / 20) * 100));
   const valRF = Math.min(100, Math.round(((ea.score_rf || 0) / 20) * 100));
   const valDD = Math.min(100, Math.round(((ea.score_dd || 0) / 15) * 100));
-  const valPeriod = Math.min(100, Math.round(((ea.score_period || 0) / 15) * 100));
-  const valStability = Math.min(100, Math.round(((ea.score_stability || 0) / 10) * 100));
+  const valPeriod = Math.min(100, Math.round((periodScore / 15) * 100));
+  const valStability = Math.min(100, Math.round((stabilityScore / 10) * 100));
 
   chartInstance = new Chart(ctx, {
     type: 'radar',
@@ -509,15 +600,15 @@ function renderBreakdownTable(ea, rankBadge) {
       name: '稼働期間 (運用トラックレコード)',
       icon: 'fa-solid fa-hourglass-half',
       maxScore: 15,
-      score: ea.score_period || 0,
-      raw: ea.raw_period || '0ヶ月'
+      score: ea.active_period_score !== undefined ? ea.active_period_score : (ea.score_period || 0),
+      raw: ea.active_period_raw || ea.raw_period || '0ヶ月'
     },
     {
       name: '収益安定性',
       icon: 'fa-solid fa-heart',
       maxScore: 10,
-      score: ea.score_stability || 0,
-      raw: ea.raw_stability || '0ヶ月'
+      score: ea.active_stability_score !== undefined ? ea.active_stability_score : (ea.score_stability || 0),
+      raw: ea.active_stability_raw || ea.raw_stability || '0ヶ月'
     }
   ];
 
@@ -604,15 +695,28 @@ function renderAllHistory(ea) {
     return;
   }
 
-  // 他の5軸の合計点
-  const otherScores = (ea.score_pf || 0) + (ea.score_rf || 0) + (ea.score_dd || 0) + (ea.score_period || 0) + (ea.score_stability || 0);
+  const latestYM = (monthlyRecords.length > 0) ? monthlyRecords[0].year_month : '2026-08';
+  const baseMonths = parsePeriodMonths(ea.raw_period);
+  const fixedScores = (ea.score_pf || 0) + (ea.score_rf || 0) + (ea.score_dd || 0);
+  const ascRecords = [...monthlyRecords].sort((a, b) => a.year_month.localeCompare(b.year_month));
 
   // パート1: 全期間タイムラインバッジ（古い順で左から右へ流れるように表示）
   const chronoRecords = [...monthlyRecords].reverse();
   timelineContainer.innerHTML = chronoRecords.map((m, idx) => {
     const val = parseFloat(m.monthly_return_percent) || 0;
     const mReturnScore = calcMonthlyReturnScore(val);
-    const mTotalScore = otherScores + mReturnScore;
+
+    // その月基準の稼働期間と安定性を算出（案1）
+    const mDiffMonths = getMonthDiff(m.year_month, latestYM);
+    const mElapsedMonths = Math.max(0, baseMonths - mDiffMonths);
+    const mPeriodScore = calcPeriodScore(mElapsedMonths);
+
+    const mRecordsUpTo = ascRecords.filter(item => item.year_month <= m.year_month);
+    const mPast12 = mRecordsUpTo.slice(-12);
+    const mWinMonths = mPast12.filter(item => (parseFloat(item.monthly_return_percent) || 0) > 0).length;
+    const mStabilityScore = calcStabilityScore(mWinMonths);
+
+    const mTotalScore = mReturnScore + fixedScores + mPeriodScore + mStabilityScore;
     const mRank = calcRankBadge(mTotalScore);
     const rankClass = `rank-bg-${mRank.toLowerCase()}`;
     const retColor = val >= 0 ? '#34D399' : '#F87171';
@@ -642,7 +746,18 @@ function renderAllHistory(ea) {
   tbody.innerHTML = monthlyRecords.map(m => {
     const val = parseFloat(m.monthly_return_percent) || 0;
     const mReturnScore = calcMonthlyReturnScore(val);
-    const mTotalScore = otherScores + mReturnScore;
+
+    // その月基準の稼働期間と安定性を算出（案1）
+    const mDiffMonths = getMonthDiff(m.year_month, latestYM);
+    const mElapsedMonths = Math.max(0, baseMonths - mDiffMonths);
+    const mPeriodScore = calcPeriodScore(mElapsedMonths);
+
+    const mRecordsUpTo = ascRecords.filter(item => item.year_month <= m.year_month);
+    const mPast12 = mRecordsUpTo.slice(-12);
+    const mWinMonths = mPast12.filter(item => (parseFloat(item.monthly_return_percent) || 0) > 0).length;
+    const mStabilityScore = calcStabilityScore(mWinMonths);
+
+    const mTotalScore = mReturnScore + fixedScores + mPeriodScore + mStabilityScore;
     const mRank = calcRankBadge(mTotalScore);
     const rankClass = `rank-bg-${mRank.toLowerCase()}`;
     const isPositive = val >= 0;

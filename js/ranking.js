@@ -229,6 +229,71 @@ function parseNum(val) {
   return match ? parseFloat(match[0]) : 0;
 }
 
+// 累積運用期間の月数パース
+function parsePeriodMonths(rawPeriod) {
+  if (!rawPeriod) return 0;
+  const mWeek = rawPeriod.match(/(\d+)\s*週/);
+  if (mWeek) {
+    const weeks = parseInt(mWeek[1], 10);
+    return Math.floor(weeks * 7 / 30.4375);
+  }
+  const mYear = rawPeriod.match(/([\d\.]+)\s*年/);
+  if (mYear) {
+    return Math.floor(parseFloat(mYear[1]) * 12);
+  }
+  const mMonth = rawPeriod.match(/(\d+)\s*か?月/);
+  if (mMonth) {
+    return parseInt(mMonth[1], 10);
+  }
+  return 0;
+}
+
+// 2つの年月の月数差 (ymTo - ymFrom)
+function getMonthDiff(ymFrom, ymTo) {
+  if (!ymFrom || !ymTo) return 0;
+  const [y1, m1] = ymFrom.replace('.', '-').split('-').map(Number);
+  const [y2, m2] = ymTo.replace('.', '-').split('-').map(Number);
+  return (y2 - y1) * 12 + (m2 - m1);
+}
+
+// 稼働期間スコア自動採点 (仕様書 3.5: 15点満点)
+function calcPeriodScore(months) {
+  if (months >= 60) return 15;
+  if (months >= 48) return 14;
+  if (months >= 36) return 13;
+  if (months >= 24) return 11;
+  if (months >= 12) return 8;
+  if (months >= 6) return 5;
+  if (months >= 3) return 2;
+  return 0;
+}
+
+// 稼働期間のテキスト表示
+function formatPeriodText(months) {
+  if (months <= 0) return '0週 (開始月)';
+  const weeks = Math.round(months * 30.4375 / 7);
+  if (months >= 12) {
+    const yrs = (months / 12).toFixed(1);
+    return `${yrs}年 (${weeks}週)`;
+  }
+  return `${weeks}週`;
+}
+
+// 収益安定性スコア自動採点 (仕様書 3.6: 10点満点、直近12ヶ月プラス月数)
+function calcStabilityScore(winMonths) {
+  if (winMonths >= 12) return 10;
+  if (winMonths === 11) return 9;
+  if (winMonths === 10) return 8;
+  if (winMonths === 9) return 7;
+  if (winMonths === 8) return 6;
+  if (winMonths === 7) return 5;
+  if (winMonths === 6) return 4;
+  if (winMonths === 5) return 3;
+  if (winMonths === 4) return 2;
+  if (winMonths === 3) return 1;
+  return 0;
+}
+
 // 月間収益率（%）からのスコア自動採点 (仕様書 3.1: 20点満点)
 function calcMonthlyReturnScore(returnPercent) {
   const r = parseFloat(returnPercent);
@@ -257,9 +322,10 @@ function calcRankBadge(totalScore) {
 }
 
 function renderRanking(sortMode) {
-  const isLatest = (selectedMonth === availableMonths[0]);
+  const latestMonth = availableMonths[0];
+  const isLatest = (selectedMonth === latestMonth);
 
-  // 月次データが選ばれている場合、各EAの該当月実績をマッピング＆再計算
+  // 月次データが選ばれている場合、各EAの該当月実績をマッピング＆再計算（案1: その月基準）
   const targetEAs = [];
   allEAs.forEach(ea => {
     const clone = { ...ea };
@@ -269,7 +335,7 @@ function renderRanking(sortMode) {
     }
 
     if (!isLatest) {
-      // 過去月が選ばれている場合、その月の月次確定データで上書き＆スコア再計算
+      // 過去月が選ばれている場合、その月の月次確定データで上書き＆スコア再計算（案1）
       const monthData = (monthlyHistoryMap[ea.id] || []).find(m => m.year_month === selectedMonth);
       if (!monthData) {
         // この月に運用実績がないEAは過去月ランキングから除外
@@ -279,18 +345,31 @@ function renderRanking(sortMode) {
       clone.raw_monthly_return = (retVal >= 0 ? '+' : '') + retVal.toFixed(2) + '%';
       if (parseFloat(monthData.profit_factor) > 0) clone.raw_pf = String(monthData.profit_factor);
       if (parseFloat(monthData.max_drawdown_percent) > 0) clone.raw_dd = String(monthData.max_drawdown_percent) + '%';
-      if (monthData.rank_position) clone.current_rank = monthData.rank_position;
 
-      // 月間収益率スコアの再計算 (20点満点)
+      // 1. 月間収益率スコアの再計算 (20点満点)
       clone.score_monthly_return = calcMonthlyReturnScore(retVal);
 
-      // 他の5軸の合計点
-      const otherScores = (ea.score_pf || 0) + (ea.score_rf || 0) + (ea.score_dd || 0) + (ea.score_period || 0) + (ea.score_stability || 0);
+      // 2. 稼働期間 (15点満点) のその月基準再計算
+      const baseMonths = parsePeriodMonths(ea.raw_period);
+      const diffMonths = getMonthDiff(selectedMonth, latestMonth);
+      const elapsedMonths = Math.max(0, baseMonths - diffMonths);
+      clone.score_period = calcPeriodScore(elapsedMonths);
+      clone.raw_period = formatPeriodText(elapsedMonths);
 
-      // 総合得点の再計算 (100点満点)
-      clone.total_score = otherScores + clone.score_monthly_return;
+      // 3. 収益安定性 (10点満点) のその月基準再計算（その月から遡って直近最大12ヶ月）
+      const recordsUpToSelected = (monthlyHistoryMap[ea.id] || []).filter(m => m.year_month <= selectedMonth);
+      const past12 = recordsUpToSelected.slice(-12);
+      const winMonths = past12.filter(m => (parseFloat(m.monthly_return_percent) || 0) > 0).length;
+      clone.score_stability = calcStabilityScore(winMonths);
+      clone.raw_stability = `${winMonths}勝`;
 
-      // 総合ランクバッジの再計算 (SSS〜D)
+      // 4. PF (20点), RF (20点), 最大DD (15点) は直近最新値（合意済み仕様）
+      const fixedScores = (ea.score_pf || 0) + (ea.score_rf || 0) + (ea.score_dd || 0);
+
+      // 5. 総合得点の再計算 (100点満点)
+      clone.total_score = clone.score_monthly_return + fixedScores + clone.score_period + clone.score_stability;
+
+      // 6. 総合ランクバッジの再計算 (SSS〜D)
       clone.rank_badge = calcRankBadge(clone.total_score);
     }
     targetEAs.push(clone);
@@ -299,10 +378,6 @@ function renderRanking(sortMode) {
   // Sort Logic with Tie-Breaker
   const sorted = [...targetEAs].sort((a, b) => {
     if (sortMode === 'score') {
-      // 過去月で確定順位 (rank_position) がある場合はそれを優先、なければ総合スコア
-      if (!isLatest && a.current_rank && b.current_rank) {
-        return a.current_rank - b.current_rank;
-      }
       // 1次: 総合スコア
       const diffScore = (b.total_score || 0) - (a.total_score || 0);
       if (diffScore !== 0) return diffScore;
@@ -335,6 +410,11 @@ function renderRanking(sortMode) {
       return (b.total_score || 0) - (a.total_score || 0);
     }
     return 0;
+  });
+
+  // ソート順位 (1位〜) を確定
+  sorted.forEach((ea, idx) => {
+    ea.current_rank = idx + 1;
   });
 
   renderTopCards(sorted.slice(0, 5), sortMode);
@@ -444,12 +524,25 @@ function renderTopCards(topEAs, sortMode = 'score') {
 
     let historyBadgesHtml = '';
     if (eaMonthlyList.length > 0) {
-      const otherScores = (ea.score_pf || 0) + (ea.score_rf || 0) + (ea.score_dd || 0) + (ea.score_period || 0) + (ea.score_stability || 0);
+      const latestMonth = availableMonths[0];
+      const baseMonths = parsePeriodMonths(ea.raw_period);
+      const fixedScores = (ea.score_pf || 0) + (ea.score_rf || 0) + (ea.score_dd || 0);
 
       historyBadgesHtml = eaMonthlyList.map((m, idx) => {
         const val = parseFloat(m.monthly_return_percent) || 0;
         const mReturnScore = calcMonthlyReturnScore(val);
-        const mTotalScore = otherScores + mReturnScore;
+
+        // その月基準の稼働期間と安定性を算出
+        const mDiffMonths = getMonthDiff(m.year_month, latestMonth);
+        const mElapsedMonths = Math.max(0, baseMonths - mDiffMonths);
+        const mPeriodScore = calcPeriodScore(mElapsedMonths);
+
+        const mRecordsUpTo = (monthlyHistoryMap[ea.id] || []).filter(item => item.year_month <= m.year_month);
+        const mPast12 = mRecordsUpTo.slice(-12);
+        const mWinMonths = mPast12.filter(item => (parseFloat(item.monthly_return_percent) || 0) > 0).length;
+        const mStabilityScore = calcStabilityScore(mWinMonths);
+
+        const mTotalScore = mReturnScore + fixedScores + mPeriodScore + mStabilityScore;
         const mRank = calcRankBadge(mTotalScore);
         const rankClass = `rank-bg-${mRank.toLowerCase()}`;
         
