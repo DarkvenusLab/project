@@ -39,6 +39,81 @@
       line-height: 1.6;
     }
 
+    /* ダークヘッダー（白浮き解消・グラスモーフィズム調和） */
+    .site-header {
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .site-header .logo-text {
+      color: #F8FAFC !important;
+    }
+    .site-header .main-nav a {
+      color: #94A3B8 !important;
+      font-weight: 700;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+    .site-header .main-nav a:hover {
+      background-color: rgba(255, 255, 255, 0.08) !important;
+      color: #38BDF8 !important;
+    }
+    .site-header .main-nav a.active {
+      background: rgba(56, 189, 248, 0.15) !important;
+      color: #38BDF8 !important;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+
+    /* 免責事項セクション */
+    .disclaimer-section {
+      max-width: 1350px;
+      margin: 40px auto 20px auto;
+      padding: 0 20px;
+    }
+    .disclaimer-card {
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-left: 4px solid #F59E0B;
+      border-radius: 12px;
+      padding: 22px 26px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    .disclaimer-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #FBBF24;
+      margin-bottom: 12px;
+    }
+    .disclaimer-text p {
+      font-size: 0.8rem;
+      color: #94A3B8;
+      line-height: 1.75;
+      margin-bottom: 8px;
+    }
+    .disclaimer-text p:last-child {
+      margin-bottom: 0;
+    }
+    .site-footer {
+      background: #060911;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 36px 0;
+      text-align: center;
+      color: #64748B;
+      font-size: 0.85rem;
+    }
+    .site-footer a {
+      color: #94A3B8;
+      margin: 0 10px;
+      transition: color 0.2s;
+    }
+    .site-footer a:hover {
+      color: #38BDF8;
+    }
+
     .detail-container {
       max-width: 1350px;
       margin: 0 auto;
@@ -1215,9 +1290,12 @@
       <nav class="main-nav">
         <ul>
           <li><a href="index.html"><i class="fa-solid fa-house"></i> ホーム</a></li>
-          <li><a href="ranking.html" style="color: #38BDF8; font-weight: 800;"><i class="fa-solid fa-trophy"></i> MQL5ランキング</a></li>
+          <li><a href="ranking.html" style="color: #F59E0B; font-weight: 800;"><i class="fa-solid fa-trophy"></i> MQL5ランキング <span class="nav-badge-hot">HOT</span></a></li>
+          <li><a href="ea/forward-test.html" style="color: #0EA5E9; font-weight: 800;"><i class="fa-solid fa-vial"></i> フォワード検証 <span class="nav-badge-new">NEW</span></a></li>
+          <li><a href="tools/backtest-analyzer.html"><i class="fa-solid fa-chart-line"></i> 分析ツール</a></li>
           <li><a href="tools/setfiles.html"><i class="fa-solid fa-folder-open"></i> 検証済み.set一覧</a></li>
-          <li><a href="contact.html"><i class="fa-solid fa-envelope"></i> お問い合わせ</a></li>
+          <li><a href="manual.html"><i class="fa-solid fa-file-contract"></i> 公式マニュアル和訳</a></li>
+          <li><a href="manual/how-to-setup.html"><i class="fa-solid fa-circle-info"></i> 導入手順</a></li>
         </ul>
       </nav>
     </div>
@@ -1721,10 +1799,35 @@
     </div>
   </main>
 
+  <!-- 免責事項・リスク開示ブロック -->
+  <section class="disclaimer-section">
+    <div class="disclaimer-card">
+      <div class="disclaimer-title">
+        <i class="fa-solid fa-shield-halved"></i>
+        <span>免責事項・リスクに関する重要開示</span>
+      </div>
+      <div class="disclaimer-text">
+        <p>※当サイトに掲載している「MQL5ランキング」、EA総合評価スコア、バックテストおよびフォワードテスト等の検証データは、MQL5公式シグナル等で公開されている実績データを独自の客観的アルゴリズムによって機械的に集計・数値化したものであり、将来の運用成果や利益を保証するものではありません。</p>
+        <p>※外国為替証拠金取引（FX）および自動売買（EA）には、相場急変等による元本割れや預託証拠金以上の多大な損失を被る高いリスクが伴います。当サイトの情報を参考にした投資判断、口座運用、ロット設定等の稼働につきましては、すべて利用者ご自身の責任と判断において行っていただきますようお願いいたします。</p>
+        <p>※当サイトの情報利用またはEA稼働によって生じた一切の損害・不利益について、サイト運営者はその責任を負いかねます。また、掲載内容は予告なく変更・更新・削除される場合があります。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 統一サイトフッター -->
   <footer class="site-footer">
-    <div class="container footer-content" style="text-align: center; padding: 40px 0; color: #64748B; font-size: 0.85rem;">
-      <p style="margin-bottom: 8px;">&copy; 2026 Dark Venus ラボ. All rights reserved.</p>
-      <p style="font-size: 0.75rem; color: #475569;">※本サイトのフォワード成績およびランク判定はMQL5公式データに基づく客観的独自評価であり、将来の運用成果を保証するものではありません。</p>
+    <div class="container footer-content">
+      <p style="margin-bottom: 12px; font-weight: 700; color: #F8FAFC; font-size: 1.05rem;">Dark Venus ラボ</p>
+      <p style="margin-bottom: 14px;">
+        <a href="index.html">ホーム</a>
+        <a href="ranking.html">MQL5ランキング</a>
+        <a href="scoring.html">配点基準ガイド</a>
+        <a href="ea/forward-test.html">フォワード検証</a>
+        <a href="tools/setfiles.html">設定ファイル一覧</a>
+        <a href="privacy.html">プライバシーポリシー</a>
+        <a href="contact.html">お問い合わせ</a>
+      </p>
+      <p style="font-size: 0.8rem; color: #475569;">&copy; 2026 Dark Venus ラボ. All rights reserved.</p>
     </div>
   </footer>
 

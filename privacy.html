@@ -48,10 +48,12 @@
       <nav class="main-nav">
         <ul>
           <li><a href="index.html"><i class="fa-solid fa-house"></i> ホーム</a></li>
-          <li><a href="forward-test.html"><i class="fa-solid fa-vial"></i> フォワード検証</a></li>
-          <li><a href="setfiles.html"><i class="fa-solid fa-folder-open"></i> 検証済み.set一覧</a></li>
+          <li><a href="ranking.html" style="color: #F59E0B; font-weight: 800;"><i class="fa-solid fa-trophy"></i> MQL5ランキング <span class="nav-badge-hot">HOT</span></a></li>
+          <li><a href="ea/forward-test.html" style="color: #0EA5E9; font-weight: 800;"><i class="fa-solid fa-vial"></i> フォワード検証 <span class="nav-badge-new">NEW</span></a></li>
+          <li><a href="tools/backtest-analyzer.html" style="color: #0EA5E9; font-weight: 800;"><i class="fa-solid fa-chart-line"></i> 分析ツール</a></li>
+          <li><a href="tools/setfiles.html"><i class="fa-solid fa-folder-open"></i> 検証済み.set一覧</a></li>
           <li><a href="manual.html"><i class="fa-solid fa-file-contract"></i> 公式マニュアル和訳</a></li>
-          <li><a href="how-to-setup.html"><i class="fa-solid fa-circle-info"></i> 導入手順</a></li>
+          <li><a href="manual/how-to-setup.html"><i class="fa-solid fa-circle-info"></i> 導入手順</a></li>
         </ul>
       </nav>
     </div>
@@ -98,13 +100,13 @@
         </p>
 
         <h2 style="font-size: 1.3rem; color: var(--primary); margin-bottom: 12px; border-bottom: 2px solid #E2E8F0; padding-bottom: 6px;">
-          4. 免責事項（重要）
+          4. 免責事項・リスク開示（重要）
         </h2>
         <p style="margin-bottom: 12px;">
-          当サイトで公開しているDark Venusの設定ファイル（.set）およびバックテスト結果は、過去のヒストリカルデータに基づく検証結果であり、将来の運用成果や利益を保証するものではありません。
+          当サイトで公開している「MQL5ランキング」、EA総合評価スコア、Dark Venus等の各種設定ファイル（.set）およびバックテスト・フォワードテスト検証データは、MQL5公式シグナル等の実績データや過去ヒストリカルデータに基づき独自の客観的アルゴリズムによって集計・算出した検証情報であり、将来の運用成果や利益を保証するものではありません。
         </p>
         <p style="margin-bottom: 12px;">
-          当サイトに掲載された内容・ダウンロードファイルによって生じた、いかなる損害・損失（FX取引における投資損失等を含む）についても、当サイトおよび管理人は一切の責任を負いかねます。FX取引およびEAの運用は、必ずご自身の判断と自己責任において行ってください。
+          外国為替証拠金取引（FX）および自動売買（EA）には、急激な為替相場の変動等によって元本割れや預託証拠金以上の多大な損失を被る高いリスクが伴います。当サイトに掲載された情報、リンク先、ダウンロードファイル等によって生じた、いかなる損害・損失（FX取引における投資損失・ロスカット等を含む）についても、当サイトおよび管理人は一切の責任を負いかねます。投資判断およびEAの運用は、必ずご自身の判断と自己責任において行ってください。
         </p>
         <p style="margin-bottom: 24px;">
           また、当サイトからリンクやバナーなどによって他のサイトに移動された場合、移動先サイトで提供される情報、サービス等について一切の責任を負いません。
@@ -127,16 +129,31 @@
     </div>
   </section>
 
+  <!-- 免責事項・リスク開示ブロック -->
+  <section class="disclaimer-section">
+    <div class="disclaimer-card">
+      <div class="disclaimer-title">
+        <i class="fa-solid fa-shield-halved"></i>
+        <span>免責事項・リスクに関する重要開示</span>
+      </div>
+      <div class="disclaimer-text">
+        <p>※当サイトに掲載している「MQL5ランキング」、EA総合評価スコア、バックテストおよびフォワードテスト等の検証データは、MQL5公式シグナル等で公開されている実績データを独自の客観的アルゴリズムによって機械的に集計・数値化したものであり、将来の運用成果や利益を保証するものではありません。</p>
+        <p>※外国為替証拠金取引（FX）および自動売買（EA）には、相場急変等による元本割れや預託証拠金以上の多大な損失を被る高いリスクが伴います。当サイトの情報を参考にした投資判断、口座運用、ロット設定等の稼働につきましては、すべて利用者ご自身の責任と判断において行っていただきますようお願いいたします。</p>
+        <p>※当サイトの情報利用またはEA稼働によって生じた一切の損害・不利益について、サイト運営者はその責任を負いかねます。また、掲載内容は予告なく変更・更新・削除される場合があります。</p>
+      </div>
+    </div>
+  </section>
+
   <!-- Footer Area -->
   <footer class="site-footer">
     <div class="container" style="text-align: center;">
       <p style="margin-bottom: 8px; font-weight: 700; color: #FFF; font-size: 1.1rem;">Dark Venus ラボ</p>
-      <p class="disclaimer"
-        style="max-width: 800px; margin: 12px auto; font-size: 0.8rem; color: #A0AEC0; line-height: 1.6;">
-        【免責事項】当サイトで配布している.setファイルおよびバックテストデータは、検証目的で公開している各種設定データです。動作や将来の収益性を保証するものではありません。実際の運用の結果生じた損害について、当サイトは一切の責任を負いません。すべて自己責任にてご利用ください。
-      </p>
       <p style="margin: 12px 0; font-size: 0.85rem;">
-        <a href="privacy.html" style="color: #A0AEC0; margin-right: 16px;">プライバシーポリシー</a>
+        <a href="index.html" style="color: #A0AEC0; margin-right: 14px;">ホーム</a>
+        <a href="ranking.html" style="color: #A0AEC0; margin-right: 14px;">MQL5ランキング</a>
+        <a href="ea/forward-test.html" style="color: #A0AEC0; margin-right: 14px;">フォワード検証</a>
+        <a href="tools/setfiles.html" style="color: #A0AEC0; margin-right: 14px;">設定ファイル一覧</a>
+        <a href="privacy.html" style="color: #A0AEC0; margin-right: 14px;">プライバシーポリシー</a>
         <a href="contact.html" style="color: #A0AEC0;">お問い合わせ</a>
       </p>
       <p class="copyright" style="font-size: 0.8rem; color: #718096; margin-top: 12px;">

@@ -185,6 +185,30 @@ a {
   color: var(--primary);
 }
 
+.nav-badge-hot {
+  font-size: 0.68rem;
+  background: linear-gradient(135deg, #EF4444, #F59E0B);
+  color: #FFF;
+  padding: 1px 6px;
+  border-radius: 10px;
+  margin-left: 2px;
+  font-weight: 900;
+  display: inline-block;
+  line-height: 1.2;
+}
+
+.nav-badge-new {
+  font-size: 0.68rem;
+  background: #0EA5E9;
+  color: #FFF;
+  padding: 1px 6px;
+  border-radius: 10px;
+  margin-left: 2px;
+  font-weight: 900;
+  display: inline-block;
+  line-height: 1.2;
+}
+
 /* Hero Section */
 .hero-section {
   padding: 60px 0 40px;
@@ -632,6 +656,40 @@ a {
   max-width: 700px;
   margin: 0 auto 20px;
   line-height: 1.6;
+}
+
+/* 共通 免責事項・リスク開示セクション */
+.disclaimer-section {
+  max-width: 1200px;
+  margin: 40px auto 20px auto;
+  padding: 0 20px;
+}
+.disclaimer-card {
+  background: #0F172A;
+  border: 1px solid #1E293B;
+  border-left: 4px solid #F59E0B;
+  border-radius: 12px;
+  padding: 22px 26px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  text-align: left;
+}
+.disclaimer-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #FBBF24;
+  margin-bottom: 12px;
+}
+.disclaimer-text p {
+  font-size: 0.82rem;
+  color: #CBD5E1;
+  line-height: 1.75;
+  margin-bottom: 8px;
+}
+.disclaimer-text p:last-child {
+  margin-bottom: 0;
 }
 
 .copyright {
