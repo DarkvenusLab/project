@@ -10,7 +10,10 @@ let selectedMonth = '';
 let currentSortMode = 'score';
 
 document.addEventListener("DOMContentLoaded", async () => {
-  await fetchRankingData();
+  await Promise.all([
+    fetchRankingData(),
+    loadBenchmarkData()
+  ]);
   
   // Sort Buttons Setup
   const sortBtns = document.querySelectorAll('.btn-sort');
@@ -886,3 +889,129 @@ function renderRadarChart(canvasId, ea) {
     }
   });
 }
+
+/* ==========================================================================
+   当ラボ公式 リアル検証機（特別ベンチマーク枠）
+   ========================================================================== */
+let cachedBenchmark = null;
+
+async function loadBenchmarkData() {
+  const container = document.getElementById("benchmark-showcase-container");
+  if (!container) return;
+
+  let bench = null;
+
+  // 1. Supabase (lab_benchmark_snapshots) から取得を試行
+  try {
+    const { data, error } = await _supabase
+      .from('lab_benchmark_snapshots')
+      .select('*')
+      .order('target_month', { ascending: false })
+      .limit(1);
+
+    if (!error && data && data.length > 0) {
+      bench = data[0];
+    }
+  } catch (err) {
+    // テーブル未作成等の場合はローカルJSONにフォールバック
+  }
+
+  // 2. ローカル静的JSONファイルから取得
+  if (!bench) {
+    try {
+      const res = await fetch('data/benchmark_darkvenus.json');
+      if (res.ok) {
+        bench = await res.json();
+      }
+    } catch (err) {
+      console.warn("ベンチマークデータの読み込みをスキップ:", err);
+    }
+  }
+
+  if (bench) {
+    cachedBenchmark = bench;
+    renderBenchmarkCard(bench);
+  }
+}
+
+function renderBenchmarkCard(bench) {
+  const container = document.getElementById("benchmark-showcase-container");
+  if (!container || !bench) return;
+
+  const targetMonthStr = bench.target_month ? formatMonthLabel(bench.target_month) : '最新';
+  const cleanProfit = bench.total_profit ? bench.total_profit.split('.')[0] : '¥210,358';
+  const cleanWinRate = bench.win_rate ? (parseFloat(bench.win_rate).toFixed(1) + '%') : '67.5%';
+  const tradesCount = bench.total_trades ? Number(bench.total_trades).toLocaleString() : '1,313';
+
+  container.innerHTML = `
+    <div class="benchmark-showcase-card">
+      <div class="benchmark-header-row">
+        <div>
+          <div class="benchmark-tag-group">
+            <span class="badge-bench-title"><i class="fa-solid fa-flask-vial"></i> LAB BENCHMARK ｜ 特別検証枠</span>
+            <span class="badge-bench-free"><i class="fa-solid fa-tag"></i> ${bench.price_text || '完全無料EA (Free)'}</span>
+            <span class="badge-bench-live"><i class="fa-solid fa-circle-check"></i> Axiory Real口座 実弾運用中</span>
+          </div>
+          <h2 class="benchmark-ea-name">
+            Dark Venus
+            <span class="benchmark-ea-sub">［当ラボ公式NZDCAD設定 / ${bench.timeframe || 'M15'}］</span>
+          </h2>
+        </div>
+        <div class="benchmark-rank-pill">
+          <span class="benchmark-rank-letter">${bench.rank_badge || 'A'}</span>
+          <div class="benchmark-rank-text">
+            <span class="benchmark-rank-score">${bench.total_score || 67} 点</span>
+            <span class="benchmark-rank-desc">総合評価 (100点満点)</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="benchmark-desc-text">
+        ${bench.notes || '当サイト運営がAxioryリアル口座で1年10ヶ月以上にわたり実弾運用している完全無料EA「Dark Venus」のNZDCAD独自設定です。数十万円の高額有料EAが上位を占める中、最大DD 13.88%・PF 2.49（満点）・総合Aランクを達成中。当サイトの客観的基準ベンチマークとして公開しています。'}
+      </p>
+
+      <div class="benchmark-stats-grid">
+        <div class="bench-stat-box">
+          <span class="bench-stat-label">プロフィットファクター <span class="bench-stat-pts">${bench.score_pf || 20}点満点</span></span>
+          <span class="bench-stat-val gold">PF ${bench.raw_pf || '2.49'}</span>
+        </div>
+        <div class="bench-stat-box">
+          <span class="bench-stat-label">最大ドローダウン <span class="bench-stat-pts">${bench.score_dd || 12}点</span></span>
+          <span class="bench-stat-val green">${bench.raw_dd || '13.88%'}</span>
+        </div>
+        <div class="bench-stat-box">
+          <span class="bench-stat-label">月間収益率 <span class="bench-stat-pts">${bench.score_monthly_return || 5}点</span></span>
+          <span class="bench-stat-val cyan">${bench.raw_monthly_return || '+2.12%'}</span>
+        </div>
+        <div class="bench-stat-box">
+          <span class="bench-stat-label">総獲得利益 (純利益)</span>
+          <span class="bench-stat-val green">${bench.gain_percent || '+59.10%'} (${cleanProfit})</span>
+        </div>
+        <div class="bench-stat-box">
+          <span class="bench-stat-label">運用期間 / 取引回数 <span class="bench-stat-pts">${bench.score_period || 8}点</span></span>
+          <span class="bench-stat-val">${bench.raw_period || '1.8年'} (${tradesCount}回)</span>
+        </div>
+        <div class="bench-stat-box">
+          <span class="bench-stat-label">勝率 / リカバリー <span class="bench-stat-pts">${bench.score_rf || 14}点</span></span>
+          <span class="bench-stat-val">${cleanWinRate} (RF ${bench.raw_rf || '4.26'})</span>
+        </div>
+      </div>
+
+      <div class="benchmark-actions-row">
+        <a href="${bench.forward_url || 'https://www.myfxbook.com/portfolio/axiory-nzdcad-m15/11923451'}" target="_blank" rel="noopener noreferrer" class="btn-bench-primary">
+          <i class="fa-solid fa-chart-line"></i> myfxbook公式リアル成績を見る <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.8rem;"></i>
+        </a>
+        <a href="ea/forward-test.html" class="btn-bench-sub">
+          <i class="fa-solid fa-vial"></i> フォワード検証詳細
+        </a>
+        <a href="tools/setfiles.html" class="btn-bench-sub">
+          <i class="fa-solid fa-folder-open"></i> 検証済み.set設定一覧
+        </a>
+        <span style="font-size: 0.78rem; color: #64748B; margin-left: auto;">
+          <i class="fa-solid fa-clock-rotate-left"></i> 対象年月: ${targetMonthStr} (毎月自動同期)
+        </span>
+      </div>
+    </div>
+  `;
+}
+

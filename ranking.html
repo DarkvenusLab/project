@@ -1067,6 +1067,218 @@
       padding: 50px;
     }
 
+    /* -------------------------------------------
+       当ラボ公式 リアル検証機（特別ベンチマーク枠）
+    ------------------------------------------- */
+    .benchmark-showcase-card {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(24, 34, 53, 0.9) 100%);
+      border: 1.5px solid rgba(56, 189, 248, 0.35);
+      border-left: 5px solid #0EA5E9;
+      border-radius: 16px;
+      padding: 24px 28px;
+      margin: 18px 0 24px 0;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(14, 165, 233, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    .benchmark-showcase-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 250px;
+      height: 100%;
+      background: radial-gradient(circle at top right, rgba(14, 165, 233, 0.12), transparent 70%);
+      pointer-events: none;
+    }
+    .benchmark-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .benchmark-tag-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .badge-bench-title {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #0284C7, #0EA5E9);
+      color: #FFF;
+      font-size: 0.78rem;
+      font-weight: 900;
+      padding: 4px 12px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+    .badge-bench-free {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34D399;
+      font-size: 0.76rem;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+    .badge-bench-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: #FCD34D;
+      font-size: 0.76rem;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+    .benchmark-ea-name {
+      font-family: 'Outfit', 'Zen Maru Gothic', sans-serif;
+      font-size: 1.65rem;
+      font-weight: 900;
+      color: #FFF;
+      letter-spacing: 0.5px;
+      margin: 0;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .benchmark-ea-sub {
+      font-size: 0.95rem;
+      color: #38BDF8;
+      font-weight: 700;
+    }
+    .benchmark-rank-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1.5px solid rgba(14, 165, 233, 0.45);
+      padding: 8px 16px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+    .benchmark-rank-letter {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.9rem;
+      font-weight: 900;
+      color: #0284C7;
+      line-height: 1;
+      text-shadow: 0 0 12px rgba(2, 132, 199, 0.4);
+    }
+    .benchmark-rank-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+    .benchmark-rank-score {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: #FCD34D;
+    }
+    .benchmark-rank-desc {
+      font-size: 0.7rem;
+      color: #94A3B8;
+      font-weight: 700;
+    }
+    .benchmark-desc-text {
+      color: #CBD5E1;
+      font-size: 0.88rem;
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+    .benchmark-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .bench-stat-box {
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .bench-stat-label {
+      font-size: 0.72rem;
+      color: #94A3B8;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+    }
+    .bench-stat-val {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: #FFF;
+    }
+    .bench-stat-val.gold { color: #FCD34D; }
+    .bench-stat-val.green { color: #34D399; }
+    .bench-stat-val.cyan { color: #38BDF8; }
+    .bench-stat-pts {
+      font-size: 0.7rem;
+      color: #F59E0B;
+      font-weight: 800;
+    }
+    .benchmark-actions-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .btn-bench-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #0284C7, #0EA5E9);
+      color: #FFF;
+      font-weight: 800;
+      font-size: 0.88rem;
+      padding: 10px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.2s;
+      box-shadow: 0 4px 15px rgba(14, 165, 233, 0.35);
+    }
+    .btn-bench-primary:hover {
+      background: linear-gradient(135deg, #0EA5E9, #38BDF8);
+      transform: translateY(-2px);
+      color: #FFF;
+    }
+    .btn-bench-sub {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(14, 165, 233, 0.15);
+      border: 1px solid rgba(14, 165, 233, 0.4);
+      color: #38BDF8;
+      font-weight: 800;
+      font-size: 0.85rem;
+      padding: 9px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-bench-sub:hover {
+      background: rgba(14, 165, 233, 0.28);
+      color: #FFF;
+      transform: translateY(-2px);
+    }
   </style>
 </head>
 <body>
@@ -1107,6 +1319,78 @@
       </div>
       <button class="btn-month-nav" id="btn-next-month" title="次月のランキングへ">次月 <i class="fa-solid fa-chevron-right"></i></button>
       <span class="month-status-badge" id="month-status-badge"><i class="fa-solid fa-circle-check"></i> 確定実績</span>
+    </div>
+
+    <!-- 当ラボ公式 リアル検証機（特別ベンチマーク枠） -->
+    <div id="benchmark-showcase-container">
+      <div class="benchmark-showcase-card">
+        <div class="benchmark-header-row">
+          <div>
+            <div class="benchmark-tag-group">
+              <span class="badge-bench-title"><i class="fa-solid fa-flask-vial"></i> LAB BENCHMARK ｜ 特別検証枠</span>
+              <span class="badge-bench-free"><i class="fa-solid fa-tag"></i> 完全無料EA (Free)</span>
+              <span class="badge-bench-live"><i class="fa-solid fa-circle-check"></i> Axiory Real口座 実弾運用中</span>
+            </div>
+            <h2 class="benchmark-ea-name">
+              Dark Venus
+              <span class="benchmark-ea-sub">［当ラボ公式NZDCAD設定 / M15］</span>
+            </h2>
+          </div>
+          <div class="benchmark-rank-pill">
+            <span class="benchmark-rank-letter">A</span>
+            <div class="benchmark-rank-text">
+              <span class="benchmark-rank-score">67 点</span>
+              <span class="benchmark-rank-desc">総合評価 (100点満点)</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="benchmark-desc-text">
+          当サイト運営がAxioryリアル口座で1年10ヶ月以上にわたり実弾運用している完全無料EA「Dark Venus」のNZDCAD独自設定です。数十万円の高額有料EAが上位を占める中、<strong>最大DD 13.88%・PF 2.49（満点）・総合Aランク</strong>を達成中。当サイトの客観的基準ベンチマークとして公開しています。
+        </p>
+
+        <div class="benchmark-stats-grid">
+          <div class="bench-stat-box">
+            <span class="bench-stat-label">プロフィットファクター <span class="bench-stat-pts">20点満点</span></span>
+            <span class="bench-stat-val gold">PF 2.49</span>
+          </div>
+          <div class="bench-stat-box">
+            <span class="bench-stat-label">最大ドローダウン <span class="bench-stat-pts">12点</span></span>
+            <span class="bench-stat-val green">13.88%</span>
+          </div>
+          <div class="bench-stat-box">
+            <span class="bench-stat-label">月間収益率 <span class="bench-stat-pts">5点</span></span>
+            <span class="bench-stat-val cyan">+2.12%</span>
+          </div>
+          <div class="bench-stat-box">
+            <span class="bench-stat-label">総獲得利益 (純利益)</span>
+            <span class="bench-stat-val green">+59.10% (¥210,358)</span>
+          </div>
+          <div class="bench-stat-box">
+            <span class="bench-stat-label">運用期間 / 取引回数 <span class="bench-stat-pts">8点</span></span>
+            <span class="bench-stat-val">1.8年 (1,313回)</span>
+          </div>
+          <div class="bench-stat-box">
+            <span class="bench-stat-label">勝率 / リカバリー <span class="bench-stat-pts">14点</span></span>
+            <span class="bench-stat-val">67.5% (RF 4.26)</span>
+          </div>
+        </div>
+
+        <div class="benchmark-actions-row">
+          <a href="https://www.myfxbook.com/portfolio/axiory-nzdcad-m15/11923451" target="_blank" rel="noopener noreferrer" class="btn-bench-primary">
+            <i class="fa-solid fa-chart-line"></i> myfxbook公式リアル成績を見る <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.8rem;"></i>
+          </a>
+          <a href="ea/forward-test.html" class="btn-bench-sub">
+            <i class="fa-solid fa-vial"></i> フォワード検証詳細
+          </a>
+          <a href="tools/setfiles.html" class="btn-bench-sub">
+            <i class="fa-solid fa-folder-open"></i> 検証済み.set設定一覧
+          </a>
+          <span style="font-size: 0.78rem; color: #64748B; margin-left: auto;">
+            <i class="fa-solid fa-clock-rotate-left"></i> 最終更新: 2026年9月 (毎月自動同期)
+          </span>
+        </div>
+      </div>
     </div>
 
     <!-- Sort Controls -->
