@@ -458,7 +458,7 @@
     const itemsPerPage = 5;
 
     function openReportWithAd(url) {
-      pendingTargetUrl = url;
+      pendingTargetUrl = (url.startsWith('http') || url.startsWith('/') || url.startsWith('../')) ? url : ('../' + url);
       const modal = document.getElementById('adModal');
       modal.classList.add('active');
     }
@@ -525,6 +525,10 @@
             ? `<span class="spec-badge" style="background: #F7FAFC; color: #718096; border: 1px solid #E2E8F0;"><i class="fa-regular fa-calendar-plus"></i> 追加日: ${item.uploadedDate}</span>`
             : '';
 
+          const downloadUrl = (item.fileUrl.startsWith('http') || item.fileUrl.startsWith('/') || item.fileUrl.startsWith('../'))
+            ? item.fileUrl
+            : ('../' + item.fileUrl);
+
           const cardHtml = `
             <div class="setfile-card" id="${item.id}">
               <div class="card-header-flex">
@@ -541,7 +545,7 @@
                   </div>
                 </div>
                 <div class="download-btn-area">
-                  <a href="${item.fileUrl}" class="btn btn-primary" download><i class="fa-solid fa-download"></i> .setファイルをDL</a>
+                  <a href="${downloadUrl}" class="btn btn-primary" download><i class="fa-solid fa-download"></i> .setファイルをDL</a>
                 </div>
               </div>
 
@@ -646,7 +650,7 @@
         renderPage(1);
       }
 
-      fetch('data/setfiles.json?v=' + new Date().getTime())
+      fetch('../data/setfiles.json?v=' + new Date().getTime())
         .then(response => {
           if (!response.ok) throw new Error('HTTP error ' + response.status);
           return response.json();
