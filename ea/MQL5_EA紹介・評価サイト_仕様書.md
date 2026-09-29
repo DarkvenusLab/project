@@ -1,8 +1,8 @@
 # MQL5 EA紹介・評価サイト＆データベースシステム 完全仕様書
 
-**ドキュメントバージョン:** v5.2.0 (最新マスター版)  
-**最終更新日:** 2026-09-13  
-**ステータス:** 確定 (7セクション管理画面レイアウト確定 ＋ 必須入力バリデーション ＋ 通貨/価格自動生成 ＋ 確定順位ロック運用)
+**ドキュメントバージョン:** v5.3.0 (現行・最新マスター版)  
+**最終更新日:** 2026-09-29  
+**ステータス:** 確定 (当ラボ公式ベンチマーク枠常設 ＋ 毎月更新運用マニュアル策定 ＋ 年月アーカイブ・ソート機能確定 ＋ 免責事項明記)
 
 ---
 
@@ -11,21 +11,36 @@
 本システムは、Dark Venus Lab ポータルサイトにおけるキラーコンテンツとして、各種EA（自動売買プログラム）のフォワード成績をトレーディングカード風（TCGスタイル）の確定ランキングカードとして視覚化し、多角的な検索・比較・評価・マネタイズを一元管理する自動化データベースシステムである。
 
 単なるデータ転載ではなく、MQL5等のフォワードデータに基づき独自ルールで100点満点評価＆ランク付けを行い、日本人ユーザーが直感的に比較できる統一フォーマットを提供する。
+さらに、当ラボがAxioryリアル口座（実弾）で長期運用している完全無料EA「Dark Venus」を**「公式基準ベンチマーク枠」**として常設し、有料市販EAとの客観的な比較対比を可能としている。
 
 ---
 
 ## 2. 全体アーキテクチャ ＆ 運用方針
 
-本システムは以下の3層構造および運用方針で動作する。
+本システムは以下の4層構造および運用方針で動作する。
 
 ```mermaid
 graph TD
-    A[データソース: MQL5 Signals] -->|スクレイピング| B[データ収集層]
-    B -->|新規登録時: 個別オンデマンド取得| D[(Supabase クラウドDB)]
-    B -->|月次定期バッチ: 前月確定値一括取得| D
-    C[WEB管理画面 admin.html] -->|新規EA登録 & 自動画像ストレージ保存| D
-    D -->|月次確定ランキング取得| E[WEBフロント: ランキング一覧]
-    D -->|URLパラメータで動的取得| F[WEBフロント: detail.html 動的詳細ページ]
+    subgraph データ収集・生成層
+        A1[MQL5 Signals] -->|スクレイピング| B1[ローカルサーバー local_server.py]
+        A2[Myfxbook リアル口座] -->|更新スクリプト| B2[update_darkvenus_benchmark.py]
+    end
+
+    subgraph データベース層
+        B1 -->|新規登録・月次更新| D1[(Supabase: ea_master & ea_monthly_summaries)]
+        B2 -->|月次自動採点・同期| D2[(Supabase: lab_benchmark_snapshots)]
+        B2 -->|オフライン安全保存| D3[data/benchmark_darkvenus.json]
+    end
+
+    subgraph 管理運用層
+        C[WEB管理ダッシュボード dv-master-console-9f82.html] -->|確認・微調整・保存| D1
+    end
+
+    subgraph WEBフロントエンド層
+        D1 & D2 & D3 -->|月次確定値 ＆ ベンチマーク取得| E[ranking.html: MQL5ランキング]
+        D1 -->|動的パラメータ取得| F[detail.html: 個別詳細ページ]
+        D2 & D3 -->|看板実績リアルカード取得| G[ea/forward-test.html: フォワード検証]
+    end
 ```
 
 ### 運用基本方針
@@ -73,6 +88,26 @@ graph TD
      * 価格数値が `0` の場合は、通貨に関わらず表示テキストを自動的に「`無料`」とする。
      * 価格数値が `1` 以上の場合は、選択された通貨記号を付与して自動生成（例: USD 99 ➔ `$99`、JPY 10000 ➔ `¥10,000`、EUR 150 ➔ `€150`）。
      * 自動生成された表示テキストは入力欄に自動反映され、必要に応じて管理人が手動編集することも可能。
+
+7. **当ラボ公式 リアル検証機（特別ベンチマーク枠）の常設運用方針**:
+   * 個人EAとは名乗らず、当サイト運営がAxioryリアル口座（実弾運用）で1年10ヶ月以上稼働し続けている完全無料EA「Dark Venus」の独自NZDCAD設定を、**当ラボ公式の基準ベンチマーク枠（LAB BENCHMARK）**としてランキング最上部およびフォワード検証ページ最上部に常設する。
+   * MQL5の有料市販EA群（1〜30位ランキング）と直接競合・混在させず、独立した特別枠とすることで、「数十万円の高額有料EAと完全無料のDark Venusを同じ客観基準で比較する」という当サイトのコア・アイデンティティを確立する。
+   * **データ提供のデュアルレイヤーアーキテクチャ**:
+     * 静的JSONファイル（`data/benchmark_darkvenus.json`）とSupabase（`lab_benchmark_snapshots` テーブル）の両系統をサポート。
+     * フロントエンドはSupabaseから最新データを取得しつつ、ネットワーク障害時やDB未接続時にも静的JSONから即座にフォールバック表示できる高可用性を担保する。
+
+8. **ランキングページ（`ranking.html`）の最新UI仕様**:
+   * **年月切り替えセレクターバー（アーカイブ機能）**:
+     * DB内の実績年月を自動スキャンし、ドロップダウンメニューおよび「前月」「次月」ボタンを自動生成。
+     * ブラウザ履歴（`history.pushState` / `popstate`）とURLパラメータ（`?month=YYYY-MM`）を完全同期し、リロードなしで過去月のランキングへ切り替え可能。
+     * 最新月には「最新・確定実績（緑）」、過去月には「過去アーカイブ（青）」のステータスバッジを動的表示。
+   * **ソート機能**:
+     * 「総合スコア順」「月間収益率順」「プロフィットファクター順」「最大ドローダウン（低リスク順）」の動的並び替えボタンを標準装備。
+   * **ハイブリッド表示 ＆ レーダーチャート**:
+     * 上位5位まではChart.jsによる6軸レーダーチャート付きの動的カードを表示し、6位以降は一覧テーブル形式で高速表示。
+
+9. **免責事項（ディスクレーマー）および法的透明性の常設運用方針**:
+   * 投資助言・元本保証ではないこと、FX自動売買の損失リスク、過去実績は将来の成果を保証しない旨を、ランキングページ（`ranking.html`）およびフォワード検証ページ（`ea/forward-test.html`）の最下部に常設開示する。
 
 ---
 
@@ -390,6 +425,59 @@ CREATE TABLE IF NOT EXISTS public.ea_monthly_summaries (
 CREATE INDEX IF NOT EXISTS idx_monthly_ym ON public.ea_monthly_summaries(year_month);
 CREATE INDEX IF NOT EXISTS idx_ea_master_current_rank ON public.ea_master(current_rank);
 CREATE INDEX IF NOT EXISTS idx_ea_master_ea_key ON public.ea_master(ea_key);
+
+-- 3. Lab Benchmark Snapshots (当ラボ公式ベンチマーク専用テーブル)
+CREATE TABLE IF NOT EXISTS public.lab_benchmark_snapshots (
+  id TEXT PRIMARY KEY DEFAULT 'dark-venus-benchmark',
+  ea_name TEXT NOT NULL,
+  display_title TEXT,
+  category_badge TEXT,
+  category_tag TEXT,
+  currency_pair TEXT,
+  timeframe TEXT,
+  broker TEXT,
+  leverage TEXT,
+  platform TEXT,
+  price_text TEXT,
+  forward_url TEXT,
+  target_month TEXT,
+  total_score INTEGER DEFAULT 0,
+  rank_badge TEXT DEFAULT 'A',
+  score_monthly_return INTEGER DEFAULT 0,
+  score_pf INTEGER DEFAULT 0,
+  score_rf INTEGER DEFAULT 0,
+  score_dd INTEGER DEFAULT 0,
+  score_period INTEGER DEFAULT 0,
+  score_stability INTEGER DEFAULT 0,
+  raw_monthly_return TEXT,
+  raw_pf TEXT,
+  raw_rf TEXT,
+  raw_dd TEXT,
+  raw_period TEXT,
+  raw_stability TEXT,
+  gain_percent TEXT,
+  abs_gain_percent TEXT,
+  daily_return_percent TEXT,
+  total_profit TEXT,
+  balance TEXT,
+  equity TEXT,
+  total_deposits TEXT,
+  total_withdrawals TEXT,
+  total_trades INTEGER DEFAULT 0,
+  total_pips TEXT,
+  win_rate TEXT,
+  expectancy TEXT,
+  start_date TEXT,
+  last_updated TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()),
+  notes TEXT
+);
+
+-- RLS (Row Level Security) の設定
+ALTER TABLE public.lab_benchmark_snapshots ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow public read access for lab_benchmark_snapshots"
+  ON public.lab_benchmark_snapshots FOR SELECT USING (true);
+CREATE POLICY "Allow public insert/update for lab_benchmark_snapshots"
+  ON public.lab_benchmark_snapshots FOR ALL USING (true) WITH CHECK (true);
 ```
 
 ---
@@ -409,14 +497,157 @@ CREATE INDEX IF NOT EXISTS idx_ea_master_ea_key ON public.ea_master(ea_key);
   * **過去ランキングページのハイブリッド表示仕様確立**: 上位5位までは「動的EAカード」を表示し、6位以降は一覧テーブル形式で高速・コンパクトに表示。
   * **管理メモ欄の完全統合**: `description` と `notes` を統合メモ欄 `notes` に一本化。
   * **コピペ自動抽出機能の完全廃止**: 月次推移まで自動取得する個別スクレイピング方針への一本化に伴い、簡易テキストコピペ機能を画面・コードから削除。
-* **v5.2.0 (2026-09-13) [最新決定版]**:
+* **v5.2.0 (2026-09-13)**:
   * **管理画面 ＆ DBスキーマの「7セクション標準レイアウト」完全統一**:
     1. 基本スペック / 2. URL ＆ 画像メディア / 3. MQL5個別スクレイピング連携 / 4. 詳細ページ用フォワード実績 ＆ 月次推移プレビュー / 5. EAランク / 6. 価格 ＆ 公開設定 / 7. 統合管理メモ ＆ 運用注意事項。
-  * **必須入力項目の厳格化（バリデーション仕様策定）**:
-    * 商品URL、サムネイル画像URL、MQL5シグナルURL、取得開始年月、取得終了年月（初期値: 前月）、対象年月（カード印字用）、通貨、価格数値をすべて必須化。
-    * フォワードURLの重複入力を解消（「2. URL & 画像」から撤廃し、「3. MQL5連携」のシグナルURLに一本化）。
-  * **価格・通貨の自動生成 ＆ `price_currency` カラムの正式追加**:
-    * 通貨（`price_currency`: USD, JPY, EUR）と価格数値（`price_value`: 半角数字, 0=無料）を分離管理。
-    * 価格数値が `0` の場合は通貨に関わらず自動で「`無料`」を生成。数値が `1` 以上の場合は通貨記号付き（`$99`, `¥10,000`, `€150`）を自動生成し、手動微調整も可能とする仕様を策定。
-  * **データベースDDLスキーマ（`ea_master` テーブル）の7セクション順への構造整理**:
-    * 物理スキーマおよびドキュメント定義を、管理画面フォームと同一の7セクション順にリファクタリング。重複していた推奨証拠金を整理。
+  * **必須入力項目の厳格化（バリデーション仕様策定）**: 商品URL、サムネイル画像URL、MQL5シグナルURL、取得開始年月、取得終了年月、対象年月、通貨、価格数値をすべて必須化。
+  * **価格・通貨の自動生成 ＆ `price_currency` カラムの正式追加**: 通貨と価格数値を分離管理、0なら「無料」、1以上なら通貨記号付き自動生成。
+  * **データベースDDLスキーマ（`ea_master` テーブル）の7セクション順への構造整理**。
+* **v5.3.0 (2026-09-29) [現行・最新完全版]**:
+  * **「当ラボ公式 リアル検証機（特別ベンチマーク枠）」の正式導入**:
+    * 完全無料EA「Dark Venus（Axiory Real実弾運用中）」のMyfxbook実績（PF 2.49 満点, DD 13.88%, 総合Aランク 67点）を、ランキング最上部およびフォワード検証ページ最上部に特別枠として常設。
+    * 専用更新ツール `scripts/update_darkvenus_benchmark.py` を開発。静的JSON（`data/benchmark_darkvenus.json`）とSupabaseテーブル（`lab_benchmark_snapshots`）のデュアルレイヤー保存を実装。
+  * **ランキングページ（`ranking.html`）の機能強化確定**:
+    * 年月セレクターバー（前月/次月ボタン、確定実績/アーカイブ状態バッジ、URLパラメータ同期 `?month=YYYY-MM`）の導入。
+    * ソート機能（総合スコア順、月利順、PF順、最大DD順）の完全対応。
+    * 免責事項・リスク開示ブロックの常設。
+  * **「10. 毎月の更新運用マニュアル（月次メンテナンス完全手順書）」を新設**:
+    * ベンチマーク更新、MQL5登録EA月次更新、ランキング公開確認、Gitデプロイの全タスクを文書化。
+
+---
+
+## 10. 毎月の更新運用マニュアル（月次メンテナンス完全手順書）
+
+本章は、毎月末〜月初（前月確定実績が出揃うタイミング）に実施する定期メンテナンスの完全手順書である。チャット履歴等に依存せず、本手順書のみで月次更新を完結できる。
+
+### 10.1 月次更新の全体フロー図
+
+```mermaid
+graph TD
+    Start([毎月1日〜5日: 更新作業開始]) --> T1[タスク1: 当ラボ公式ベンチマーク更新]
+    T1 -->|Myfxbook同期 ＆ 6軸自動採点| T1_Done[data/benchmark_darkvenus.json & DB更新]
+    T1_Done --> T2[タスク2: MQL5登録EA群の月次更新]
+    T2 -->|start_admin.bat 起動| T2_Admin[管理ダッシュボード dv-master-console]
+    T2_Admin -->|個別スクレイピング ＆ DB保存| T2_Done[ea_master & ea_monthly_summaries 更新]
+    T2_Done --> T3[タスク3: 月次ランキング確定・表示確認]
+    T3 -->|ranking.html & forward-test.html 確認| T3_Done[表示・ソート・年月動作検証]
+    T3_Done --> T4[タスク4: Gitコミット ＆ 本番デプロイ]
+    T4 --> End([月次更新完了])
+```
+
+---
+
+### 10.2 【タスク1】当ラボ公式ベンチマーク（Dark Venus NZDCAD）の更新
+
+当ラボ看板・公式リアル検証機（Axiory Real実弾口座）のMyfxbook実績を最新化し、6軸採点スコアおよびフロント表示を更新する。
+
+#### ① 基本更新コマンド（自動スクレイピング＆自動採点）
+プロジェクトルートで以下のコマンドを実行する：
+
+```bash
+# プロジェクトルートに移動して実行
+python scripts/update_darkvenus_benchmark.py
+```
+
+* **動作内容**:
+  1. MyfxbookのURL（`https://www.myfxbook.com/portfolio/axiory-nzdcad-m15/11923451`）または最新HTMLキャッシュから数値を自動抽出。
+  2. 6軸配点基準に基づき、月利・PF・RF・最大DD・運用期間・安定性を自動採点し、総合スコアと総合ランク（A〜SSS）を算出。
+  3. 静的ファイル `data/benchmark_darkvenus.json` に即時上書き保存。
+  4. Supabaseの `lab_benchmark_snapshots` テーブル（作成済みの場合）へ自動upsert同期。
+
+#### ② 手動オーバーライド実行（Myfxbookのブロック時や手動微調整時）
+Cloudflare等でスクレイピングがブロックされた場合や、数値を手動で確定させたい場合は、コマンドライン引数で直接指定可能：
+
+```bash
+# 引数で直接数値を指定して更新する場合の例
+python scripts/update_darkvenus_benchmark.py --month "2026.10" --gain "+63.5%" --dd "14.10%" --pf "2.52" --monthly "+2.15%"
+
+# 引数一覧:
+#   --month      : 対象年月（例: 2026.10）
+#   --gain       : 総獲得利益（例: +63.5%）
+#   --dd         : 最大ドローダウン（例: 14.10%）
+#   --pf         : プロフィットファクター（例: 2.52）
+#   --monthly    : 月間平均収益率（例: +2.15%）
+#   --trades     : 総取引回数（例: 1350）
+#   --winrate    : 勝率（例: 67.8%）
+#   --profit     : 純利益金額（例: ¥225,000）
+#   --file       : 保存済みのHTMLファイルを指定して解析
+```
+
+#### ③ 更新完了の確認
+* `data/benchmark_darkvenus.json` の `target_month`、`total_score`、`last_updated` が最新になっていることを確認。
+* ブラウザで `ranking.html` および `ea/forward-test.html` を開き、最上部の特別枠に新しい数値が反映されていることを目視確認する。
+
+---
+
+### 10.3 【タスク2】MQL5登録EA群の月次実績取得 ＆ DB更新
+
+MQL5シグナルに登録されている市販EA群の前月確定実績を収集し、Supabaseの `ea_master` および `ea_monthly_summaries` を更新する。
+
+#### ① ローカル管理サーバーの起動
+1. プロジェクトルートの `start_admin.bat` をダブルクリックして起動する。
+2. 内部で `_local_assets\tools\local_server.py`（ポート 8080）が起動し、自動的にブラウザで管理ダッシュボードが開く。
+   * 手動アクセスURL: `http://localhost:8080/dv-master-console-9f82.html`
+3. 管理者ログイン画面でマスターパスワードを入力してログインする。
+   * マスターキー: `DVLab#9824$MasterKey`
+
+#### ② 各EAの月次データ取得 ＆ 保存（オンデマンド更新）
+1. 画面下部の「登録済み EA一覧 ＆ クイック管理」テーブルから、更新対象のEAの **[編集]** ボタンを押す。
+2. フォーム上部にEAの情報が展開される。
+3. **「3. MQL5個別スクレイピング連携」** セクションへスクロール：
+   * **取得終了年月**: 前月確定月（例: `2026-08`）がセットされていることを確認。
+   * **[MQL5データ取得]** ボタンをクリックする（約3〜5秒）。
+4. **「4. 詳細ページ用フォワード実績 ＆ 月次推移プレビュー」** にスクレイピング結果が自動反映される：
+   * 直近月の月利（%）、PF、DD、取引数、純利益額等を確認。
+   * 「月次確定リターン履歴テーブル」に対象月の確定値が正しく追加されていることを確認。
+5. **「5. EAランク」** セクション：
+   * **対象年月 (カード印字用)** が対象確定月（例: `2026.08`）になっていることを確認。
+   * 自動算出された `TotalScore` と `総合ランク (SSS〜D)` を確認。
+6. 最下部の **【データベースへ保存 (登録/更新)】** ボタンをクリック。
+   * 緑色の成功メッセージが表示され、Supabase側の `ea_master` と `ea_monthly_summaries` が同時更新される。
+7. 登録されている全EAに対して上記手順を順次実行する。
+
+---
+
+### 10.4 【タスク3】月次確定順位のロック ＆ ランキング公開確認
+
+全EAの前月確定データが揃った後、Webフロントエンドでの公開状況を確認する。
+
+#### ① 年月セレクターバーの自動生成確認
+* `ranking.html` をブラウザで開く。
+* `ea_monthly_summaries` テーブルに保存された年月から、ヘッダーの「対象年月ドロップダウン」に最新確定月（例: `2026年8月度 (最新)`）が自動追加されていることを確認。
+* 「前月」「次月」ボタンやドロップダウン切り替えにより、過去アーカイブのランキングが正常に切り替わることを確認。
+
+#### ② 特別ベンチマーク枠（Dark Venus）との対比確認
+* ランキング最上部の特別枠に「Dark Venus ［当ラボ公式NZDCAD設定 / M15］」が鎮座し、PF 2.49（満点）、DD 13.88%、総合Aランク（67点）が表示されていることを確認。
+* 下部のMQL5有料EAランキングと自然な対比（高額有料EA vs 無料Dark Venus）が成立していることを確認。
+
+#### ③ 免責事項・表示崩れの確認
+* ページ下部の「免責事項・リスクに関する重要開示」が正常に表示されていることを確認。
+* ソートボタン（総合スコア順、月利順、PF順、最大DD順）がスムーズに機能することを確認。
+
+---
+
+### 10.5 【タスク4】Gitコミット ＆ 本番デプロイ
+
+データの更新が完了したら、Gitで変更をコミットしてリモートリポジトリへプッシュする。
+
+```bash
+# 変更状態の確認
+git status
+
+# 変更ファイルのステージング
+git add data/benchmark_darkvenus.json
+git add data/myfxbook_cache.html
+# （その他HTMLやスクリプト修正がある場合も含む）
+git add .
+
+# コミット（メッセージに対象年月を明記）
+git commit -m "chore: Update monthly EA ranking and Lab benchmark for 2026-09"
+
+# GitHubへプッシュ（GitHub Pagesへの自動反映）
+git push origin main
+```
+
+プッシュ後、数分以内に本番サーバー（GitHub Pages等）に自動反映され、全世界のユーザーが最新確定ランキングを閲覧可能となる。
+
