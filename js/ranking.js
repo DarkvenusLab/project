@@ -934,6 +934,58 @@ async function loadBenchmarkData() {
   }
 }
 
+let benchmarkChartInstance = null;
+
+function renderBenchmarkRadar(canvasId, bench) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  if (benchmarkChartInstance) {
+    try { benchmarkChartInstance.destroy(); } catch (e) {}
+    benchmarkChartInstance = null;
+  }
+  const ctx = canvas.getContext('2d');
+
+  const valReturn = Math.min(100, Math.round(((bench.score_monthly_return || 5) / 20) * 100));
+  const valPF = Math.min(100, Math.round(((bench.score_pf || 20) / 20) * 100));
+  const valRF = Math.min(100, Math.round(((bench.score_rf || 14) / 20) * 100));
+  const valDD = Math.min(100, Math.round(((bench.score_dd || 12) / 15) * 100));
+  const valPeriod = Math.min(100, Math.round(((bench.score_period || 8) / 15) * 100));
+  const valStability = Math.min(100, Math.round(((bench.score_stability || 8) / 10) * 100));
+
+  benchmarkChartInstance = new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: ['収益', 'PF', 'RF', 'DD', '期間', '安定'],
+      datasets: [{
+        data: [valReturn, valPF, valRF, valDD, valPeriod, valStability],
+        backgroundColor: 'rgba(56, 189, 248, 0.35)',
+        borderColor: '#38BDF8',
+        borderWidth: 2,
+        pointRadius: 2,
+        pointBackgroundColor: '#FCD34D'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        r: {
+          angleLines: { color: 'rgba(255, 255, 255, 0.2)' },
+          grid: { color: 'rgba(255, 255, 255, 0.2)' },
+          pointLabels: { 
+            color: '#F8FAFC', 
+            font: { size: 9, weight: 'bold', style: 'italic' } 
+          },
+          ticks: { display: false },
+          min: 0,
+          max: 100
+        }
+      }
+    }
+  });
+}
+
 function renderBenchmarkCard(bench) {
   const container = document.getElementById("benchmark-showcase-container");
   if (!container || !bench) return;
@@ -942,76 +994,224 @@ function renderBenchmarkCard(bench) {
   const cleanProfit = bench.total_profit ? bench.total_profit.split('.')[0] : '¥210,358';
   const cleanWinRate = bench.win_rate ? (parseFloat(bench.win_rate).toFixed(1) + '%') : '67.5%';
   const tradesCount = bench.total_trades ? Number(bench.total_trades).toLocaleString() : '1,313';
+  const scoreVal = bench.total_score || 67;
+  const rankBadge = bench.rank_badge || 'A';
+  const pfVal = bench.raw_pf || '2.49';
+  const ddVal = bench.raw_dd || '13.88%';
+  const returnVal = bench.raw_monthly_return || '+2.12%';
+  const periodVal = bench.raw_period || '1.8年 (96週)';
+  const stabilityVal = bench.raw_stability || '10勝';
+  const rfVal = bench.raw_rf || '4.26';
+  const gainVal = bench.gain_percent || '+59.10%';
+  const forwardUrl = bench.forward_url || 'https://www.myfxbook.com/portfolio/axiory-nzdcad-m15/11923451';
 
   container.innerHTML = `
-    <div class="benchmark-showcase-card">
-      <div class="benchmark-header-row">
-        <div>
-          <div class="benchmark-tag-group">
-            <span class="badge-bench-title"><i class="fa-solid fa-flask-vial"></i> LAB BENCHMARK ｜ 特別検証枠</span>
-            <span class="badge-bench-free"><i class="fa-solid fa-tag"></i> ${bench.price_text || '完全無料EA (Free)'}</span>
-            <span class="badge-bench-live"><i class="fa-solid fa-circle-check"></i> Axiory Real口座 実弾運用中</span>
-          </div>
-          <h2 class="benchmark-ea-name">
-            Dark Venus
-            <span class="benchmark-ea-sub">［当ラボ公式NZDCAD設定 / ${bench.timeframe || 'M15'}］</span>
-          </h2>
+    <div class="ranking-item-unit benchmark-unit">
+      <!-- 1. ヘッダー部 (特別ベンチマークバッジ・タグ) -->
+      <div class="ranking-unit-header">
+        <div class="rank-badge-pill rank-pill-benchmark">
+          <span class="rank-num-box"><i class="fa-solid fa-crown" style="font-size: 0.85rem; color: #FCD34D;"></i></span>
+          <span class="rank-title-text">特別ベンチマーク ｜ 当ラボ看板・公式リアル実弾検証機</span>
         </div>
-        <div class="benchmark-rank-pill">
-          <span class="benchmark-rank-letter">${bench.rank_badge || 'A'}</span>
-          <div class="benchmark-rank-text">
-            <span class="benchmark-rank-score">${bench.total_score || 67} 点</span>
-            <span class="benchmark-rank-desc">総合評価 (100点満点)</span>
-          </div>
+        <div class="header-tags">
+          <span class="tag-badge currency"><i class="fa-solid fa-coins"></i> ${bench.currency_pair || 'NZDCAD'}</span>
+          <span class="tag-badge"><i class="fa-solid fa-clock"></i> ${bench.timeframe || 'M15'}</span>
+          <span class="tag-badge benchmark-badge-real"><i class="fa-solid fa-circle-check"></i> Axiory Real (実弾口座)</span>
+          <span class="tag-badge benchmark-badge-free"><i class="fa-solid fa-tag"></i> ${bench.price_text || '完全無料EA (Free)'}</span>
         </div>
       </div>
 
-      <p class="benchmark-desc-text">
-        ${bench.notes || '当サイト運営がAxioryリアル口座で1年10ヶ月以上にわたり実弾運用している完全無料EA「Dark Venus」のNZDCAD独自設定です。数十万円の高額有料EAが上位を占める中、最大DD 13.88%・PF 2.49（満点）・総合Aランクを達成中。当サイトの客観的基準ベンチマークとして公開しています。'}
-      </p>
-
-      <div class="benchmark-stats-grid">
-        <div class="bench-stat-box">
-          <span class="bench-stat-label">プロフィットファクター <span class="bench-stat-pts">${bench.score_pf || 20}点満点</span></span>
-          <span class="bench-stat-val gold">PF ${bench.raw_pf || '2.49'}</span>
-        </div>
-        <div class="bench-stat-box">
-          <span class="bench-stat-label">最大ドローダウン <span class="bench-stat-pts">${bench.score_dd || 12}点</span></span>
-          <span class="bench-stat-val green">${bench.raw_dd || '13.88%'}</span>
-        </div>
-        <div class="bench-stat-box">
-          <span class="bench-stat-label">月間収益率 <span class="bench-stat-pts">${bench.score_monthly_return || 5}点</span></span>
-          <span class="bench-stat-val cyan">${bench.raw_monthly_return || '+2.12%'}</span>
-        </div>
-        <div class="bench-stat-box">
-          <span class="bench-stat-label">総獲得利益 (純利益)</span>
-          <span class="bench-stat-val green">${bench.gain_percent || '+59.10%'} (${cleanProfit})</span>
-        </div>
-        <div class="bench-stat-box">
-          <span class="bench-stat-label">運用期間 / 取引回数 <span class="bench-stat-pts">${bench.score_period || 8}点</span></span>
-          <span class="bench-stat-val">${bench.raw_period || '1.8年'} (${tradesCount}回)</span>
-        </div>
-        <div class="bench-stat-box">
-          <span class="bench-stat-label">勝率 / リカバリー <span class="bench-stat-pts">${bench.score_rf || 14}点</span></span>
-          <span class="bench-stat-val">${cleanWinRate} (RF ${bench.raw_rf || '4.26'})</span>
+      <div class="ranking-unit-title-row">
+        <h2 class="ranking-ea-title">
+          Dark Venus <span style="font-size: 1.05rem; color: #38BDF8; font-weight: 700; margin-left: 8px;">［当ラボ公式NZDCAD設定 / ${bench.timeframe || 'M15'}］</span>
+        </h2>
+        <div class="ranking-unit-score">
+          <span class="score-label-text">総合スコア</span>
+          <span class="score-main-val score-a">★ ${scoreVal} <span class="score-max-text">/ 100</span></span>
+          <span class="rank-letter-tag" style="background: rgba(56, 189, 248, 0.2); color: #38BDF8; border-color: #38BDF8;">${rankBadge}ランク</span>
         </div>
       </div>
 
-      <div class="benchmark-actions-row">
-        <a href="${bench.forward_url || 'https://www.myfxbook.com/portfolio/axiory-nzdcad-m15/11923451'}" target="_blank" rel="noopener noreferrer" class="btn-bench-primary">
-          <i class="fa-solid fa-chart-line"></i> myfxbook公式リアル成績を見る <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.8rem;"></i>
-        </a>
-        <a href="ea/forward-test.html" class="btn-bench-sub">
-          <i class="fa-solid fa-vial"></i> フォワード検証詳細
-        </a>
-        <a href="tools/setfiles.html" class="btn-bench-sub">
-          <i class="fa-solid fa-folder-open"></i> 検証済み.set設定一覧
-        </a>
-        <span style="font-size: 0.78rem; color: #64748B; margin-left: auto;">
-          <i class="fa-solid fa-clock-rotate-left"></i> 対象年月: ${targetMonthStr} (毎月自動同期)
-        </span>
+      <!-- 2. コンテンツ部 (左：TCGカード、右：サイドパネル) -->
+      <div class="ranking-unit-body">
+        <!-- 左カラム：TCGカード -->
+        <div class="card-column">
+          <div class="tcg-card">
+            <!-- TOP SECTION -->
+            <div class="top-section">
+              <div class="ea-title-area">
+                <div class="ea-name">Dark Venus</div>
+                <div class="total-score-box">
+                  <span class="total-score-label">TotalScore</span>
+                  <span class="total-score-val score-a">${scoreVal} / 100</span>
+                </div>
+              </div>
+              
+              <!-- Floating Rank Badge & Date -->
+              <div class="rank-badge-area">
+                <img src="images/CardDesignParts/Rank/rank_A.png" class="rank-ss-logo" alt="A Rank Logo" onerror="this.style.display='none'">
+                <div class="date-badge" style="background: linear-gradient(135deg, #0284C7, #0EA5E9); border-color: #7DD3FC;">公式基準機</div>
+              </div>
+            </div>
+
+            <!-- MIDDLE SECTION (Left: Mascot Thumbnail, Right: Radar Canvas) -->
+            <div class="art-frame" style="background-image: url('images/CardDesignParts/Frame/frame_A.png');">
+              <img src="images/administrator.png" class="ea-thumbnail admin-thumb" alt="Dark Venus 管理人実弾検証機" title="当ラボ管理人 実弾運用機">
+              <div class="radar-circle">
+                <canvas id="radar-benchmark"></canvas>
+              </div>
+            </div>
+
+            <!-- SKILL BANNER SECTION -->
+            <div class="skill-banner-container" style="background-image: url('images/CardDesignParts/Frame/frame_Skill.png');">
+              <div class="skill-tags-text">完全無料 / 独自NZDCAD設定 / 実弾運用中</div>
+            </div>
+
+            <!-- BOTTOM SECTION (6-Axis Status List) -->
+            <div class="stats-frame" style="background-image: url('images/CardDesignParts/Frame/frame_Under.png');">
+              <div class="stat-row">
+                <div class="stat-left">
+                  <i class="fa-solid fa-hand-fist stat-icon"></i>
+                  <span class="stat-name">月間収益率</span>
+                  <span class="stat-points">${bench.score_monthly_return || 5} / 20</span>
+                </div>
+                <div class="stat-raw-value">${returnVal}</div>
+              </div>
+
+              <div class="stat-row">
+                <div class="stat-left">
+                  <i class="fa-solid fa-coins stat-icon"></i>
+                  <span class="stat-name">PF</span>
+                  <span class="stat-points" style="color: #FBBF24; font-weight: 900;">${bench.score_pf || 20} / 20 満点!</span>
+                </div>
+                <div class="stat-raw-value" style="color: #FBBF24; font-weight: 900;">${pfVal}</div>
+              </div>
+
+              <div class="stat-row">
+                <div class="stat-left">
+                  <i class="fa-solid fa-feather-pointed stat-icon"></i>
+                  <span class="stat-name">RF</span>
+                  <span class="stat-points">${bench.score_rf || 14} / 20</span>
+                </div>
+                <div class="stat-raw-value">${rfVal}</div>
+              </div>
+
+              <div class="stat-row">
+                <div class="stat-left">
+                  <i class="fa-solid fa-shield-halved stat-icon"></i>
+                  <span class="stat-name">DD</span>
+                  <span class="stat-points">${bench.score_dd || 12} / 15</span>
+                </div>
+                <div class="stat-raw-value">${ddVal}</div>
+              </div>
+
+              <div class="stat-row">
+                <div class="stat-left">
+                  <i class="fa-solid fa-hourglass-half stat-icon"></i>
+                  <span class="stat-name">稼働期間</span>
+                  <span class="stat-points">${bench.score_period || 8} / 15</span>
+                </div>
+                <div class="stat-raw-value">${periodVal}</div>
+              </div>
+
+              <div class="stat-row">
+                <div class="stat-left">
+                  <i class="fa-solid fa-heart stat-icon"></i>
+                  <span class="stat-name">収益安定性</span>
+                  <span class="stat-points">${bench.score_stability || 8} / 10</span>
+                </div>
+                <div class="stat-raw-value">${stabilityVal}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右カラム：サイドパネル -->
+        <div class="side-action-column">
+          <!-- 価格・口座カード -->
+          <div class="side-price-card">
+            <div class="side-price-item">
+              <span class="price-type-text"><i class="fa-solid fa-cart-shopping"></i> 販売価格</span>
+              <span class="price-amount-text" style="color: #34D399;">${bench.price_text || '完全無料 (Free)'}</span>
+            </div>
+            <div class="side-price-item copy">
+              <span class="price-type-text"><i class="fa-solid fa-building-columns"></i> 運用口座 / 種別</span>
+              <span class="price-amount-text" style="color: #38BDF8; font-size: 0.95rem;">Axiory Nano (実弾口座)</span>
+            </div>
+          </div>
+
+          <!-- クイックサマリー (6項目) -->
+          <div class="quick-stats-summary">
+            <div class="summary-item">
+              <span class="summary-label">月利</span>
+              <span class="summary-val highlight">${returnVal}</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">PF</span>
+              <span class="summary-val" style="color: #FBBF24; font-weight: 900;">${pfVal} (満点)</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">最大DD</span>
+              <span class="summary-val highlight" style="color: #34D399;">${ddVal}</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">純利益</span>
+              <span class="summary-val highlight" style="color: #34D399;">${gainVal} (${cleanProfit})</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">勝率</span>
+              <span class="summary-val">${cleanWinRate}</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">取引回数</span>
+              <span class="summary-val">${tradesCount}回</span>
+            </div>
+          </div>
+
+          <!-- ベンチマークの役割・解説 -->
+          <div class="benchmark-role-box">
+            <div class="benchmark-role-title">
+              <i class="fa-solid fa-scale-balanced" style="color: #FBBF24;"></i>
+              <span>当サイトにおける公式ベンチマーク（基準機）の役割</span>
+            </div>
+            <p class="benchmark-role-desc">
+              数十万円の高額市販EAがひしめく中で、<strong>「完全無料EAでも正しく設定すればここまで戦える」という客観的な比較物差し</strong>としてAxioryリアル口座の実弾データをmyfxbookで完全透明公開しています。
+            </p>
+          </div>
+
+          <!-- 管理人リアル稼働メモ -->
+          <div class="admin-memo-box">
+            <div class="memo-header">
+              <i class="fa-solid fa-comment-dots"></i>
+              <span>管理人リアル運用メモ</span>
+            </div>
+            <p class="memo-content">
+              ${bench.notes || 'オセアニア通貨NZDCADのレンジ特性を捉え、1年10ヶ月無破綻・PF2.49（採点満点）を継続。ドローダウンも13.88%と極めて堅牢です。検証済みの設定ファイル（.set）は完全無料配布中。'}
+            </p>
+          </div>
+
+          <!-- 4大アクションボタン -->
+          <div class="benchmark-action-buttons">
+            <a href="${forwardUrl}" target="_blank" rel="noopener noreferrer" class="action-btn btn-forward" style="flex: 1.2;" title="myfxbook公式リアル成績（実弾口座）">
+              <i class="fa-solid fa-chart-line"></i> myfxbook実弾成績 <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.72rem;"></i>
+            </a>
+            <a href="ea/forward-test.html" class="action-btn btn-detail-site" title="フォワード検証ラボへ">
+              <i class="fa-solid fa-vial"></i> 検証詳細
+            </a>
+            <a href="tools/setfiles.html" class="action-btn btn-detail-site" title="検証済み.set設定一覧へ">
+              <i class="fa-solid fa-folder-open"></i> .set設定
+            </a>
+            <a href="columns/vps.html" class="action-btn" style="background: linear-gradient(135deg, #7C3AED, #8B5CF6); color: #FFF; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);" title="Dark Venus 24時間稼働インフラ解説">
+              <i class="fa-solid fa-server"></i> 稼働環境(VPS)
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   `;
+
+  setTimeout(() => {
+    renderBenchmarkRadar('radar-benchmark', bench);
+  }, 60);
 }
 
