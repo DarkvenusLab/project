@@ -1192,8 +1192,8 @@ function renderBenchmarkCard(bench) {
 
           <!-- 4大アクションボタン -->
           <div class="benchmark-action-buttons">
-            <a href="${forwardUrl}" target="_blank" rel="noopener noreferrer" class="action-btn btn-forward" style="flex: 1.2;" title="myfxbook公式リアル成績（実弾口座）">
-              <i class="fa-solid fa-chart-line"></i> myfxbook実弾成績 <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.72rem;"></i>
+            <a href="${forwardUrl}" target="_blank" rel="noopener noreferrer" class="action-btn btn-forward" title="myfxbook公式リアル成績（実弾口座）">
+              <i class="fa-solid fa-chart-line"></i> myfxbook成績 <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.7rem;"></i>
             </a>
             <a href="ea/forward-test.html" class="action-btn btn-detail-site" title="フォワード検証ラボへ">
               <i class="fa-solid fa-vial"></i> 検証詳細
