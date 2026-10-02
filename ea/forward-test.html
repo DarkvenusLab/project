@@ -316,6 +316,187 @@
       color: #FFF;
       transform: translateY(-2px);
     }
+
+    /* -------------------------------------------
+       VPS推奨ショウケースバナー (フォワード検証内挿入)
+    ------------------------------------------- */
+    .vps-ranking-banner {
+      width: 100%;
+      margin: 25px 0 45px 0;
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 27, 75, 0.92) 100%);
+      border: 1.5px solid rgba(139, 92, 246, 0.4);
+      border-left: 5px solid #8B5CF6;
+      border-radius: 20px;
+      padding: 28px 30px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5), 0 0 25px rgba(139, 92, 246, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+    .vps-ranking-banner::before {
+      content: "";
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.15), transparent 70%);
+      pointer-events: none;
+    }
+    .vps-banner-header {
+      margin-bottom: 20px;
+    }
+    .vps-tag-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .badge-vps-title {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #7C3AED, #8B5CF6);
+      color: #FFF;
+      font-size: 0.76rem;
+      font-weight: 900;
+      padding: 3px 12px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+    .badge-vps-tax {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34D399;
+      font-size: 0.74rem;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+    .badge-vps-trial {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: #FCD34D;
+      font-size: 0.74rem;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+    .vps-banner-title {
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: #FFF;
+      margin: 0 0 6px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      line-height: 1.4;
+    }
+    .vps-banner-subtitle {
+      font-size: 0.88rem;
+      color: #94A3B8;
+      margin: 0;
+      line-height: 1.6;
+    }
+    .vps-mini-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+    .vps-mini-card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 16px 16px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: all 0.2s ease;
+    }
+    .vps-mini-card:hover {
+      border-color: rgba(139, 92, 246, 0.5);
+      transform: translateY(-2px);
+    }
+    .vps-mini-tag {
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 12px;
+      display: inline-block;
+      margin-bottom: 6px;
+      align-self: flex-start;
+    }
+    .tag-shin { background: rgba(59, 130, 246, 0.2); color: #60A5FA; border: 1px solid rgba(59, 130, 246, 0.4); }
+    .tag-xserver { background: rgba(139, 92, 246, 0.2); color: #C084FC; border: 1px solid rgba(139, 92, 246, 0.4); }
+    .tag-onamae { background: rgba(16, 185, 129, 0.2); color: #34D399; border: 1px solid rgba(16, 185, 129, 0.4); }
+    .vps-mini-name {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #F8FAFC;
+      margin-bottom: 4px;
+      line-height: 1.35;
+    }
+    .vps-mini-price {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: #FBBF24;
+      font-family: 'Outfit', sans-serif;
+      margin-bottom: 6px;
+    }
+    .vps-mini-price small {
+      font-size: 0.75rem;
+      color: #94A3B8;
+      font-weight: normal;
+    }
+    .vps-mini-desc {
+      font-size: 0.78rem;
+      color: #CBD5E1;
+      line-height: 1.5;
+      margin: 0;
+    }
+    .vps-banner-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 16px;
+    }
+    .vps-banner-note {
+      font-size: 0.8rem;
+      color: #94A3B8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-vps-banner-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #7C3AED, #8B5CF6);
+      color: #FFF;
+      font-weight: 800;
+      font-size: 0.92rem;
+      padding: 11px 22px;
+      border-radius: 30px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 15px rgba(124, 58, 237, 0.35);
+    }
+    .btn-vps-banner-cta:hover {
+      background: linear-gradient(135deg, #8B5CF6, #A78BFA);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5);
+      color: #FFF;
+    }
   </style>
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8628151059114036" crossorigin="anonymous"></script>
@@ -446,6 +627,82 @@
           </a>
           <a href="../tools/setfiles.html" class="btn-flagship-sub">
             <i class="fa-solid fa-folder-open"></i> 検証済み.set設定一覧
+          </a>
+          <a href="../columns/vps.html" class="btn-flagship-sub" style="border-color: rgba(139, 92, 246, 0.45); color: #C084FC;" title="Dark Venus 24時間稼働インフラ解説">
+            <i class="fa-solid fa-server"></i> 稼働環境 (VPS)
+          </a>
+        </div>
+      </div>
+
+      <!-- VPS Recommendation Showcase Banner -->
+      <div class="vps-ranking-banner">
+        <div class="vps-banner-header">
+          <div class="vps-tag-group">
+            <span class="badge-vps-title"><i class="fa-solid fa-server"></i> EA運用者必携 ｜ 24時間稼働インフラ</span>
+            <span class="badge-vps-tax"><i class="fa-solid fa-file-invoice-dollar"></i> 確定申告で全額経費計上可</span>
+            <span class="badge-vps-trial"><i class="fa-solid fa-gift"></i> 最大14日間無料お試し</span>
+          </div>
+          <h3 class="vps-banner-title">
+            <i class="fa-solid fa-bolt" style="color: #FBBF24;"></i>
+            フォワード検証・自動売買を安定稼働させる推奨VPS比較
+          </h3>
+          <p class="vps-banner-subtitle">
+            自宅PCの強制スリープや通信遮断によるロスカット事故を防止。当ラボ実戦推奨の3大VPSスペックと経費計上テクニックを公開中。
+          </p>
+        </div>
+
+        <div class="vps-mini-grid">
+          <!-- Mini 1: シンクラウド -->
+          <a href="https://px.a8.net/svt/ejp?a8mat=4BE70V+SKTTE+5GDG+HV7V6" target="_blank" rel="noopener noreferrer nofollow" class="vps-mini-card" style="text-decoration: none; color: inherit;">
+            <span class="vps-mini-tag tag-shin">人気No.1・コスパ最強</span>
+            <div class="vps-mini-name">シンクラウドデスクトップ for FX</div>
+            <div class="vps-mini-price">約¥2,289<small>/月〜 (14日無料)</small></div>
+            <p class="vps-mini-desc">
+              ・追加RDS費なし・初期費用0円<br>
+              ・Dark Venus・低スプレッドEAに最適
+            </p>
+            <div style="margin-top: auto; padding-top: 8px; font-size: 0.74rem; color: #60A5FA; font-weight: 700; display: flex; align-items: center; justify-content: flex-end; gap: 4px;">
+              公式サイトを見る <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.68rem;"></i>
+            </div>
+          </a>
+
+          <!-- Mini 2: XServer プレミアム -->
+          <a href="https://px.a8.net/svt/ejp?a8mat=4BE70V+29KENM+CO4+44UKYA" target="_blank" rel="noopener noreferrer nofollow" class="vps-mini-card" style="border-color: rgba(139, 92, 246, 0.4); background: rgba(30, 27, 75, 0.5); text-decoration: none; color: inherit;">
+            <span class="vps-mini-tag tag-xserver">最高峰・完全専有</span>
+            <div class="vps-mini-name">XServer VPS for FX プレミアム</div>
+            <div class="vps-mini-price">約¥6,311<small>/月〜 (14日無料)</small></div>
+            <p class="vps-mini-desc">
+              ・CPU/メモリ10GB完全専有 (他者影響0%)<br>
+              ・MT4自動復旧・ゴールドEA推奨
+            </p>
+            <div style="margin-top: auto; padding-top: 8px; font-size: 0.74rem; color: #C084FC; font-weight: 700; display: flex; align-items: center; justify-content: flex-end; gap: 4px;">
+              公式サイトを見る (14日無料) <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.68rem;"></i>
+            </div>
+          </a>
+
+          <!-- Mini 3: お名前.com -->
+          <a href="https://px.a8.net/svt/ejp?a8mat=4BE70V+3YW1YQ+50+3N1I8Y" target="_blank" rel="noopener noreferrer nofollow" class="vps-mini-card" style="text-decoration: none; color: inherit;">
+            <span class="vps-mini-tag tag-onamae">国内シェアNo.1</span>
+            <div class="vps-mini-name">お名前.com デスクトップクラウド</div>
+            <div class="vps-mini-price">約¥2,650<small>/月〜</small></div>
+            <p class="vps-mini-desc">
+              ・国内20万口座実績 / SLA 99.99%保証<br>
+              ・24時間365日 電話サポート完備
+            </p>
+            <div style="margin-top: auto; padding-top: 8px; font-size: 0.74rem; color: #34D399; font-weight: 700; display: flex; align-items: center; justify-content: flex-end; gap: 4px;">
+              公式サイトを見る <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.68rem;"></i>
+            </div>
+          </a>
+        </div>
+
+        <div class="vps-banner-actions">
+          <div class="vps-banner-note">
+            <i class="fa-solid fa-circle-info" style="color: #A78BFA;"></i>
+            <span>迷ったら「シンクラウド」、ゴールドEAや大口運用なら「XServer 専有」が推奨です</span>
+          </div>
+          <a href="../columns/vps.html" class="btn-vps-banner-cta">
+            <span>おすすめVPS3選の徹底比較ガイドを見る</span>
+            <i class="fa-solid fa-arrow-right"></i>
           </a>
         </div>
       </div>
