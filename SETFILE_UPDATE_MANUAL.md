@@ -158,19 +158,23 @@ JSON形式データでは、**データとデータの繋ぎ目に半角カン�
 
 ## 💻 4. 自分のパソコンで変更結果をリアルタイム確認・テストする方法
 
-`setfiles.json` を編集した際、ブラウザのセキュリティ制限（CORS制限）により、HTMLファイルを直接ダブルクリックで開くだけでは変更が反映されない場合があります。
+ローカル環境での確認方法は**2通り**あります。お好みの方法をご利用ください。
 
-以下の手順で**「簡易テストサーバー」**を起動することで、パソコン上でもリアルタイムに変更結果を確認できます。
+### 方法A: 最も簡単な方法（ファイルを直接開いてドラッグ＆ドロップ）
+1. `tools/setfiles.html` をダブルクリックしてブラウザで開きます。
+2. ページ上部に「ローカル閲覧モード」が表示されます。
+3. `data/setfiles.json` を画面に**直接ドラッグ＆ドロップ**（または「ローカルJSONを選択」ボタンから選択）するだけで、追記した最新データが即座にカードとしてプレビュー表示されます！
 
-### 🚀 テストサーバーの起動手順（簡単3ステップ）
+---
 
+### 方法B: 簡易テストサーバーを使う方法（F5更新で自動反映）
 1. **PowerShell（またはコマンドプロンプト）を開く**
 2. **以下のワンライナーコマンドを貼り付けて Enter を押す**
    ```powershell
-   cd C:\Users\batab\.gemini\antigravity\MyProjects\darkvenus-lab ; python -m http.server 8000
+   cd C:\Users\batab\.gemini\antigravity\playground\lunar-hubble\MyProjects\darkvenus-lab ; python -m http.server 8000
    ```
 3. **ブラウザで以下のURLを開く**
-   * 👉 **`http://localhost:8000/setfiles.html`**
+   * 👉 **`http://localhost:8000/tools/setfiles.html`**
 
 以後は、`data/setfiles.json` を編集して保存し、ブラウザで **F5キー（再読み込み）** を押すだけで一瞬で変更内容が反映されます！
 ※ テストが終わったら、PowerShell画面で `Ctrl` + `C` を押すとサーバーが停止します。

@@ -391,6 +391,28 @@
         </p>
       </div>
 
+      <!-- Local File Preview Helper (Shown only when opened via file:// protocol) -->
+      <div id="local-file-notice" style="display: none; background: #F8FAFC; border: 1.5px dashed #CBD5E0; border-radius: 10px; padding: 14px 18px; margin-bottom: 24px; transition: all 0.3s ease;">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+          <div style="flex: 1; min-width: 260px;">
+            <div id="localNoticeStatus" style="font-size: 0.9rem; color: #2D3748; font-weight: bold; display: flex; align-items: center; gap: 8px;">
+              <i class="fa-solid fa-cloud-arrow-down" style="color: #3182CE;"></i>
+              <span>ローカル閲覧モード: オンライン公開データを自動取得して表示中</span>
+            </div>
+            <p style="font-size: 0.78rem; color: #718096; margin-top: 4px; line-height: 1.5;">
+              ブラウザのセキュリティ仕様（file://）を検知し、安全にデータを取得しました。<br>
+              ローカルで編集中の <code>data/setfiles.json</code> を即座にテスト・プレビューしたい場合は、右のボタンまたはこの枠内に直接ドラッグ＆ドロップしてください。
+            </p>
+          </div>
+          <div>
+            <label style="background: #3182CE; color: #ffffff; padding: 8px 16px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 4px rgba(49, 130, 206, 0.2); transition: background 0.2s;">
+              <i class="fa-solid fa-folder-open"></i> ローカルJSONを選択
+              <input type="file" id="localJsonInput" accept=".json" style="display: none;">
+            </label>
+          </div>
+        </div>
+      </div>
+
       <!-- Setfiles List Container -->
       <div id="setfiles-container"></div>
 
@@ -650,18 +672,115 @@
         renderPage(1);
       }
 
-      fetch('../data/setfiles.json?v=' + new Date().getTime())
-        .then(response => {
-          if (!response.ok) throw new Error('HTTP error ' + response.status);
-          return response.json();
-        })
-        .then(data => {
-          initData(data);
-        })
-        .catch(err => {
-          console.error("Failed to load setfiles.json", err);
-          document.getElementById('setfiles-container').innerHTML = '<p class="text-center" style="color:red;">データの読み込みに失敗しました。</p>';
+      function loadJsonData() {
+        const isFileProtocol = window.location.protocol === 'file:';
+        if (isFileProtocol) {
+          const notice = document.getElementById('local-file-notice');
+          if (notice) notice.style.display = 'block';
+        }
+
+        // 1. Try local relative path first
+        fetch('../data/setfiles.json?v=' + Date.now())
+          .then(res => {
+            if (!res.ok) throw new Error('HTTP error ' + res.status);
+            return res.json();
+          })
+          .then(data => {
+            initData(data);
+          })
+          .catch(localErr => {
+            console.warn("Local fetch failed (likely file:// protocol CORS restriction). Attempting remote fallback...", localErr);
+            // 2. Fallback to production online data
+            fetch('https://darkvenus-lab.com/data/setfiles.json?v=' + Date.now())
+              .then(res => {
+                if (!res.ok) throw new Error('Fallback HTTP error ' + res.status);
+                return res.json();
+              })
+              .then(data => {
+                initData(data);
+              })
+              .catch(remoteErr => {
+                console.error("All fetch attempts failed", remoteErr);
+                const container = document.getElementById('setfiles-container');
+                container.innerHTML = `
+                  <div style="background: #FFF5F5; border: 1px solid #FEB2B2; border-radius: 8px; padding: 24px; text-align: center; color: #C53030;">
+                    <p style="font-size: 1.1rem; font-weight: bold; margin-bottom: 8px;"><i class="fa-solid fa-triangle-exclamation"></i> データの読み込みに失敗しました</p>
+                    <p style="font-size: 0.85rem; color: #742A2A; margin-bottom: 16px;">
+                      ブラウザのセキュリティ制限（file://）によりローカルJSONが直接読み込めませんでした。<br>
+                      ローカルで編集中の <code>data/setfiles.json</code> を表示するには、下のボタンからファイルを選択してください。
+                    </p>
+                    <label style="background: #E53E3E; color: #fff; padding: 8px 18px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+                      <i class="fa-solid fa-folder-open"></i> data/setfiles.json を選択する
+                      <input type="file" onchange="handleFileSelect(event)" accept=".json" style="display: none;">
+                    </label>
+                  </div>
+                `;
+              });
+          });
+      }
+
+      // Drag and drop & local file picker support
+      const noticeArea = document.getElementById('local-file-notice');
+      const fileInput = document.getElementById('localJsonInput');
+
+      function handleLocalFile(file) {
+        if (!file || !file.name.endsWith('.json')) {
+          alert('setfiles.json などのJSONファイルを選択してください。');
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          try {
+            const data = JSON.parse(e.target.result);
+            initData(data);
+            const statusEl = document.getElementById('localNoticeStatus');
+            if (statusEl) {
+              statusEl.innerHTML = `<i class="fa-solid fa-circle-check" style="color: #38A169;"></i> <span>ローカルファイル「${file.name}」を表示中（全${data.length}件）</span>`;
+            }
+            if (noticeArea) {
+              noticeArea.style.background = '#F0FFF4';
+              noticeArea.style.borderColor = '#9AE6B4';
+            }
+          } catch(err) {
+            alert('JSONの解析に失敗しました。構文エラーがないか確認してください: ' + err.message);
+          }
+        };
+        reader.readAsText(file);
+      }
+
+      window.handleFileSelect = function(e) {
+        if (e.target.files && e.target.files[0]) {
+          handleLocalFile(e.target.files[0]);
+        }
+      };
+
+      if (fileInput) {
+        fileInput.addEventListener('change', window.handleFileSelect);
+      }
+
+      if (noticeArea) {
+        ['dragenter', 'dragover'].forEach(name => {
+          noticeArea.addEventListener(name, (e) => {
+            e.preventDefault();
+            noticeArea.style.borderColor = '#3182CE';
+            noticeArea.style.background = '#EBF8FF';
+          });
         });
+        ['dragleave', 'drop'].forEach(name => {
+          noticeArea.addEventListener(name, (e) => {
+            e.preventDefault();
+            noticeArea.style.borderColor = '#CBD5E0';
+            noticeArea.style.background = '#F8FAFC';
+          });
+        });
+        noticeArea.addEventListener('drop', (e) => {
+          if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) {
+            handleLocalFile(e.dataTransfer.files[0]);
+          }
+        });
+      }
+
+      loadJsonData();
     });
   </script>
 </body>

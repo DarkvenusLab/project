@@ -163,5 +163,60 @@
         "reportUrl": "report/SET-003/2025/StrategyTester.htm"
       }
     ]
+  },
+  {
+    "id": "SET-004",
+    "title": "#SET-004 | EURUSD M15",
+    "platform": "MT4",
+    "pair": "EURUSD",
+    "timeframe": "M15",
+    "startLot": "0.01 (単利)",
+    "deposit": "500,000円",
+    "spread": "20 point (固定)",
+    "fileUrl": "downloads/SET-004_EURUSD_M15.set",
+    "uploadedDate": "2026-10-03",
+    "specs": {
+      "bbStrategy": "3.Up Trend Buy and Down Trend Sell",
+      "nanpinType": "Lots Sum",
+      "maxOrders": 50,
+      "allowBuySell": "Buy & Sell (両建て)",
+      "timeFilter": "なし",
+      "hasSL": "なし (Disabled)",
+      "closeMode": "Average Point Weighted",
+      "exitStrategy": "Target Point"
+    },
+    "notes": "王道ナンピンって感じです。ストップロスなしで利確値も低く設定しています",
+    "yearlyStats": [
+      {
+        "year": "2023年",
+        "profit": "+48,249円",
+        "pf": "1.71",
+        "maxDrawdown": "-31,063円(5.73%)",
+        "unrealizedLoss": "0円",
+        "status": "生還",
+        "survived": true,
+        "reportUrl": "report/SET-004/2023/StrategyTester.htm"
+      },
+      {
+        "year": "2024年",
+        "profit": "+60,634円",
+        "pf": "1.52",
+        "maxDrawdown": "-180,794円(33.49%)",
+        "unrealizedLoss": "-52円",
+        "status": "生還",
+        "survived": true,
+        "reportUrl": "report/SET-004/2024/StrategyTester.htm"
+      },
+      {
+        "year": "2025年",
+        "profit": "+59,173円",
+        "pf": "1.57",
+        "maxDrawdown": "-120,270円(22.78%)",
+        "unrealizedLoss": "-540円",
+        "status": "生還",
+        "survived": true,
+        "reportUrl": "report/SET-004/2025/StrategyTester.htm"
+      }
+    ]
   }
 ]
