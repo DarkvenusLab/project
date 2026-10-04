@@ -281,7 +281,13 @@ def main():
         target_month = args.month
     else:
         now = datetime.datetime.now()
-        target_month = f"{now.year}.{now.month:02d}"
+        # 月次確定更新のため、前月をデフォルト対象年月に設定（例: 10月実行時は 2026.09）
+        if now.month == 1:
+            target_month = f"{now.year - 1}.12"
+        else:
+            target_month = f"{now.year}.{now.month - 1:02d}"
+
+    print(f">> 対象年月: {target_month}")
 
     # Build final benchmark object
     benchmark_record = {
