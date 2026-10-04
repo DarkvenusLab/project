@@ -1011,12 +1011,12 @@ function renderBenchmarkCard(bench) {
       <div class="ranking-unit-header">
         <div class="rank-badge-pill rank-pill-benchmark">
           <span class="rank-num-box"><i class="fa-solid fa-crown" style="font-size: 0.85rem; color: #FCD34D;"></i></span>
-          <span class="rank-title-text">特別ベンチマーク ｜ 当ラボ看板・公式リアル実弾検証機</span>
+          <span class="rank-title-text">特別ベンチマーク ｜ 当ラボ看板・公式リアル口座検証機</span>
         </div>
         <div class="header-tags">
           <span class="tag-badge currency"><i class="fa-solid fa-coins"></i> ${bench.currency_pair || 'NZDCAD'}</span>
           <span class="tag-badge"><i class="fa-solid fa-clock"></i> ${bench.timeframe || 'M15'}</span>
-          <span class="tag-badge benchmark-badge-real"><i class="fa-solid fa-circle-check"></i> Axiory Real (実弾口座)</span>
+          <span class="tag-badge benchmark-badge-real"><i class="fa-solid fa-circle-check"></i> Axiory Real (リアル口座)</span>
           <span class="tag-badge benchmark-badge-free"><i class="fa-solid fa-tag"></i> ${bench.price_text || '完全無料EA (Free)'}</span>
         </div>
       </div>
@@ -1056,7 +1056,7 @@ function renderBenchmarkCard(bench) {
 
             <!-- MIDDLE SECTION (Left: Mascot Thumbnail, Right: Radar Canvas) -->
             <div class="art-frame" style="background-image: url('images/CardDesignParts/Frame/frame_A.png');">
-              <img src="images/administrator.png" class="ea-thumbnail admin-thumb" alt="Dark Venus 管理人実弾検証機" title="当ラボ管理人 実弾運用機">
+              <img src="images/administrator.png" class="ea-thumbnail admin-thumb" alt="Dark Venus 管理人リアル検証機" title="当ラボ管理人 リアル運用機">
               <div class="radar-circle">
                 <canvas id="radar-benchmark"></canvas>
               </div>
@@ -1064,7 +1064,7 @@ function renderBenchmarkCard(bench) {
 
             <!-- SKILL BANNER SECTION -->
             <div class="skill-banner-container" style="background-image: url('images/CardDesignParts/Frame/frame_Skill.png');">
-              <div class="skill-tags-text">完全無料 / 独自NZDCAD設定 / 実弾運用中</div>
+              <div class="skill-tags-text">完全無料 / 独自NZDCAD設定 / リアル口座運用中</div>
             </div>
 
             <!-- BOTTOM SECTION (6-Axis Status List) -->
@@ -1136,7 +1136,7 @@ function renderBenchmarkCard(bench) {
             </div>
             <div class="side-price-item copy">
               <span class="price-type-text"><i class="fa-solid fa-building-columns"></i> 運用口座 / 種別</span>
-              <span class="price-amount-text" style="color: #38BDF8; font-size: 0.95rem;">Axiory Nano (実弾口座)</span>
+              <span class="price-amount-text" style="color: #38BDF8; font-size: 0.95rem;">Axiory Nano (リアル口座)</span>
             </div>
           </div>
 
@@ -1175,7 +1175,7 @@ function renderBenchmarkCard(bench) {
               <span>当サイトにおける公式ベンチマーク（基準機）の役割</span>
             </div>
             <p class="benchmark-role-desc">
-              数十万円の高額市販EAがひしめく中で、<strong>「完全無料EAでも正しく設定すればここまで戦える」という客観的な比較物差し</strong>としてAxioryリアル口座の実弾データをmyfxbookで完全透明公開しています。
+              数十万円の高額市販EAがひしめく中で、<strong>「完全無料EAでも正しく設定すればここまで戦える」という客観的な比較物差し</strong>としてAxioryリアル口座の運用データをmyfxbookで完全透明公開しています。
             </p>
           </div>
 
@@ -1192,7 +1192,7 @@ function renderBenchmarkCard(bench) {
 
           <!-- 4大アクションボタン -->
           <div class="benchmark-action-buttons">
-            <a href="${forwardUrl}" target="_blank" rel="noopener noreferrer" class="action-btn btn-forward" title="myfxbook公式リアル成績（実弾口座）">
+            <a href="${forwardUrl}" target="_blank" rel="noopener noreferrer" class="action-btn btn-forward" title="myfxbook公式リアル成績（リアル口座）">
               <i class="fa-solid fa-chart-line"></i> myfxbook成績 <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.7rem;"></i>
             </a>
             <a href="ea/forward-test.html" class="action-btn btn-detail-site" title="フォワード検証ラボへ">

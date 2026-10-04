@@ -332,7 +332,7 @@ def main():
         "expectancy": parsed["expectancy"],
         "start_date": parsed["start_date"],
         "last_updated": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        "notes": "当ラボがAxioryのリアル口座で1年10ヶ月以上にわたり実弾運用している完全無料EA「Dark Venus」のNZDCAD設定です。高額な有料EAがひしめく中で、最大DD 13.88%・PF 2.49・総合Aランクを達成している当サイトの公式ベンチマークです。"
+        "notes": "当ラボがAxioryのリアル口座で1年10ヶ月以上にわたり長期運用している完全無料EA「Dark Venus」のNZDCAD設定です。高額な有料EAがひしめく中で、最大DD 13.88%・PF 2.49・総合Aランクを達成している当サイトの公式ベンチマークです。"
     }
 
     # 4. Save to JSON
