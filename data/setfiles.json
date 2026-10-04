@@ -218,5 +218,61 @@
         "reportUrl": "report/SET-004/2025/StrategyTester.htm"
       }
     ]
+  },
+  {
+    "id": "SET-005",
+    "title": "#SET-005 | AUDCAD H1",
+    "platform": "MT4",
+    "pair": "AUDCAD",
+    "timeframe": "H1",
+    "startLot": "0.01 (単利)",
+    "deposit": "500,000円",
+    "spread": "50 point (固定)",
+    "fileUrl": "downloads/SET-005_AUDCAD_H1.set",
+    "uploadedDate": "2026-10-04",
+    "specs": {
+      "bbStrategy": "3.Up Trend Buy and Down Trend Sell",
+      "nanpinType": "Lots Sum",
+      "maxOrders": 50,
+      "allowBuySell": "Buy & Sell (両建て)",
+      "timeFilter": "なし",
+      "hasSL": "なし (Disabled)",
+      "closeMode": "Average Point Weighted",
+      "exitStrategy": "Target Point"
+    },
+    "notes": "2021年からバックテストしましたが破綻なしです。ただし分足では破綻します。ストップロスをコントロールできたら面白いかも。",
+    "yearlyStats": [
+      {
+        "year": "2023年",
+        "profit": "+74,825円",
+        "pf": "2.18",
+        "maxDrawdown": "-79,766円(15.09%)",
+        "unrealizedLoss": "-182円",
+        "status": "生還",
+        "survived": true,
+        "reportUrl": "report/SET-005/2023/StrategyTester.htm"
+      },
+      {
+        "year": "2024年",
+        "profit": "+78,672円",
+        "pf": "1.96",
+        "maxDrawdown": "-188,073円(36.59%)",
+        "unrealizedLoss": "0円",
+        "status": "生還",
+        "survived": true,
+        "reportUrl": "report/SET-005/2024/StrategyTester.htm"
+      },
+      {
+        "year": "2025年",
+        "profit": "+83,500円",
+        "pf": "2.22",
+        "maxDrawdown": "51,196円(9.03%)",
+        "unrealizedLoss": "0円",
+        "status": "生還",
+        "survived": true,
+        "reportUrl": "report/SET-005/2025/StrategyTester.htm"
+      }
+    ]
   }
+
 ]
