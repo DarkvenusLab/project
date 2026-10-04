@@ -373,6 +373,100 @@
       </a>
     </div>
 
+    <!-- Editorial Deep-Dive Guide Section -->
+    <section class="my-5" id="guide-article" style="margin-top: 50px;">
+      <div class="section-header center" style="margin-bottom: 30px;">
+        <span class="sub-title" style="color: #0284C7; font-weight: 800; font-size: 0.9rem; letter-spacing: 1px;">EXPERT GUIDE & RISK MANAGEMENT</span>
+        <h2 style="font-size: 1.8rem; font-weight: 900; margin-top: 6px;">MT4バックテスト分析の極意：ナンピンEAで破綻を防ぐための必須知識</h2>
+        <p style="max-width: 760px; margin: 8px auto 0; color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
+          標準レポートの数値だけに惑わされない！リアル口座での長期運用を見据えたリスク評価と、勝てるパラメーターを見極めるための実践的ノウハウを徹底解説します。
+        </p>
+      </div>
+
+      <div class="about-card mb-4" style="line-height: 1.85; color: var(--text-main); padding: 36px; border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+
+        <h3 style="font-size: 1.35rem; color: var(--primary); margin-top: 0; margin-bottom: 14px; border-bottom: 2px solid #E2E8F0; padding-bottom: 8px;">
+          <i class="fa-solid fa-triangle-exclamation" style="color: #EF4444; margin-right: 6px;"></i> 1. なぜMT4標準レポートだけでは「破綻リスク」を見抜けないのか？
+        </h3>
+        <p style="margin-bottom: 14px;">
+          MetaTrader 4（MT4）のストラテジーテスターで生成される標準レポートは、総純利益（Total Net Profit）や勝率（Win Rate）、プロフィットファクター（PF）といった基本的な数値を一覧で提示してくれます。しかし、これらの表面的な数値だけでEAの優劣を判断するのは極めて危険です。特に「Dark Venus」に代表されるナンピン・マーチンゲール型やグリッド型のEAにおいて、標準レポートには重大な落とし穴が存在します。
+        </p>
+        <p style="margin-bottom: 20px;">
+          ナンピンEAは相場が逆行した際にポジションを追加保有し、反発したタイミングでまとめて利益確定するロジックを持ちます。そのため、長期間にわたって「勝率90%以上・綺麗な右肩上がりの収益曲線」を容易に作り出すことができます。しかし、その裏側で<strong>「一度に抱えた含み損（Floating Drawdown）の大きさ」</strong>や<strong>「最大ナンピン段数の限界に何回達したか」</strong>という致命的な情報は、標準レポートの確定損益ベースのグラフには現れません。バックテスト上は一度も破綻せず高利益を上げていたEAが、リアル口座に投入した途端に急激なトレンド相場で一撃破綻してしまうのは、この「目に見えない含み損リスク」を事前に検証できていないことが最大の原因です。
+        </p>
+
+        <h3 style="font-size: 1.35rem; color: var(--primary); margin-top: 30px; margin-bottom: 14px; border-bottom: 2px solid #E2E8F0; padding-bottom: 8px;">
+          <i class="fa-solid fa-sliders" style="color: #0EA5E9; margin-right: 6px;"></i> 2. バックテストで最重要視すべき「3大指標」の正しい見極め方
+        </h3>
+        <p style="margin-bottom: 16px;">
+          EAの長期的な生存能力を見極めるためには、総利益額の大きさではなく、リスクに対してどれだけ効率よく利益を生み出せているかを示す以下の3大指標を総合的に精査する必要があります。
+        </p>
+
+        <div style="background: #F8FAFC; border-left: 4px solid #0EA5E9; padding: 18px 20px; border-radius: 0 8px 8px 0; margin-bottom: 20px;">
+          <h4 style="font-size: 1.1rem; font-weight: 800; color: #0369A1; margin: 0 0 8px;">① プロフィットファクター（PF: Profit Factor）の適正範囲</h4>
+          <p style="margin: 0; font-size: 0.95rem; line-height: 1.7;">
+            プロフィットファクターは「総利益 ÷ 総損失」で算出され、1.0を超えていれば利益が出ていることを示します。一般的には<strong>「1.5〜2.5」程度</strong>が健全で安定した長期運用EAの目安とされています。ここで注意すべきは、ナンピンEAにおいて「PF 3.0〜5.0以上」といった異常に高い数値が出ているケースです。損切りを一切行わず、すべてのポジションがプラスに戻るまで含み損を耐え続ける設定の場合、見かけ上のPFは跳ね上がりますが、それは「たまたま検証期間中に破綻相場に遭遇しなかっただけ」である可能性が極めて高くなります。
+          </p>
+        </div>
+
+        <div style="background: #F8FAFC; border-left: 4px solid #F59E0B; padding: 18px 20px; border-radius: 0 8px 8px 0; margin-bottom: 20px;">
+          <h4 style="font-size: 1.1rem; font-weight: 800; color: #B45309; margin: 0 0 8px;">② 最大ドローダウン（Max Drawdown）と有効証拠金ベースでの把握</h4>
+          <p style="margin: 0; font-size: 0.95rem; line-height: 1.7;">
+            最大ドローダウンは、口座資産がピーク時から最も落ち込んだ下落幅（または下落率）を表します。MT4レポートを見る際は、「残高ベース（Balance）」ではなく、保有中の含み損を加味した<strong>「有効証拠金ベース（Equity）」の最大ドローダウン</strong>を必ず確認しなければなりません。口座資金に対して最大ドローダウンが30%〜40%を超えている場合、ボラティリティ急拡大やスプレッドの拡大が重なると、あっという間に強制ロスカットのラインに到達します。自身の許容できる損失額から逆算して、適切なロットサイズを設計することが不可欠です。
+          </p>
+        </div>
+
+        <div style="background: #F8FAFC; border-left: 4px solid #10B981; padding: 18px 20px; border-radius: 0 8px 8px 0; margin-bottom: 24px;">
+          <h4 style="font-size: 1.1rem; font-weight: 800; color: #047857; margin: 0 0 8px;">③ リカバリーファクター（RF: Recovery Factor）の耐久性目安</h4>
+          <p style="margin: 0; font-size: 0.95rem; line-height: 1.7;">
+            リカバリーファクターは「純利益 ÷ 最大ドローダウン額」で算出される、リスクリワードの究極の指標です。「被った最大リスクの何倍の純利益を稼ぎ出したか」を表し、数値が大きいほど回復力に優れていることを意味します。目安として、3年〜5年以上の長期バックテストにおいて<strong>「RF 10.0〜15.0以上」</strong>を安定して維持できている設定は、相場の荒波を乗り越える優れた耐久性を持っていると判断できます。
+          </p>
+        </div>
+
+        <h3 style="font-size: 1.35rem; color: var(--primary); margin-top: 30px; margin-bottom: 14px; border-bottom: 2px solid #E2E8F0; padding-bottom: 8px;">
+          <i class="fa-solid fa-chart-column" style="color: #6366F1; margin-right: 6px;"></i> 3. ナンピン・グリッド特有のリスク構造（段数到達率と時間帯）
+        </h3>
+        <p style="margin-bottom: 14px;">
+          当ラボが開発した「DVLab Backtest Analyzer」では、従来のテスターでは見落とされがちだったナンピン特有の構造的弱点を浮き彫りにします。
+        </p>
+
+        <h4 style="font-size: 1.1rem; font-weight: 800; color: #1E293B; margin-top: 18px; margin-bottom: 8px;">
+          ● ナンピン段数の歪み（ロングテールリスク）の把握
+        </h4>
+        <p style="margin-bottom: 16px;">
+          全トレードのうち95%が1〜3段目で軽快に利確できていたとしても、残りの5%で最大許容段数（例えば10段〜15段）まで達している場合、その設定は潜在的な破綻リスクを抱えています。各ナンピン段数に到達した回数と平均保有時間を可視化することで、「どの段数までが安全圏で、どこからが危険領域なのか」を把握し、最大ポジション数の制限やロット倍率の最適化に活かすことができます。
+        </p>
+
+        <h4 style="font-size: 1.1rem; font-weight: 800; color: #1E293B; margin-top: 18px; margin-bottom: 8px;">
+          ● 曜日・時間帯別バイアス（ヒートマップ分析）の活用
+        </h4>
+        <p style="margin-bottom: 24px;">
+          相場には「勝ちやすい時間帯」と「負けやすい時間帯」が明確に存在します。例えば、米国雇用統計やFOMCなどの重要経済指標発表が集中する深夜帯、週末のポジション持ち越しによる月曜オープン時の窓開けリスク、ロンドン市場・ニューヨーク市場のオープン直後の急変動などです。曜日×時間帯別の損益ヒートマップを分析することで、損失が集中している時間帯を特定し、EAの時間フィルター機能で稼働を停止させるといった高度なリスクヘッジが可能になります。
+        </p>
+
+        <h3 style="font-size: 1.35rem; color: var(--primary); margin-top: 30px; margin-bottom: 14px; border-bottom: 2px solid #E2E8F0; padding-bottom: 8px;">
+          <i class="fa-solid fa-shield-halved" style="color: #10B981; margin-right: 6px;"></i> 4. リアル口座で勝つための実践的検証ステップ
+        </h3>
+        <p style="margin-bottom: 14px;">
+          どんなに優秀なバックテスト結果であっても、それは過去のデータに対するシミュレーションに過ぎません。管理人の投資歴25年の経験から言える確固たる事実は、<strong>「相場に絶対に負けない聖杯は存在しない」</strong>ということです。バックテストからリアルトレードへ移行する際は、以下のステップを厳守することを強く推奨します。
+        </p>
+
+        <ol style="margin-bottom: 20px; padding-left: 24px; line-height: 1.8;">
+          <li style="margin-bottom: 8px;"><strong>過剰最適化（カーブフィッティング）を疑う:</strong> パラメーターを過去相場に細かく合わせすぎず、市場のボラティリティが多少変化しても破綻しない頑健（ロバスト）な設定を選ぶ。</li>
+          <li style="margin-bottom: 8px;"><strong>長期ヒストリカルデータ（3年〜5年以上）での検証:</strong> コロナショックやウクライナ情勢、突発的な急落相場など、歴史的な大相場を無破綻で乗り越えられているか必ずテストする。</li>
+          <li style="margin-bottom: 8px;"><strong>フォワードテストによる検証（Myfxbook連動）:</strong> デモ口座や小ロットのリアル口座で最低3ヶ月〜半年間稼働させ、実際のスプレッド拡大やスリッページの影響下でバックテスト通りの再現性があるか確認する。</li>
+          <li style="margin-bottom: 8px;"><strong>複数EA・複数通貨ペアへの分散投資:</strong> 単一のロジックに全資金を預けず、オセアニア系・欧米系など相関の低いEAや通貨ペアを組み合わせたポートフォリオを組み、口座全体のドローダウンを相殺する。</li>
+        </ol>
+
+        <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); border: 2px solid #93C5FD; border-radius: 8px; padding: 18px 22px; margin-top: 20px;">
+          <p style="margin: 0; font-size: 0.95rem; font-weight: 700; color: #1E40AF; line-height: 1.7;">
+            <i class="fa-solid fa-lightbulb" style="color: #2563EB; margin-right: 6px;"></i> 当ツール「DVLab Backtest Analyzer」を通じて、ご自身のEAや設定ファイル（.set）の強みと隠れた弱点を客観的に把握し、より安全で息の長い資産運用を実現していただければ幸いです。
+          </p>
+        </div>
+
+      </div>
+    </section>
+
     <!-- Bottom Ad Banner -->
     <div class="container my-4">
       <div class="ad-placeholder" id="ad-after-launch">
