@@ -70,85 +70,157 @@
           style="font-size: 1.7rem; font-weight: 900; margin-top: 12px; margin-bottom: 12px; color: var(--text-main); line-height: 1.4;">
           なぜEA運用でバックテスト検証が絶対に必要なのか？<br>失敗を防ぐ3つのチェックポイント
         </h1>
+        <p style="font-size: 0.95rem; color: var(--text-muted); margin-top: 4px;">
+          〜「バックテストなんて面倒」と甘く見てパニック損切りを連発した管理人の猛省録〜
+        </p>
       </div>
 
-      <div style="line-height: 1.8; color: #334155; font-size: 1rem;">
+      <div style="line-height: 1.85; color: #334155; font-size: 1rem;">
 
-        <div style="background: #FFFBEB; border: 2px dashed #F59E0B; border-radius: 8px; padding: 16px 20px; margin-bottom: 24px; margin-top: 8px;">
-          <p style="color: #B45309; font-weight: 700; margin: 0 0 8px 0;"><i class="fa-solid fa-person-digging"></i> 【管理人よりお知らせ】</p>
-          <p style="color: #92400E; margin: 0; font-size: 0.95rem;">「この記事、内容うっす！」と思ったあなた、大正解です（笑）。<br>過去に書いた教科書みたいなつまらない記事、どこにでも書いてあるようなペラペラな記事を全力で書き直し（リライト）中です。もうしばらくこの薄味でお許しください！</p>
-        </div>
-        <h2
-          style="font-size: 1.3rem; border-left: 5px solid var(--primary); padding-left: 12px; margin-top: 28px; margin-bottom: 16px; color: var(--text-main);">
-          1. リアル資金を投入する前の「安全確認」
-        </h2>
+        <!-- 導入・管理人の痛烈な失敗談 -->
         <p>
-          バックテストとは、過去数年間のヒストリカルデータ（過去の値動き）を用いて「そのEA・設定を過去の相場で稼働させていたらどんな結果になっていたか」をシミュレーションする作業です。
+          「バックテストなんてヒストリカルデータをダウンロードしたり設定したりで時間がかかるし、面倒くさい……」<br>
+          「ネットやSNSで『この設定が爆益！』って言われてるおすすめ設定をそのまま入れて回せば、同じように稼げるんじゃないの？」
         </p>
         <p>
-          自動車の衝突安全テストを行わずに試運転しないのと同様、大切な自己資金を運用する前にバックテストで安全性を検証することは**EA運用の大前提**です。
+          EA（自動売買）を始めたばかりのとき、そう思ってしまう気持ちは痛いほどよく分かります。なぜなら、<strong>数年前の私自身がまさにそうやって横着をし、手痛い洗礼を受けたから</strong>です。
+        </p>
+        <p>
+          ネットで見つけた評判の良さそうな設定ファイルをそのままMT4にセットし、「あとは寝て待つだけ！」と高を括ってリアル運用をスタート。最初の数週間は順調に利益を積み上げ、「EA最高！」と浮かれていました。
+        </p>
+        <p>
+          しかしある夜、相場が急変。EAがナンピンを2段、3段、4段と次々に積み増し、含み損が口座残高の30%、40%と猛烈な勢いで膨れ上がっていったのです。
+        </p>
+        <p>
+          <strong>「このEA、過去に最大で何段までナンピンしたことがあるんだろう？」</strong><br>
+          <strong>「過去の相場で、一体いくらの含み損まで耐えた実績があるんだろう？」</strong>
+        </p>
+        <p>
+          自分でバックテストを回していなかった私には、その答えがまったく分かりませんでした。画面を見つめながら心臓がバクバクと高鳴り、手の震えが止まらなくなり、「これ以上耐えたら全財産が吹き飛ぶ……！」という恐怖に耐え切れず、<strong>最悪の底値で全ポジションを手動一括損切り</strong>してしまったのです。
+        </p>
+        <p>
+          そしてそのわずか数時間後、相場は何事もなかったかのように反発し、もし放置していれば綺麗に全利確できていたことが判明しました。「EAの挙動を知らなかったことによる、完全な自滅」でした。
+        </p>
+        <p>
+          この苦い経験を通じて私が痛感したのは、<strong>「バックテストとは、利益を自慢するためのものではなく、相場急変時にパニックを起こさないための『心の命綱』である」</strong>ということです。
         </p>
 
+        <!-- 第1章 -->
         <h2
-          style="font-size: 1.3rem; border-left: 5px solid var(--primary); padding-left: 12px; margin-top: 32px; margin-bottom: 16px; color: var(--text-main);">
-          2. バックテストを見る際に見るべき「3つの指標」
+          style="font-size: 1.35rem; border-left: 5px solid var(--primary); padding-left: 12px; margin-top: 36px; margin-bottom: 16px; color: var(--text-main);">
+          1. バックテストを見る際、最優先でチェックすべき「3つの数値」
         </h2>
+        <p>
+          バックテストレポートを開いたとき、初心者は真っ先に「純利益（いくら儲かったか）」ばかりを見てしまいがちです。しかし、生き残るトレーダーが真っ先に見るのは「リスクの数値」です。
+        </p>
 
         <div
-          style="background: #F8FAFC; border: 2px solid #E2E8F0; border-radius: 10px; padding: 20px; margin-bottom: 20px;">
-          <h3 style="margin-top: 0; color: #1E293B; font-size: 1.05rem;">① 最大ドローダウン（DD）額とパーセンテージ</h3>
-          <p style="margin-bottom: 8px; font-size: 0.95rem;">
-            過去の運用において「一時的に資金が最大でどれだけ減少したか」を示す数値です。自分の許容できる含み損・リスク範囲内に収まっているかを確認します。
+          style="background: #F8FAFC; border: 2px solid #E2E8F0; border-radius: 10px; padding: 22px; margin: 24px 0;">
+          <h3 style="margin-top: 0; color: #1E293B; font-size: 1.1rem;">
+            ① 最大ドローダウン（Max Drawdown）額とパーセンテージ
+          </h3>
+          <p style="margin-bottom: 12px; font-size: 0.95rem;">
+            過去の検証期間中、<strong>「資産の最高点から、一時的に最大いくら資金が落ち込んだか」</strong>を示す数値です。
+          </p>
+          <p style="margin-bottom: 0; font-size: 0.95rem; color: #0F172A;">
+            例えば、100万円の資金で運用していて最大ドローダウンが「45万円（45%）」だったとします。これは「過去の相場で、含み損を抱えて資産が55万円まで減った時期が確実にあった」ということです。自分はこの含み損に精神的に耐えられるか？ 証拠金維持率はロスカットラインまで何%の余裕があったか？ を確認する最重要指標です。
           </p>
         </div>
 
         <div
-          style="background: #F8FAFC; border: 2px solid #E2E8F0; border-radius: 10px; padding: 20px; margin-bottom: 20px;">
-          <h3 style="margin-top: 0; color: #1E293B; font-size: 1.05rem;">② プロフィットファクター（PF）</h3>
-          <p style="margin-bottom: 8px; font-size: 0.95rem;">
-            総利益 ÷ 総損失 の比率です。1.0以上で利益が出ていることを示しますが、ナンピンEAの場合は1.3〜2.0程度が最もバランスが良いとされています。
+          style="background: #F8FAFC; border: 2px solid #E2E8F0; border-radius: 10px; padding: 22px; margin: 24px 0;">
+          <h3 style="margin-top: 0; color: #1E293B; font-size: 1.1rem;">
+            ② プロフィットファクター（Profit Factor / PF）
+          </h3>
+          <p style="margin-bottom: 12px; font-size: 0.95rem;">
+            <strong>「総利益 ÷ 総損失」</strong>で計算される、トレードの費用対効果（効率性）を表す数値です。
           </p>
-        </div>
-
-        <div
-          style="background: #F8FAFC; border: 2px solid #E2E8F0; border-radius: 10px; padding: 20px; margin-bottom: 20px;">
-          <h3 style="margin-top: 0; color: #1E293B; font-size: 1.05rem;">③ 単年ごとのパフォーマンスのムラ（年別損益）</h3>
           <p style="margin-bottom: 0; font-size: 0.95rem;">
-            通算成績だけでなく「2021年はどうだったか」「2022年はどうだったか」と年別に細かく分析することが重要です。相場環境の変化によって強い年・弱い年があることを事前に知っておくことで、メンタルを保ちやすくなります。
+            PFが1.0未満なら赤字、1.0を超えれば黒字ですが、高ければ高いほど良いわけではありません。ナンピンEAの場合、<strong>「PF 1.3〜1.8程度」</strong>が最も無理のない健全なバランスです。逆に「PF 3.0以上」など異常に高すぎるバックテストは、損切りを一切しない設定や過去データに合わせすぎた過剰最適化（カーブフィッティング）の危険信号です。
           </p>
         </div>
-
-        <h2
-          style="font-size: 1.3rem; border-left: 5px solid var(--primary); padding-left: 12px; margin-top: 32px; margin-bottom: 16px; color: var(--text-main);">
-          3. 当ライブラリが単年データを公開している理由
-        </h2>
-        <p>
-          当「Dark Venus ラボ」では、通算データだけでなく**単年ごとの詳細レポート（生のHTMファイル）**を包み隠さず公開しています。
-        </p>
-        <p>
-          これにより、ご利用者様自身が「得意な相場」「苦手な時期」を客観的に把握し、ご自身の資金量に合った最適なパラメータを選択できるよう配慮しています。
-        </p>
 
         <div
-          style="background: #EFF6FF; border: 2px dashed #3B82F6; border-radius: 10px; padding: 20px; margin-top: 32px; text-align: center;">
-          <h3 style="margin-top: 0; color: #1E40AF; font-size: 1.1rem;">まとめ：バックテストはEA運用の「羅針盤」</h3>
+          style="background: #F8FAFC; border: 2px solid #E2E8F0; border-radius: 10px; padding: 22px; margin: 24px 0;">
+          <h3 style="margin-top: 0; color: #1E293B; font-size: 1.1rem;">
+            ③ リカバリーファクター（RF ＝ 純利益 ÷ 最大DD額）
+          </h3>
           <p style="margin-bottom: 0; font-size: 0.95rem;">
-            バックテストデータをしっかり読み解き、根拠のある設定で運用を始めることが、長期的にFX市場で<br>残るための鍵となります。
+            「被った最大ドローダウンの傷跡に対して、何倍の純利益を叩き出したか」という<strong>リスクリワード比率</strong>です。どんなに大金を稼いでいても、最大DDが大きすぎるEAは一発退場のリスクを孕んでいます。RFが「5.0以上（年間換算なら2.0〜3.0以上）」あれば、極めて優秀な回復力を持つタフな設定と判断できます。
           </p>
         </div>
-      </div>
 
-      <!-- Ad Banner Placeholder (Before Back Button) -->
-      <div
-        style="margin-top: 32px; background: #F8FAFC; border: 1px dashed #CBD5E1; border-radius: 8px; padding: 16px; text-align: center;">
-        <span style="font-size: 0.75rem; color: #94A3B8; display: block; margin-bottom: 4px;">スポンサーリンク</span>
-        <div style="color: #64748B; font-size: 0.9rem;">
-          <i class="fa-solid fa-rectangle-ad"></i> ここにGoogle AdSense広告が表示されます
+        <!-- 第2章 -->
+        <h2
+          style="font-size: 1.35rem; border-left: 5px solid var(--primary); padding-left: 12px; margin-top: 36px; margin-bottom: 16px; color: var(--text-main);">
+          2. 騙されてはいけない！バックテストに潜む「見せかけの3大トラップ」
+        </h2>
+        <p>
+          ネット上の販売ページやアフィリエイト記事に掲載されているバックテストデータには、初心者を誤認させる巧妙な罠が潜んでいます。以下の3点だけは必ず見抜けるようになってください。
+        </p>
+
+        <div style="background: #FFF5F5; border: 2px solid #FEB2B2; border-radius: 10px; padding: 22px; margin: 24px 0;">
+          <h3 style="margin-top: 0; color: #9B2C2C; font-size: 1.1rem;">
+            ⚠️ バックテストで絶対に疑うべき3つの罠
+          </h3>
+          <ul style="margin: 0; padding-left: 20px;">
+            <li style="margin-bottom: 12px;">
+              <strong>トラップ①：「10年間通算右肩上がり」の罠</strong><br>
+              10年間トータルで綺麗な右肩上がりを描いていても、データを年別で細かく分解すると「2021年は大赤字」「2022年は1年間ずっと含み損で横ばい」といった年が潜んでいることがよくあります。人間のメンタルは、半年間資金が減り続けたら耐えられずにEAを止めてしまいます。だからこそ<strong>「単年ごとの成績」</strong>を見なければ意味がありません。
+            </li>
+            <li style="margin-bottom: 12px;">
+              <strong>トラップ②：「スプレッド固定」の罠</strong><br>
+              MT4標準のバックテストは、テスト開始時のスプレッド（例えば1.0pips）で全期間を計算してしまいます。しかし実際の相場では、早朝ロールオーバー時や重要指標発表時にスプレッドが5pipsや10pipsに激しく拡大します。固定スプレッドの甘いテスト結果は、リアル運用の成績とは大きく乖離します。
+            </li>
+            <li style="margin-bottom: 0;">
+              <strong>トラップ③：「モデリング品質90%」と「TDS（Tick Data Suite）99.9%」</strong><br>
+              MT4標準のヒストリカルデータは補間データが多いため、ナンピンやスキャルピングなどのミリ秒・微小値幅の挙動を再現しきれません。本当に信頼できるテストを行うなら、変動スプレッドとスリッページを忠実に再現できる高品質ティックデータ（TDS 99.9%等）が不可欠です。
+            </li>
+          </ul>
         </div>
+
+        <!-- 第3章 -->
+        <h2
+          style="font-size: 1.35rem; border-left: 5px solid var(--primary); padding-left: 12px; margin-top: 36px; margin-bottom: 16px; color: var(--text-main);">
+          3. 当サイトが「単年ごとの生HTMレポート」を全公開している理由
+        </h2>
+        <p>
+          当「Dark Venus ラボ」では、すべての公開設定ファイル（.set）について、通算データだけでなく<strong>「年別（2020年〜2026年）のMT4公式生HTMレポート」をそのままダウンロード・閲覧できる状態</strong>で公開しています。
+        </p>
+        <p>
+          なぜ、こんな面倒な作業をしてまで全単年の生データを晒しているのか？
+        </p>
+        <p>
+          それは、<strong>「都合の良い期間だけを切り取った見せかけの数字で、訪問者を欺きたくないから」</strong>です。
+        </p>
+        <p>
+          2020年のコロナショックのボラティリティでこのEAはどう動いたのか？ 2022年の歴史的な円安・ドル高の強烈な一方通行トレンドで最大何段までナンピンしたのか？ 苦手な相場でどれだけ苦しんだのか？
+        </p>
+        <p>
+          そのすべてを白日の下に晒し、訪問者様ご自身が「このドローダウンなら自分の資金量でも耐えられる」「この年はちょっと危険だから資金管理を厚めにしよう」と、<strong>納得と根拠を持って自己防衛できるようにするため</strong>に他なりません。
+        </p>
+
+        <!-- 第4章 まとめ -->
+        <div
+          style="background: #EFF6FF; border: 2px dashed #3B82F6; border-radius: 12px; padding: 24px; margin-top: 36px;">
+          <h3 style="margin-top: 0; color: #1E40AF; font-size: 1.15rem; display: flex; align-items: center; gap: 8px;">
+            <i class="fa-solid fa-shield-cat"></i> まとめ：バックテストはEA運用の「暗視ゴーグル」である
+          </h3>
+          <p style="margin-bottom: 12px; font-size: 0.95rem;">
+            真っ暗な夜道をライトも持たずに猛スピードで車を運転する人はいません。バックテストをせずにリアルマネーでEAを動かすのは、それとまったく同じ危険な行為です。
+          </p>
+          <p style="margin-bottom: 12px; font-size: 0.95rem;">
+            「過去に起きた最悪の事態」を正確に知っておくこと。それが暗闇を照らすライトとなり、相場が暴れ狂う嵐の夜でも、冷静にEAの自動売買を見守るための最大の武器になります。
+          </p>
+          <p style="margin-bottom: 0; font-size: 0.95rem;">
+            ぜひ当サイトの設定ファイル（.set）をダウンロードし、ご自身のMT4ストラテジーテスターでもバックテストを回してみてください。自分でテストを走らせたその経験こそが、誰の煽り文句にも惑わされない「本物の自信」に変わるはずです！
+          </p>
+        </div>
+
       </div>
 
       <!-- Navigation Link -->
-      <div style="margin-top: 36px; text-align: center; border-top: 2px solid #E2E8F0; padding-top: 24px;">
+      <div style="margin-top: 40px; text-align: center; border-top: 2px solid #E2E8F0; padding-top: 24px;">
         <a href="../index.html" class="btn btn-outline" style="text-decoration: none;">
           <i class="fa-solid fa-arrow-left"></i> ホームへ戻る
         </a>
