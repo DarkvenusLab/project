@@ -1,93 +1,129 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- ホーム -->
   <url>
-    <loc>https://darkvenuslab.com/</loc>
-    <lastmod>2026-09-01</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://darkvenus-lab.com/</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
+  <!-- MQL5ランキング -->
   <url>
-    <loc>https://darkvenuslab.com/ea/forward-test.html</loc>
-    <lastmod>2026-09-01</lastmod>
+    <loc>https://darkvenus-lab.com/ranking.html</loc>
+    <lastmod>2026-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
+  <!-- フォワード検証 -->
   <url>
-    <loc>https://darkvenuslab.com/tools/backtest-analyzer.html</loc>
-    <lastmod>2026-09-01</lastmod>
+    <loc>https://darkvenus-lab.com/ea/forward-test.html</loc>
+    <lastmod>2026-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
+  <!-- バックテスト分析ツール -->
   <url>
-    <loc>https://darkvenuslab.com/tools/setfiles.html</loc>
-    <lastmod>2026-09-01</lastmod>
+    <loc>https://darkvenus-lab.com/tools/backtest-analyzer.html</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <!-- 設定ファイル一覧 -->
+  <url>
+    <loc>https://darkvenus-lab.com/tools/setfiles.html</loc>
+    <lastmod>2026-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+  <!-- 運営者情報（プロフィール） -->
   <url>
-    <loc>https://darkvenuslab.com/manual.html</loc>
-    <lastmod>2026-09-01</lastmod>
+    <loc>https://darkvenus-lab.com/profile.html</loc>
+    <lastmod>2026-10-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <!-- 公式マニュアル和訳 -->
   <url>
-    <loc>https://darkvenuslab.com/manual/how-to-setup.html</loc>
-    <lastmod>2026-09-01</lastmod>
+    <loc>https://darkvenus-lab.com/manual.html</loc>
+    <lastmod>2026-10-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <!-- 導入手順 -->
   <url>
-    <loc>https://darkvenuslab.com/about-darkvenus.html</loc>
-    <lastmod>2026-09-01</lastmod>
+    <loc>https://darkvenus-lab.com/manual/how-to-setup.html</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <!-- Dark Venusについて -->
+  <url>
+    <loc>https://darkvenus-lab.com/about-darkvenus.html</loc>
+    <lastmod>2026-10-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <!-- 独自AI採点マトリクス -->
   <url>
-    <loc>https://darkvenuslab.com/columns/ea-basic.html</loc>
-    <lastmod>2026-09-01</lastmod>
+    <loc>https://darkvenus-lab.com/scoring.html</loc>
+    <lastmod>2026-10-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <!-- コラム：EA基礎知識 -->
   <url>
-    <loc>https://darkvenuslab.com/columns/backtest-importance.html</loc>
-    <lastmod>2026-09-01</lastmod>
+    <loc>https://darkvenus-lab.com/columns/ea-basic.html</loc>
+    <lastmod>2026-10-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <!-- コラム：バックテストの重要性 -->
   <url>
-    <loc>https://darkvenuslab.com/columns/ecn-account.html</loc>
-    <lastmod>2026-09-01</lastmod>
+    <loc>https://darkvenus-lab.com/columns/backtest-importance.html</loc>
+    <lastmod>2026-10-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <!-- コラム：ECN口座について -->
   <url>
-    <loc>https://darkvenuslab.com/columns/overseas-fx.html</loc>
-    <lastmod>2026-09-01</lastmod>
+    <loc>https://darkvenus-lab.com/columns/ecn-account.html</loc>
+    <lastmod>2026-10-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <!-- コラム：海外FXの特徴 -->
   <url>
-    <loc>https://darkvenuslab.com/columns/paid-ea.html</loc>
-    <lastmod>2026-09-01</lastmod>
+    <loc>https://darkvenus-lab.com/columns/overseas-fx.html</loc>
+    <lastmod>2026-10-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <!-- コラム：有料EAと無料EA -->
   <url>
-    <loc>https://darkvenuslab.com/columns/vps.html</loc>
-    <lastmod>2026-09-01</lastmod>
+    <loc>https://darkvenus-lab.com/columns/paid-ea.html</loc>
+    <lastmod>2026-10-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <!-- コラム：VPS選びの基準 -->
   <url>
-    <loc>https://darkvenuslab.com/privacy.html</loc>
-    <lastmod>2026-09-01</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
+    <loc>https://darkvenus-lab.com/columns/vps.html</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
+  <!-- プライバシーポリシー -->
   <url>
-    <loc>https://darkvenuslab.com/contact.html</loc>
-    <lastmod>2026-09-01</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
+    <loc>https://darkvenus-lab.com/privacy.html</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <!-- お問い合わせ -->
+  <url>
+    <loc>https://darkvenus-lab.com/contact.html</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
 </urlset>
