@@ -106,12 +106,24 @@ async function fetchAndRenderTop3() {
     const availableMonths = Array.from(allMonthsSet).sort((a, b) => b.localeCompare(a));
     const latestMonth = availableMonths.length > 0 ? availableMonths[0] : '2026-08';
 
-    // Update the title month dynamically
-    const titleMonthElem = document.querySelector('.showcase-title-month');
-    if (titleMonthElem) {
-      const parts = latestMonth.replace('.', '-').split('-');
-      if (parts.length >= 2) {
-        titleMonthElem.textContent = `（${parts[0]}年${parseInt(parts[1], 10)}月度）`;
+    // Update the title month and hero button month dynamically
+    const parts = latestMonth.replace('.', '-').split('-');
+    if (parts.length >= 2) {
+      const monthLabel = `（${parts[0]}年${parseInt(parts[1], 10)}月度）`;
+      
+      const titleMonthElem = document.querySelector('.showcase-title-month');
+      if (titleMonthElem) {
+        titleMonthElem.textContent = monthLabel;
+      }
+
+      const heroMonthElem = document.querySelector('.hero-ranking-month');
+      if (heroMonthElem) {
+        heroMonthElem.textContent = monthLabel;
+      } else {
+        const heroBtn = document.getElementById('hero-ranking-btn') || document.querySelector('.hero-buttons a[href*="ranking.html"]');
+        if (heroBtn) {
+          heroBtn.innerHTML = `<i class="fa-solid fa-trophy"></i> MQL5ランキングを見る<span class="hero-ranking-month">${monthLabel}</span>`;
+        }
       }
     }
 
