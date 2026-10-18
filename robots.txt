@@ -4,4 +4,4 @@ Disallow: /_local_assets/
 Disallow: /data/
 Disallow: /scripts/
 
-Sitemap: https://darkvenus-lab.com/sitemap.xml
+Sitemap: https://ea-rank.com/sitemap.xml

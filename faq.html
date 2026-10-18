@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZCK7N99R3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-BZCK7N99R3');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>よくある質問 (FAQ) | EA-Rank ラボ</title>
+  <meta name="description" content="EA-Rank ラボの検証データや設定ファイル（.set）の利用、EA自動売買の運用に関するよくある質問（FAQ）と回答をまとめています。">
+  <link rel="canonical" href="https://ea-rank.com/faq.html">
+
+  <!-- OGP Meta Tags -->
+  <meta property="og:site_name" content="EA-Rank ラボ">
+  <meta property="og:title" content="よくある質問 (FAQ) | EA-Rank ラボ">
+  <meta property="og:description" content="EA-Rank ラボの検証データや設定ファイル（.set）の利用、EA自動売買の運用に関するよくある質問（FAQ）と回答をまとめています。">
+  <meta property="og:type" content="website">
+
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;900&family=Outfit:wght@600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Site Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8628151059114036"
+     crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+  <!-- Top Header Banner -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="index.html" class="logo">
+        <span class="logo-badge">検証・ランキング</span>
+        <span class="logo-text">EA-Rank<span class="highlight"> ラボ</span></span>
+      </a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html"><i class="fa-solid fa-house"></i> ホーム</a></li>
+          <li><a href="ranking.html" style="color: #F59E0B; font-weight: 800;"><i class="fa-solid fa-trophy"></i> MQL5ランキング</a></li>
+          <li><a href="ea/forward-test.html" style="color: #0EA5E9; font-weight: 800;"><i class="fa-solid fa-vial"></i> フォワード検証</a></li>
+          <li><a href="darkvenus.html" style="color: #8B5CF6; font-weight: 800;"><i class="fa-solid fa-robot"></i> DarkVenus</a></li>
+          <li><a href="columns.html"><i class="fa-solid fa-book-open"></i> FXコラム</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb" style="background: #F8FAFC; border-bottom: 1px solid #E2E8F0; padding: 10px 0; font-size: 0.85rem;">
+    <div class="container">
+      <a href="index.html" style="color: var(--text-muted); text-decoration: none;"><i class="fa-solid fa-house"></i> ホーム</a>
+      <span style="margin: 0 8px; color: #CBD5E1;">/</span>
+      <span style="color: var(--text-main); font-weight: 700;">よくある質問 (FAQ)</span>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero-section" style="padding: 40px 0 28px;">
+    <div class="container hero-container" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+      <div class="speech-bubble" style="display: inline-block; margin-bottom: 12px;">
+        <span class="emoji">💡</span> 疑問や不安をスッキリ解決！
+      </div>
+      <h1 class="hero-title" style="margin-top: 0; margin-bottom: 12px;">
+        よくある質問 <span class="marker">(FAQ)</span>
+      </h1>
+      <p class="hero-desc" style="max-width: 720px; margin: 0 auto; color: var(--text-muted); line-height: 1.7;">
+        当サイト（EA-Rank ラボ）の検証データや設定ファイル（.set）の利用、EA自動売買の運用に関して、よくいただくご質問と回答をまとめました。
+      </p>
+    </div>
+  </section>
+
+  <!-- Main FAQ Content Area -->
+  <section class="section" style="padding: 24px 0 60px;">
+    <div class="container" style="max-width: 860px;">
+      
+      <div class="faq-list">
+        
+        <div class="faq-card">
+          <div class="faq-q">
+            <span class="q-badge">Q</span>
+            <h3>そもそも「設定ファイル(.set)」って何ですか？</h3>
+          </div>
+          <div class="faq-a">
+            <p><strong>A. パラメータ数値をひとまとめに保存した設定データです。</strong><br>EAの「ナンピン幅」や「ロット数」「利確pips」などの細かいパラメーターが記録されています。MT4のプロパティ画面で「読み込み」を押すだけで、面倒な数値入力が一瞬で完了し、検証時と同じパラメーターを再現できます。</p>
+          </div>
+        </div>
+
+        <div class="faq-card">
+          <div class="faq-q">
+            <span class="q-badge">Q</span>
+            <h3>この設定ファイルを使えば必ず勝てますか？</h3>
+          </div>
+          <div class="faq-a">
+            <p><strong>A. 相場に100%の保証はありません。</strong> 過去ヒストリカルデータに基づきバックテスト検証を行った設定ですが、将来の運用成果を保証するものではありません。まずはデモ口座やマイクロ口座で挙動やドローダウンを確認し、ご自身の資金管理に合わせてご活用ください。</p>
+          </div>
+        </div>
+
+        <div class="faq-card">
+          <div class="faq-q">
+            <span class="q-badge">Q</span>
+            <h3>管理人がリアル口座で運用している設定は公開していますか？</h3>
+          </div>
+          <div class="faq-a">
+            <p><strong>A. 現在リアル口座で長期検証を継続中です。</strong> 管理人が試行錯誤して稼働させているリアル口座での検証データは、「<a href="ea/forward-test.html" style="color: var(--primary); text-decoration: underline;">フォワード検証</a>」ページにてMyfxbook連動で透明に公開しています。十分な期間の耐久性と安全性が確認できたものから、順次設定や考察を共有していきます。</p>
+          </div>
+        </div>
+
+        <div class="faq-card">
+          <div class="faq-q">
+            <span class="q-badge">Q</span>
+            <h3>設定ファイルは自由にダウンロードして使っていいの？</h3>
+          </div>
+          <div class="faq-a">
+            <p><strong>A. どうぞご自由にご活用ください！</strong> 利用前の報告や連絡も一切不要です。皆様の日々の検証やトレード判断の参考として、ダウンロードしてお役立てください。</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Contact Box for Further Questions -->
+      <div style="margin-top: 48px; background: #F8FAFC; border: 2px dashed #CBD5E1; border-radius: var(--radius-md); padding: 32px 24px; text-align: center;">
+        <h3 style="font-size: 1.2rem; font-weight: 800; color: var(--text-main); margin-bottom: 8px;">
+          <i class="fa-solid fa-envelope-open-text" style="color: var(--primary); margin-right: 8px;"></i>他にご不明な点やリクエストはありますか？
+        </h3>
+        <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 20px; max-width: 600px; margin-left: auto; margin-right: auto;">
+          掲載中のEAや検証設定についてのご質問、検証してほしいEAのリクエストなどがございましたら、お気軽にお問い合わせフォームよりご連絡ください。
+        </p>
+        <a href="contact.html" class="btn btn-primary btn-bounce" style="padding: 12px 28px; font-size: 0.95rem;">
+          <i class="fa-solid fa-paper-plane"></i> お問い合わせはこちら
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container" style="text-align: center;">
+      <p style="margin-bottom: 8px; font-weight: 700; color: #FFF; font-size: 1.1rem;">EA-Rank ラボ</p>
+      <p style="margin: 12px 0; font-size: 0.85rem;">
+        <a href="index.html" style="color: #A0AEC0; margin-right: 14px;">ホーム</a>
+        <a href="ranking.html" style="color: #A0AEC0; margin-right: 14px;">MQL5ランキング</a>
+        <a href="ea/forward-test.html" style="color: #A0AEC0; margin-right: 14px;">フォワード検証</a>
+        <a href="darkvenus.html" style="color: #A0AEC0; margin-right: 14px;">DarkVenusガイド</a>
+        <a href="columns.html" style="color: #A0AEC0; margin-right: 14px;">FXコラム</a>
+        <a href="faq.html" style="color: #FFF; font-weight: 800; margin-right: 14px;">よくある質問</a>
+        <a href="profile.html" style="color: #A0AEC0; margin-right: 14px;">運営者情報</a>
+        <a href="privacy.html" style="color: #A0AEC0; margin-right: 14px;">プライバシーポリシー</a>
+        <a href="contact.html" style="color: #A0AEC0;">お問い合わせ</a>
+      </p>
+      <p class="copyright" style="font-size: 0.8rem; color: #718096; margin-top: 12px;">
+        &copy; 2026 EA-Rank ラボ All Rights Reserved.
+      </p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+
+</html>

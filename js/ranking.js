@@ -120,7 +120,7 @@ function updateMonthSelectorUI() {
   if (headerMonthTag) {
     headerMonthTag.textContent = `（${formatMonthLabel(selectedMonth)}）`;
   }
-  document.title = `MQL5ランキング（${formatMonthLabel(selectedMonth)}） | リアル稼働EA評価 | Dark Venus ラボ`;
+  document.title = `MQL5ランキング（${formatMonthLabel(selectedMonth)}） | リアル稼働EA評価 | EA-Rank ラボ`;
 
   const monthStatusBadge = document.getElementById("month-status-badge");
   if (monthStatusBadge) {

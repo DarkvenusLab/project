@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZCK7N99R3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-BZCK7N99R3');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dark Venus（ダークヴィーナス）検証・設定ガイド | EA-Rank ラボ</title>
+  <meta name="description" content="10万DLを超える大人気無料EA「Dark Venus」の魅力とリアル検証記録。ナンピンマーチンの戦い方、検証済み.setファイル一覧、日本語マニュアル、導入手順を完全網羅。">
+  <meta name="keywords" content="Dark Venus, ダークヴィーナス, MQL5 EA, ナンピンマーチン, 設定ファイル, .set, 無料EA, バックテスト, EA-Rank ラボ">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <link rel="canonical" href="https://ea-rank.com/darkvenus.html">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:site_name" content="EA-Rank ラボ">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ea-rank.com/darkvenus.html">
+  <meta property="og:title" content="Dark Venus（ダークヴィーナス）検証・設定ガイド | EA-Rank ラボ">
+  <meta property="og:description" content="無料EA「Dark Venus」のリアル検証記録、検証済み.set設定一覧、公式マニュアル和訳、導入手順を完全網羅。">
+  <meta property="og:image" content="https://ea-rank.com/images/administrator.png">
+  <meta property="og:locale" content="ja_JP">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Dark Venus（ダークヴィーナス）検証・設定ガイド | EA-Rank ラボ">
+  <meta name="twitter:description" content="無料EA「Dark Venus」のリアル検証記録、検証済み.set設定一覧、公式マニュアル和訳、導入手順を完全網羅。">
+  <meta name="twitter:image" content="https://ea-rank.com/images/administrator.png">
+
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Zen+Maru+Gothic:wght@500;700;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8628151059114036"
+    crossorigin="anonymous"></script>
+
+  <style>
+    .dv-hub-card {
+      background: #FFF;
+      border: 2px solid var(--text-main);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      box-shadow: 4px 4px 0 var(--text-main);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .dv-hub-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 6px 6px 0 var(--text-main);
+    }
+
+    .dv-hub-card .icon-wrap {
+      font-size: 2.2rem;
+      margin-bottom: 12px;
+    }
+
+    .dv-hub-card .badge-tag {
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 4px;
+      display: inline-block;
+      align-self: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .dv-hub-card h3 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin: 0 0 8px 0;
+      color: var(--text-main);
+    }
+
+    .dv-hub-card p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin: 0;
+      flex-grow: 1;
+    }
+
+    .dv-hub-card .read-more {
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px dashed #E2E8F0;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #8B5CF6;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Top Header Banner -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="index.html" class="logo">
+        <span class="logo-badge">検証・ランキング</span>
+        <span class="logo-text">EA-Rank<span class="highlight"> ラボ</span></span>
+      </a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html"><i class="fa-solid fa-house"></i> ホーム</a></li>
+          <li><a href="ranking.html" style="color: #F59E0B; font-weight: 800;"><i class="fa-solid fa-trophy"></i> MQL5ランキング</a></li>
+          <li><a href="ea/forward-test.html" style="color: #0EA5E9; font-weight: 800;"><i class="fa-solid fa-vial"></i> フォワード検証</a></li>
+          <li><a href="darkvenus.html" class="active" style="color: #8B5CF6; font-weight: 800;"><i class="fa-solid fa-robot"></i> DarkVenus</a></li>
+          <li><a href="columns.html"><i class="fa-solid fa-book-open"></i> FXコラム</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Breadcrumbs -->
+  <div class="container" style="padding-top: 20px;">
+    <div style="font-size: 0.85rem; color: var(--text-muted);">
+      <a href="index.html" style="color: var(--text-muted); text-decoration: none;"><i class="fa-solid fa-house"></i> ホーム</a> &gt;
+      <span style="color: var(--text-main); font-weight: 700;">Dark Venus（ダークヴィーナス）検証・設定ガイド</span>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero-section" style="padding: 36px 0 24px;">
+    <div class="container" style="text-align: center;">
+      <div class="speech-bubble" style="display: inline-block; margin-bottom: 12px;">
+        <span class="emoji">🤖</span> 世界で10万DL超え！当ラボの原点となった大人気無料EA
+      </div>
+      <h1 class="hero-title" style="font-size: 2.2rem; margin-bottom: 12px;">
+        Dark Venus 検証・設定ガイド
+      </h1>
+      <p class="hero-desc" style="max-width: 720px; margin: 0 auto; font-size: 1rem; color: var(--text-muted); line-height: 1.7;">
+        管理人がEAの検証にのめり込むきっかけとなった無料ナンピンEA「Dark Venus」。<br>
+        検証済み設定ファイル（.set）の配布や公式マニュアルの日本語解説、導入手順など、実戦に役立つリソースをここにまとめています。
+      </p>
+    </div>
+  </section>
+
+  <!-- Hub Link Cards Grid -->
+  <section class="section" style="padding: 16px 0 40px;">
+    <div class="container">
+      <div class="section-header text-center" style="text-align: center; margin-bottom: 24px;">
+        <span class="sub-title" style="color: #8B5CF6; font-weight: 800; font-size: 0.85rem; letter-spacing: 1px;">DARK VENUS RESOURCES</span>
+        <h2 style="font-size: 1.6rem; font-weight: 900; margin-top: 4px;">関連ページ・お役立ちメニュー</h2>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
+
+        <!-- Card 1: .setファイル一覧 -->
+        <a href="tools/setfiles.html" class="dv-hub-card">
+          <div class="icon-wrap" style="color: #EC4899;">
+            <i class="fa-solid fa-folder-open"></i>
+          </div>
+          <span class="badge-tag" style="background: #FCE7F3; color: #9D174D;">設定ファイル配布</span>
+          <h3>検証済み.set一覧</h3>
+          <p>管理人が過去相場やフォワードで検証した安全設定・積極設定ファイルを無料公開。そのままダウンロードして使えます。</p>
+          <div class="read-more">
+            <span>設定ファイル一覧を見る</span> <i class="fa-solid fa-arrow-right"></i>
+          </div>
+        </a>
+
+        <!-- Card 2: Dark Venusとは？ -->
+        <a href="about-darkvenus.html" class="dv-hub-card">
+          <div class="icon-wrap" style="color: #10B981;">
+            <i class="fa-solid fa-bolt"></i>
+          </div>
+          <span class="badge-tag" style="background: #ECFDF5; color: #047857;">EA概要・ロジック</span>
+          <h3>Dark Venusとは？深掘り解説</h3>
+          <p>ボリンジャーバンド×ナンピンの取引ロジック、月利ポテンシャルとドローダウンリスクなど、基本仕様を客観的に解説。</p>
+          <div class="read-more">
+            <span>解説を読む</span> <i class="fa-solid fa-arrow-right"></i>
+          </div>
+        </a>
+
+        <!-- Card 3: 公式マニュアル和訳 -->
+        <a href="manual.html" class="dv-hub-card">
+          <div class="icon-wrap" style="color: #3B82F6;">
+            <i class="fa-solid fa-file-contract"></i>
+          </div>
+          <span class="badge-tag" style="background: #EFF6FF; color: #1E40AF;">完全日本語化</span>
+          <h3>公式マニュアル和訳</h3>
+          <p>英語表記で分かりにくい全パラメータ項目を日本語で徹底解説。各設定項目の意味や調整方法に迷ったときの必読書。</p>
+          <div class="read-more">
+            <span>マニュアルを見る</span> <i class="fa-solid fa-arrow-right"></i>
+          </div>
+        </a>
+
+        <!-- Card 4: 導入手順 -->
+        <a href="manual/how-to-setup.html" class="dv-hub-card">
+          <div class="icon-wrap" style="color: #F59E0B;">
+            <i class="fa-solid fa-circle-info"></i>
+          </div>
+          <span class="badge-tag" style="background: #FEF3C7; color: #92400E;">初心者ガイド</span>
+          <h3>MT4/MT5 導入・設置手順</h3>
+          <p>口座開設からMT4/MT5へのEA設置、.set設定ファイルの読み込み方法まで、つまずきやすい手順を図解でわかりやすく解説。</p>
+          <div class="read-more">
+            <span>導入手順を見る</span> <i class="fa-solid fa-arrow-right"></i>
+          </div>
+        </a>
+
+        <!-- Card 5: 分析ツール -->
+        <a href="tools/backtest-analyzer.html" class="dv-hub-card">
+          <div class="icon-wrap" style="color: #0EA5E9;">
+            <i class="fa-solid fa-chart-pie"></i>
+          </div>
+          <span class="badge-tag" style="background: #E0F2FE; color: #0369A1;">WEBツール / 解析</span>
+          <h3>高度バックテスト分析ツール</h3>
+          <p>MT4のテストレポートをアップロードするだけでナンピン段数別到達率や曜日別勝率、ドローダウンを瞬時に可視化・無料解析。</p>
+          <div class="read-more">
+            <span>分析ツールを使う</span> <i class="fa-solid fa-arrow-right"></i>
+          </div>
+        </a>
+
+        <!-- Card 6: フォワード検証 -->
+        <a href="ea/forward-test.html" class="dv-hub-card">
+          <div class="icon-wrap" style="color: #6366F1;">
+            <i class="fa-solid fa-vial"></i>
+          </div>
+          <span class="badge-tag" style="background: #EEF2FF; color: #4338CA;">リアル口座検証</span>
+          <h3>フォワードテスト検証記録</h3>
+          <p>当ラボで実際にリアル口座稼働させているDark Venusのフォワード運用成績やmyfxbook公式データを毎月リアルタイム公開中。</p>
+          <div class="read-more">
+            <span>フォワード検証を見る</span> <i class="fa-solid fa-arrow-right"></i>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Story & Philosophy Section -->
+  <section class="section" style="background: #F8FAFC; border-top: 2px dashed #CBD5E1; border-bottom: 2px dashed #CBD5E1; padding: 48px 0;">
+    <div class="container" style="max-width: 860px;">
+      <div class="section-header text-center" style="text-align: center; margin-bottom: 32px;">
+        <span class="sub-title" style="color: #8B5CF6; font-weight: 800; font-size: 0.85rem; letter-spacing: 1px;">ORIGIN STORY</span>
+        <h2 style="font-size: 1.8rem; font-weight: 900; margin-top: 4px;">管理人とDark Venusのリアルな検証記録</h2>
+      </div>
+
+      <div style="background: #FFF; border: 2px solid var(--text-main); border-radius: var(--radius-lg); padding: 36px 32px; box-shadow: 4px 4px 0 var(--text-main); line-height: 1.85; font-size: 1.02rem;">
+        
+        <h3 style="font-size: 1.25rem; font-weight: 800; color: #8B5CF6; margin-top: 0; margin-bottom: 14px;">
+          <i class="fa-solid fa-robot"></i> Dark Venusとの出会いとナンピンマーチンの魅力
+        </h3>
+        <p>
+          数々の裁量トレードや高額な情報商材で大金を溶かし、「自分は感情を排除できるEAを使わなければ勝てない人間だ」と痛感した私が出会ったのが、<strong>『Dark Venus』</strong>という無料EAでした。
+        </p>
+        <p>
+          ご存知の方もいるかもしれませんが、Dark Venusは<strong>「ナンピンマーチンゲール」</strong>という手法を採用しているEAです。<br>
+          相場が逆行した際に、ロットを増やしながらポジションを追加して、少しの反発で一気にプラスに持っていくロジックですね。
+        </p>
+        <p>
+          世間では、「ナンピンマーチンは悪だ！」「いつか絶対に資金を全損する危険な手法だ！」ってマイナス評価されることがすごく多いですよね。<br>
+          正直、そのマイナス評価をする人たちの気持ちは、痛いほどよく分かります。
+        </p>
+        <p>
+          私自身、ナンピンEAに手を出して、含み損が雪だるま式に膨れ上がり、口座が飛んでいくのを何度もこの目で見てきましたから。「あんなのただのギャンブルだ」と否定したくなる気持ちには、めちゃくちゃ共感します。
+        </p>
+
+        <h4 style="font-size: 1.1rem; font-weight: 800; color: var(--text-main); margin-top: 28px; margin-bottom: 12px;">
+          でも、ナンピンマーチンには「語られないもう一つの顔」があると思いませんか？
+        </h4>
+        <p>
+          個人的には、「資金が潤沢にある人が極小ロットで運用した場合、ほぼ無敵の手法になる」と思っています。資金管理さえ間違えなければ、これほど高い勝率でコツコツと利益を積み上げられる手法は他にありません。
+        </p>
+        <p>
+          「じゃあ、資金が少ない人はナンピンしちゃダメなの？」と思うかもしれませんね。<br>
+          決してそんなことはありません！<br>
+          資金が少ないなら少ないなりの戦い方があります。例えば、マイクロ口座を使って極限までリスクを下げたり、利益が出たらこまめに出金して「元本回収」を最優先にしたり。工夫次第でいくらでも戦えるのがEAの面白いところです。
+        </p>
+
+        <h4 style="font-size: 1.1rem; font-weight: 800; color: var(--text-main); margin-top: 28px; margin-bottom: 12px;">
+          Dark Venusの使い方は「本当に人それぞれで良い」
+        </h4>
+        <p>
+          一般的に「破綻する設定＝悪」と思われがちですが、私は必ずしもそうは思いません。<br>
+          管理人としての個人的な好みは「破綻しない安全な設定」ですが、<strong>「数ヶ月で資金を何倍にもする爆益設定を回して、破綻してもトータルでプラスになればいい」</strong>というハイリスク・ハイリターンの戦い方も、立派な戦略の一つです。
+        </p>
+        <p>
+          Dark Venusの本当に素晴らしいところは、まさにその「設定の自由度」なんです。<br>
+          とにかくパラメータが豊富で、カスタマイズ性が異常に高い。プログラミングができなくても、数値をいじるだけで「自分だけのオリジナルEA」を作っているような感覚になれるんですよね。これが本当に面白いんです。そんなEAが無料で使えるんです！ Marco Solito（作成者）さん、本当にありがとう！
+        </p>
+        <p>
+          私はそこから、ネット上にDark Venusの設定情報が落ちていないか、海外掲示板やSNSを隅から隅まで調べ、見つけた設定を片っ端からバックテストにかけて検証していきました。<br>
+          でも、ネットに落ちている設定の多くは、「特定の年だけ爆益を出すけれど、翌年にはあっさり破綻する設定」か、「安全だけど1年間回しても数千円にしかならない設定」という、ちょっと残念な現実でした。
+        </p>
+
+        <div style="background: #F1F5F9; border-left: 4px solid #8B5CF6; padding: 16px 20px; border-radius: 4px; margin: 28px 0;">
+          <h4 style="font-size: 1.05rem; font-weight: 800; color: #6D28D9; margin: 0 0 8px 0;">
+            ⚠️ ただし、1つだけ約束してくださいね
+          </h4>
+          <p style="font-size: 0.95rem; line-height: 1.7; margin: 0; color: var(--text-main);">
+            当サイトに置いてある設定ファイルをダウンロードして、<strong>「これをそのまま使えば絶対に勝てるんだ！」とは思わないでください。</strong><br>
+            ここにある設定ファイルは、過去の相場で生き残ったものや、最終的に破綻したものも混ざっています。未来の相場で勝ち続ける保証はどこにもありません。<br><br>
+            Dark Venusは設定項目が多すぎて挫折する人が多いからこそ、<strong>「あ、こういう設定の組み方もあるんだ」「数値をこう変えるとナンピンの挙動が変わるんだ」という『参考書』</strong>として使ってほしいのです。
+            ぜひあなた自身の手でパラメータをいじり、Dark Venusの深い検証の「沼」に浸かってみてください。
+          </p>
+        </div>
+
+        <h4 style="font-size: 1.1rem; font-weight: 800; color: var(--text-main); margin-top: 28px; margin-bottom: 12px;">
+          で、お前自身はDark Venusを使って儲かってるのか？
+        </h4>
+        <p>
+          ……と、ここまで偉そうに語ってきましたが、きっとみなさんこう思ってますよね？<br>
+          <strong>「で、お前自身はDark Venusを使って儲かってるのか？」って。</strong>
+        </p>
+        <p>
+          正直に言います。<br>
+          <strong>トータル収支は、いまだにマイナスです（笑）。</strong>
+        </p>
+        <p>
+          実は、Dark Venusを使い始めた初期の頃に調子に乗ってかなり激しく破綻しまして……今でもそのマイナス分をズルズルと引きずっています。<br>
+          ただ、最近はようやくいい感じのパラメータが見つかってきました。決して爆益ではありませんが、複数の通貨ペアに分散させてDark Venusを動かし、ここ数年だけで見れば何とかプラスを維持できています。
+        </p>
+        <p>
+          これからはとにかく「ちょくちょく出金して利益を確保する！」というスタイルで地道に運用していく予定です。<br>
+          私と同じようにEAの沼を彷徨っているみなさん、相場は何が起こるか分かりません。どうかご安全に！
+        </p>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container" style="text-align: center;">
+      <p style="margin-bottom: 8px; font-weight: 700; color: #FFF; font-size: 1.1rem;">EA-Rank ラボ</p>
+      <p style="margin: 12px 0; font-size: 0.85rem;">
+        <a href="index.html" style="color: #A0AEC0; margin-right: 14px;">ホーム</a>
+        <a href="ranking.html" style="color: #A0AEC0; margin-right: 14px;">MQL5ランキング</a>
+        <a href="ea/forward-test.html" style="color: #A0AEC0; margin-right: 14px;">フォワード検証</a>
+        <a href="darkvenus.html" style="color: #A0AEC0; margin-right: 14px;">DarkVenusガイド</a>
+        <a href="columns.html" style="color: #A0AEC0; margin-right: 14px;">FXコラム一覧</a>
+        <a href="faq.html" style="color: #A0AEC0; margin-right: 14px;">よくある質問</a>
+        <a href="profile.html" style="color: #A0AEC0; margin-right: 14px;">運営者情報</a>
+        <a href="privacy.html" style="color: #A0AEC0; margin-right: 14px;">プライバシーポリシー</a>
+        <a href="contact.html" style="color: #A0AEC0;">お問い合わせ</a>
+      </p>
+      <p class="copyright" style="font-size: 0.8rem; color: #718096; margin-top: 12px;">
+        &copy; 2026 EA-Rank ラボ All Rights Reserved.
+      </p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+
+</html>

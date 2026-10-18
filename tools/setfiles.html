@@ -13,9 +13,9 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>検証済み.setファイル一覧・バックテスト成績 | Dark Venus ラボ</title>
+  <title>検証済み.setファイル一覧・バックテスト成績 | EA-Rank ラボ</title>
   <meta name="description" content="無料EA「Dark Venus」の通年バックテスト検証済み.setファイル一覧。単年損益・最大含み損・プロフィットファクター・詳細HTMレポートを完全開示・無料配布中。">
-  <meta property="og:title" content="検証済み.setファイル一覧・バックテスト成績 | Dark Venus ラボ">
+  <meta property="og:title" content="検証済み.setファイル一覧・バックテスト成績 | EA-Rank ラボ">
   <meta property="og:description" content="Dark Venus EAの検証済み設定ファイル(.set)一覧。通年損益・最大含み損・HTMレポートを完全公開。">
   <meta property="og:type" content="website">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -341,18 +341,16 @@
   <header class="site-header">
     <div class="container header-container">
       <a href="../index.html" class="logo">
-        <span class="logo-badge">検証アーカイブ</span>
-        <span class="logo-text">Dark Venus<span class="highlight"> ラボ</span></span>
+        <span class="logo-badge">検証・ランキング</span>
+        <span class="logo-text">EA-Rank<span class="highlight"> ラボ</span></span>
       </a>
       <nav class="main-nav">
         <ul>
           <li><a href="../index.html"><i class="fa-solid fa-house"></i> ホーム</a></li>
-          <li><a href="../ranking.html" style="color: #F59E0B; font-weight: 800;"><i class="fa-solid fa-trophy"></i> MQL5ランキング <span class="nav-badge-hot">HOT</span></a></li>
-          <li><a href="../ea/forward-test.html" style="color: #0EA5E9; font-weight: 800;"><i class="fa-solid fa-vial"></i> フォワード検証 <span class="nav-badge-new">NEW</span></a></li>
-          <li><a href="backtest-analyzer.html"><i class="fa-solid fa-chart-line"></i> 分析ツール</a></li>
-          <li><a href="setfiles.html" class="active"><i class="fa-solid fa-folder-open"></i> 検証済み.set一覧</a></li>
-          <li><a href="../manual.html"><i class="fa-solid fa-file-contract"></i> 公式マニュアル和訳</a></li>
-          <li><a href="../manual/how-to-setup.html"><i class="fa-solid fa-circle-info"></i> 導入手順</a></li>
+          <li><a href="../ranking.html" style="color: #F59E0B; font-weight: 800;"><i class="fa-solid fa-trophy"></i> MQL5ランキング</a></li>
+          <li><a href="../ea/forward-test.html" style="color: #0EA5E9; font-weight: 800;"><i class="fa-solid fa-vial"></i> フォワード検証</a></li>
+          <li><a href="../darkvenus.html" class="active" style="color: #8B5CF6; font-weight: 800;"><i class="fa-solid fa-robot"></i> DarkVenus</a></li>
+          <li><a href="../columns.html"><i class="fa-solid fa-book-open"></i> FXコラム</a></li>
         </ul>
       </nav>
     </div>
@@ -457,18 +455,19 @@
   <!-- Footer -->
   <footer class="site-footer">
     <div class="container" style="text-align: center;">
-      <p style="margin-bottom: 8px; font-weight: 700; color: #FFF; font-size: 1.1rem;">Dark Venus ラボ</p>
+      <p style="margin-bottom: 8px; font-weight: 700; color: #FFF; font-size: 1.1rem;">EA-Rank ラボ</p>
       <p style="margin: 12px 0; font-size: 0.85rem;">
         <a href="../index.html" style="color: #A0AEC0; margin-right: 14px;">ホーム</a>
         <a href="../ranking.html" style="color: #A0AEC0; margin-right: 14px;">MQL5ランキング</a>
         <a href="../ea/forward-test.html" style="color: #A0AEC0; margin-right: 14px;">フォワード検証</a>
         <a href="setfiles.html" style="color: #A0AEC0; margin-right: 14px;">設定ファイル一覧</a>
+        <a href="../faq.html" style="color: #A0AEC0; margin-right: 14px;">よくある質問</a>
         <a href="../profile.html" style="color: #A0AEC0; margin-right: 14px;">運営者情報</a>
         <a href="../privacy.html" style="color: #A0AEC0; margin-right: 14px;">プライバシーポリシー</a>
         <a href="../contact.html" style="color: #A0AEC0;">お問い合わせ</a>
       </p>
       <p class="copyright" style="font-size: 0.8rem; color: #718096; margin-top: 12px;">
-        &copy; 2026 Dark Venus ラボ All Rights Reserved.
+        &copy; 2026 EA-Rank ラボ All Rights Reserved.
       </p>
     </div>
   </footer>
@@ -692,7 +691,7 @@
           .catch(localErr => {
             console.warn("Local fetch failed (likely file:// protocol CORS restriction). Attempting remote fallback...", localErr);
             // 2. Fallback to production online data
-            fetch('https://darkvenus-lab.com/data/setfiles.json?v=' + Date.now())
+            fetch('https://ea-rank.com/data/setfiles.json?v=' + Date.now())
               .then(res => {
                 if (!res.ok) throw new Error('Fallback HTTP error ' + res.status);
                 return res.json();
