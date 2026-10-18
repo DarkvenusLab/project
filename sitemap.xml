@@ -3,14 +3,14 @@
   <!-- ホーム -->
   <url>
     <loc>https://ea-rank.com/</loc>
-    <lastmod>2026-10-05</lastmod>
+    <lastmod>2026-10-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <!-- MQL5ランキング -->
   <url>
-    <loc>https://ea-rank.com/ranking.html</loc>
-    <lastmod>2026-10-05</lastmod>
+    <loc>https://ea-rank.com/ea/</loc>
+    <lastmod>2026-10-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -21,136 +21,136 @@
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
-  <!-- EA・FXコラム一覧 -->
+  <!-- AI採点マトリクス -->
   <url>
-    <loc>https://ea-rank.com/columns.html</loc>
+    <loc>https://ea-rank.com/ea/scoring.html</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <!-- Dark Venus 検証・設定ガイド -->
+  <url>
+    <loc>https://ea-rank.com/darkvenus/</loc>
     <lastmod>2026-10-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
-  <!-- Dark Venus 検証・設定ガイド -->
+  <!-- Dark Venus 設定ファイル一覧 -->
   <url>
-    <loc>https://ea-rank.com/darkvenus.html</loc>
+    <loc>https://ea-rank.com/darkvenus/setfiles.html</loc>
     <lastmod>2026-10-18</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
+  </url>
+  <!-- Dark Venus 公式マニュアル和訳 -->
+  <url>
+    <loc>https://ea-rank.com/darkvenus/manual.html</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <!-- Dark Venus 導入手順 -->
+  <url>
+    <loc>https://ea-rank.com/darkvenus/how-to-setup.html</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <!-- Dark Venus ロジック解説 -->
+  <url>
+    <loc>https://ea-rank.com/darkvenus/about.html</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <!-- バックテスト分析ツール -->
   <url>
     <loc>https://ea-rank.com/tools/backtest-analyzer.html</loc>
-    <lastmod>2026-10-05</lastmod>
+    <lastmod>2026-10-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
-  <!-- 設定ファイル一覧 -->
+  <!-- EA・FXコラム一覧 -->
   <url>
-    <loc>https://ea-rank.com/tools/setfiles.html</loc>
-    <lastmod>2026-10-05</lastmod>
+    <loc>https://ea-rank.com/columns/</loc>
+    <lastmod>2026-10-18</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <!-- 運営者情報（プロフィール） -->
-  <url>
-    <loc>https://ea-rank.com/profile.html</loc>
-    <lastmod>2026-10-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <!-- 公式マニュアル和訳 -->
-  <url>
-    <loc>https://ea-rank.com/manual.html</loc>
-    <lastmod>2026-10-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <!-- 導入手順 -->
-  <url>
-    <loc>https://ea-rank.com/manual/how-to-setup.html</loc>
-    <lastmod>2026-10-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <!-- Dark Venusについて -->
-  <url>
-    <loc>https://ea-rank.com/about-darkvenus.html</loc>
-    <lastmod>2026-10-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <!-- 独自AI採点マトリクス -->
-  <url>
-    <loc>https://ea-rank.com/scoring.html</loc>
-    <lastmod>2026-10-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.9</priority>
   </url>
   <!-- コラム：EA基礎知識 -->
   <url>
     <loc>https://ea-rank.com/columns/ea-basic.html</loc>
-    <lastmod>2026-10-05</lastmod>
+    <lastmod>2026-10-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <!-- コラム：バックテストの重要性 -->
   <url>
     <loc>https://ea-rank.com/columns/backtest-importance.html</loc>
-    <lastmod>2026-10-05</lastmod>
+    <lastmod>2026-10-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <!-- コラム：ECN口座について -->
   <url>
     <loc>https://ea-rank.com/columns/ecn-account.html</loc>
-    <lastmod>2026-10-05</lastmod>
+    <lastmod>2026-10-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <!-- コラム：海外FXの特徴 -->
   <url>
     <loc>https://ea-rank.com/columns/overseas-fx.html</loc>
-    <lastmod>2026-10-05</lastmod>
+    <lastmod>2026-10-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <!-- コラム：有料EAと無料EA -->
   <url>
     <loc>https://ea-rank.com/columns/paid-ea.html</loc>
-    <lastmod>2026-10-05</lastmod>
+    <lastmod>2026-10-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <!-- コラム：VPS選びの基準 -->
   <url>
     <loc>https://ea-rank.com/columns/vps.html</loc>
-    <lastmod>2026-10-05</lastmod>
+    <lastmod>2026-10-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <!-- 当サイトの理念・想い -->
   <url>
-    <loc>https://ea-rank.com/about.html</loc>
+    <loc>https://ea-rank.com/others/about.html</loc>
     <lastmod>2026-10-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <!-- よくある質問 (FAQ) -->
   <url>
-    <loc>https://ea-rank.com/faq.html</loc>
+    <loc>https://ea-rank.com/others/faq.html</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <!-- 運営者情報 -->
+  <url>
+    <loc>https://ea-rank.com/others/profile.html</loc>
     <lastmod>2026-10-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <!-- プライバシーポリシー -->
   <url>
-    <loc>https://ea-rank.com/privacy.html</loc>
-    <lastmod>2026-10-05</lastmod>
+    <loc>https://ea-rank.com/others/privacy.html</loc>
+    <lastmod>2026-10-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <!-- お問い合わせ -->
   <url>
-    <loc>https://ea-rank.com/contact.html</loc>
-    <lastmod>2026-10-05</lastmod>
+    <loc>https://ea-rank.com/others/contact.html</loc>
+    <lastmod>2026-10-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

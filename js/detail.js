@@ -376,11 +376,11 @@ function renderDetailPage() {
 function renderTCGCard(ea, rankBadge, isSRankOrHigher) {
   const container = document.getElementById("card-column-container");
   
-  const rankIcon = `images/CardDesignParts/Rank/rank_${rankBadge}.png`;
-  const frameImagePath = `images/CardDesignParts/Frame/frame_${rankBadge}.png`;
+  const rankIcon = `../images/CardDesignParts/Rank/rank_${rankBadge}.png`;
+  const frameImagePath = `../images/CardDesignParts/Frame/frame_${rankBadge}.png`;
   const artFrameStyle = `background-image: url('${frameImagePath}');`;
   const targetMonth = ea.active_month_card || ea.target_month || '2026.08';
-  const thumbnail = ea.image_url || 'images/default-ea.jpg';
+  const thumbnail = ea.image_url || '../images/default-ea.jpg';
 
   let tagsStr = 'N/A';
   if (Array.isArray(ea.tags) && ea.tags.length > 0) {
@@ -394,11 +394,11 @@ function renderTCGCard(ea, rankBadge, isSRankOrHigher) {
 
   if (isSRankOrHigher) {
     skillBannerHtml = `
-      <div class="skill-banner-container" style="background-image: url('images/CardDesignParts/Frame/frame_Skill.png');">
+      <div class="skill-banner-container" style="background-image: url('../images/CardDesignParts/Frame/frame_Skill.png');">
         <div class="skill-tags-text">${tagsStr}</div>
       </div>
     `;
-    statsFrameHtml = `<div class="stats-frame" style="background-image: url('images/CardDesignParts/Frame/frame_Under.png');">`;
+    statsFrameHtml = `<div class="stats-frame" style="background-image: url('../images/CardDesignParts/Frame/frame_Under.png');">`;
   } else {
     skillBannerHtml = `
       <div class="skill-banner-container skill-banner-css">
@@ -433,7 +433,7 @@ function renderTCGCard(ea, rankBadge, isSRankOrHigher) {
 
       <!-- MIDDLE SECTION (Left: Thumbnail, Right: Radar) -->
       <div class="art-frame" style="${artFrameStyle}">
-        <img src="${thumbnail}" class="ea-thumbnail" alt="${ea.name}" onerror="this.src='images/administrator.png'">
+        <img src="${thumbnail}" class="ea-thumbnail" alt="${ea.name}" onerror="this.src='../images/administrator.png'">
         <div class="radar-circle">
           <canvas id="detail-radar-canvas"></canvas>
         </div>
@@ -803,7 +803,7 @@ function renderAllHistory(ea) {
           </div>
         </td>
         <td style="text-align: right;">
-          <a href="ranking.html?month=${m.year_month}" class="btn-view-month-ranking" title="${monthLabel}の全体ランキングを表示">
+          <a href="index.html?month=${m.year_month}" class="btn-view-month-ranking" title="${monthLabel}の全体ランキングを表示">
             <i class="fa-solid fa-trophy"></i> この月の順位
           </a>
         </td>

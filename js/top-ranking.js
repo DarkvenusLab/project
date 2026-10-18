@@ -120,7 +120,7 @@ async function fetchAndRenderTop3() {
       if (heroMonthElem) {
         heroMonthElem.textContent = monthLabel;
       } else {
-        const heroBtn = document.getElementById('hero-ranking-btn') || document.querySelector('.hero-buttons a[href*="ranking.html"]');
+        const heroBtn = document.getElementById('hero-ranking-btn') || document.querySelector('.hero-buttons a[href*="ea/"]');
         if (heroBtn) {
           heroBtn.innerHTML = `<i class="fa-solid fa-trophy"></i> MQL5ランキングを見る<span class="hero-ranking-month">${monthLabel}</span>`;
         }
@@ -219,7 +219,7 @@ async function fetchAndRenderTop3() {
                 <span class="mini-val">${ea.raw_win_rate}</span>
               </div>
             </div>
-            <a href="detail.html?ea=${ea.ea_key || ea.id}&month=${latestMonth}" class="btn-podium-action ${crown.class}">
+            <a href="ea/detail.html?ea=${ea.ea_key || ea.id}&month=${latestMonth}" class="btn-podium-action ${crown.class}">
               <span>詳細検証データを見る</span>
               <i class="fa-solid fa-arrow-right"></i>
             </a>

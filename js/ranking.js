@@ -477,7 +477,7 @@ function renderTopCards(topEAs, sortMode = 'score') {
     else if (rankNum === 3) rankPillClass = 'rank-pill-3';
 
     // Parts
-    const rankIcon = `images/CardDesignParts/Rank/rank_${rankBadge}.png`;
+    const rankIcon = `../images/CardDesignParts/Rank/rank_${rankBadge}.png`;
     const targetMonth = ea.target_month || '2026.08';
 
     // Tags
@@ -489,7 +489,7 @@ function renderTopCards(topEAs, sortMode = 'score') {
     }
 
     // 中枠 (アート枠) の背景画像
-    const frameImagePath = `images/CardDesignParts/Frame/frame_${rankBadge}.png`;
+    const frameImagePath = `../images/CardDesignParts/Frame/frame_${rankBadge}.png`;
     const artFrameStyle = `background-image: url('${frameImagePath}');`;
 
     let skillBannerHtml = "";
@@ -497,11 +497,11 @@ function renderTopCards(topEAs, sortMode = 'score') {
 
     if (isSRankOrHigher) {
       skillBannerHtml = `
-        <div class="skill-banner-container" style="background-image: url('images/CardDesignParts/Frame/frame_Skill.png');">
+        <div class="skill-banner-container" style="background-image: url('../images/CardDesignParts/Frame/frame_Skill.png');">
           <div class="skill-tags-text">${tagsStr}</div>
         </div>
       `;
-      statsFrameHtml = `<div class="stats-frame" style="background-image: url('images/CardDesignParts/Frame/frame_Under.png');">`;
+      statsFrameHtml = `<div class="stats-frame" style="background-image: url('../images/CardDesignParts/Frame/frame_Under.png');">`;
     } else {
       skillBannerHtml = `
         <div class="skill-banner-container skill-banner-css">
@@ -511,7 +511,7 @@ function renderTopCards(topEAs, sortMode = 'score') {
       statsFrameHtml = `<div class="stats-frame stats-frame-css">`;
     }
 
-    const thumbnail = ea.image_url || 'images/default-ea.jpg';
+    const thumbnail = ea.image_url || '../images/default-ea.jpg';
     const priceText = ea.price_text || (ea.price_value ? `$${ea.price_value}` : '無料');
     const hasCopyPrice = ea.copy_price_text || ea.copy_price_value;
     const copyPriceText = ea.copy_price_text || (ea.copy_price_value ? `$${ea.copy_price_value} / 月` : '');
@@ -623,7 +623,7 @@ function renderTopCards(topEAs, sortMode = 'score') {
 
               <!-- MIDDLE SECTION (Left: Thumbnail, Right: Radar) -->
               <div class="art-frame" style="${artFrameStyle}">
-                <img src="${thumbnail}" class="ea-thumbnail" alt="${ea.name}" onerror="this.src='images/administrator.png'">
+                <img src="${thumbnail}" class="ea-thumbnail" alt="${ea.name}" onerror="this.src='../images/administrator.png'">
                 <div class="radar-circle">
                   <canvas id="radar-${ea.id}"></canvas>
                 </div>
@@ -919,7 +919,7 @@ async function loadBenchmarkData() {
   // 2. ローカル静的JSONファイルから取得
   if (!bench) {
     try {
-      const res = await fetch('data/benchmark_darkvenus.json');
+      const res = await fetch('../data/benchmark_darkvenus.json');
       if (res.ok) {
         bench = await res.json();
       }
@@ -1049,26 +1049,26 @@ function renderBenchmarkCard(bench) {
               
               <!-- Floating Rank Badge & Date -->
               <div class="rank-badge-area">
-                <img src="images/CardDesignParts/Rank/rank_A.png" class="rank-ss-logo" alt="A Rank Logo" onerror="this.style.display='none'">
+                <img src="../images/CardDesignParts/Rank/rank_A.png" class="rank-ss-logo" alt="A Rank Logo" onerror="this.style.display='none'">
                 <div class="date-badge" style="background: linear-gradient(135deg, #0284C7, #0EA5E9); border-color: #7DD3FC;">公式基準機</div>
               </div>
             </div>
 
             <!-- MIDDLE SECTION (Left: Mascot Thumbnail, Right: Radar Canvas) -->
-            <div class="art-frame" style="background-image: url('images/CardDesignParts/Frame/frame_A.png');">
-              <img src="images/administrator.png" class="ea-thumbnail admin-thumb" alt="Dark Venus 管理人リアル検証機" title="当ラボ管理人 リアル運用機">
+            <div class="art-frame" style="background-image: url('../images/CardDesignParts/Frame/frame_A.png');">
+              <img src="../images/administrator.png" class="ea-thumbnail admin-thumb" alt="Dark Venus 管理人リアル検証機" title="当ラボ管理人 リアル運用機">
               <div class="radar-circle">
                 <canvas id="radar-benchmark"></canvas>
               </div>
             </div>
 
             <!-- SKILL BANNER SECTION -->
-            <div class="skill-banner-container" style="background-image: url('images/CardDesignParts/Frame/frame_Skill.png');">
+            <div class="skill-banner-container" style="background-image: url('../images/CardDesignParts/Frame/frame_Skill.png');">
               <div class="skill-tags-text">完全無料 / 独自NZDCAD設定 / リアル口座運用中</div>
             </div>
 
             <!-- BOTTOM SECTION (6-Axis Status List) -->
-            <div class="stats-frame" style="background-image: url('images/CardDesignParts/Frame/frame_Under.png');">
+            <div class="stats-frame" style="background-image: url('../images/CardDesignParts/Frame/frame_Under.png');">
               <div class="stat-row">
                 <div class="stat-left">
                   <i class="fa-solid fa-hand-fist stat-icon"></i>
@@ -1195,13 +1195,13 @@ function renderBenchmarkCard(bench) {
             <a href="${forwardUrl}" target="_blank" rel="noopener noreferrer" class="action-btn btn-forward" title="myfxbook公式リアル成績（リアル口座）">
               <i class="fa-solid fa-chart-line"></i> myfxbook成績 <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.7rem;"></i>
             </a>
-            <a href="ea/forward-test.html" class="action-btn btn-detail-site" title="フォワード検証ラボへ">
+            <a href="forward-test.html" class="action-btn btn-detail-site" title="フォワード検証ラボへ">
               <i class="fa-solid fa-vial"></i> 検証詳細
             </a>
-            <a href="tools/setfiles.html" class="action-btn btn-detail-site" title="検証済み.set設定一覧へ">
+            <a href="../darkvenus/setfiles.html" class="action-btn btn-detail-site" title="検証済み.set設定一覧へ">
               <i class="fa-solid fa-folder-open"></i> .set設定
             </a>
-            <a href="columns/vps.html" class="action-btn" style="background: linear-gradient(135deg, #7C3AED, #8B5CF6); color: #FFF; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);" title="Dark Venus 24時間稼働インフラ解説">
+            <a href="../columns/vps.html" class="action-btn" style="background: linear-gradient(135deg, #7C3AED, #8B5CF6); color: #FFF; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);" title="Dark Venus 24時間稼働インフラ解説">
               <i class="fa-solid fa-server"></i> 稼働環境(VPS)
             </a>
           </div>
