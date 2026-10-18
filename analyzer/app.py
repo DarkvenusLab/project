@@ -4,10 +4,10 @@ from modules.metrics import analyze_trades
 from views.components import apply_custom_css
 from views import tab_summary, tab_nanpin, tab_hourly, tab_loss
 
-st.set_page_config(page_title="DVLab Backtest Analyzer", layout="wide", page_icon="📊")
+st.set_page_config(page_title="DarkVenus Backtest Analyzer(Mt4版)", layout="wide", page_icon="📊")
 apply_custom_css()
 
-st.title("DVLab Backtest Analyzer For Mt4 📊")
+st.title("DarkVenus Backtest Analyzer(Mt4版) 📊")
 st.markdown("ナンピンEA向け バックテスト分析ツール")
 
 # --- ファイルアップロード ---
